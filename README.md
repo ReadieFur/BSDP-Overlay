@@ -1,6 +1,6 @@
 # BeatSaber-Overlay
 A BeatSaber overlay I have created for my DataPuller mod.
-This overlay is easy to use, just open the Index.html file and add the URL to your recording/streaming software of choice (Make sure you have the DataPuller mod installed).
+This overlay is easy to use, just open the index.html file and add the URL to your recording/streaming software of choice (Make sure you have the DataPuller mod installed).
 
 ##Options
 ###Scale:
