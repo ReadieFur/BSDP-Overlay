@@ -1,0 +1,155 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+
+	color: white;
+    background: transparent;
+
+	display: flex;
+	flex-direction: column;
+}
+
+/*#region Top Bar*/
+#stats
+{
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#mainStats
+{
+    justify-content: space-around;
+    display: flex;
+    min-width: 400px;
+    height: 50px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 0px 10px 10px;
+    line-height: 0px;
+    font-size: x-large;
+    color: white;
+}
+
+#previousBSRContainer
+{
+    position: absolute;
+    top: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    height: 30px;
+    line-height: 0px;
+    font-size: medium;
+    color: white;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 0px 10px 10px;
+}
+/*#endregion*/
+
+/*#region BeatmapInfo*/
+#beatmapInfo
+{
+    width: 50%;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+#beatmapInfo #coverContainer
+{
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    bottom: 0px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 10px 0px 10px;
+}
+
+#beatmapCover
+{
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#beatmapText
+{
+    position: absolute;
+    left: 160px;
+    flex-direction: column;
+    bottom: 0px;
+}
+
+#beatmapText > div
+{
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    padding-left: 1.5px;
+    padding-right: 10px;
+    width: fit-content;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 10px 0px 0px;
+}
+/*#endregion*/
+
+/*#region Right Bar*/
+#rightBar
+{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+#modifiers
+{
+    text-align: center;
+    font-size: x-large;
+    line-height: 20px;
+    color: rgb(83, 83, 83);
+    border-radius: 10px 0px 0px 10px;
+    background: rgba(40, 40, 40, 0.7);
+    padding: 10px;
+    width: 50px;
+    height: auto;
+}
+
+#healthContainer
+{
+    border-radius: 10px 0px 0px 10px;
+    top: 10%;
+    height: 80%;
+    background: rgba(40, 40, 40, 0.7);
+    position: absolute;
+    right: 100%;
+    padding-right: 30%;
+}
+
+#healthBarBackground
+{
+    border-radius: 5px 5px 5px 5px;
+    width: 10px;
+    height: 90%;
+    background: rgb(83, 83, 83);
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#healthBar
+{
+    border-radius: 5px 5px 5px 5px;
+    width: 10px;
+    height: 50%;
+    background: white;
+    position: absolute;
+    bottom: 0px;
+    transition: all 100ms;
+}
+/*#endregion*/
