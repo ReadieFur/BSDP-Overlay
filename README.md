@@ -10,3 +10,7 @@ E.G. scale=0.8
 ### Beatmap/stats/modifiersVis:
 Changes the visibility of the three elements on the overlay.
 E.G. beatmapVis=hidden
+
+### ip=
+Use this parameter if you have the mod setup to send the data over a different port (LAN use only)
+E.G. ip=192.168.1.197

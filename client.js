@@ -4,10 +4,14 @@ const dataRecived = new Event("dataRecived", {bubbles:true});
 
 function connect()
 {
-    var ws = new WebSocket('ws://127.0.0.1:2946/BSDataPuller');
+    const urlParams = new URLSearchParams(location.search);
+    const IP = urlParams.has("ip") ? urlParams.get("ip") : "127.0.0.1" ; 
+
+    var ws = new WebSocket('ws://' + IP + ':2946/BSDataPuller');
 
     ws.onmessage = function(e)
     {
+        console.log(e.data)
         gameData = JSON.parse(e.data);
         document.dispatchEvent(dataRecived);
         console.log(e.data);
@@ -27,7 +31,7 @@ function connect()
 function startupMessages()
 {
     console.log("If you don't have the BSDataPuller mod then download the latest relaese from here and place it in your BS mods folder: " +
-    "http://kofr.000webhostapp.com/apps/beatsaber/plugins/datapuller/");
+    "https://github.com/kOFReadie/DataPuller/releases");
 }
 
 //Run on load:
