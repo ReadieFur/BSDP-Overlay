@@ -10,7 +10,7 @@ function connect()
     {
         gameData = JSON.parse(e.data);
         document.dispatchEvent(dataRecived);
-        //console.log(e.data);
+        console.log(e.data);
     }
   
     ws.onclose = function(e)
