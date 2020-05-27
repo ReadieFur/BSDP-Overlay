@@ -5,7 +5,9 @@ const dataRecived = new Event("dataRecived", {bubbles:true});
 function connect()
 {
     const urlParams = new URLSearchParams(location.search);
-    const IP = urlParams.has("ip") ? urlParams.get("ip") : "127.0.0.1" ; 
+    const IP = urlParams.has("ip") ? urlParams.get("ip") : "127.0.0.1";
+    if (urlParams.has("ip") && !urlParams.has("redirect"))
+    {window.location.href = "http://readie.globalgamingco.org?redirect=true&" + window.location.href.split('?')[1];}
 
     var ws = new WebSocket('ws://' + IP + ':2946/BSDataPuller');
 

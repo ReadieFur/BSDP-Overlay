@@ -1,3 +1,9 @@
 {
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "liveServer.settings.https": {
+        "enable": true,
+        "cert": "D:\\Documents (New)\\OpenSSL\\2\\bin\\server.crt",
+        "key": "D:\\Documents (New)\\OpenSSL\\2\\bin\\server.key",
+        "passphrase": "visualstudio"
+    }
 }
