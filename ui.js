@@ -56,10 +56,9 @@ function scoreDetails()
     else if (gameData.LevelFailed || gameData.LevelQuit) { timerRunning = false; time.style = "color: red;" }
     else { if (!timerRunning) { timerRunning = true; setTimeout(() => { timerIncrement(); }, 500); time.style = "color: white;" } }
 
-    score.innerHTML = gameData.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ' ');
+    score.innerHTML = gameData.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
     accuracy.innerHTML = (Math.round(gameData.Accuracy * 10) /10).toString() + "%";
-    combo.innerHTML = gameData.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ' ');
-    preBSR.innerHTML = "Previous BSR: " + gameData.PreviousBSR;
+    combo.innerHTML = gameData.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ',');
     previousBSRContainer.style.display = gameData.PreviousBSR == null || gameData.PreviousBSR == "" ? "none" : "block";
 }
 //#endregion
@@ -70,12 +69,12 @@ const bsr = document.getElementById("bsr");
 const mapper = document.getElementById("mapper");
 const artist = document.getElementById("artist");
 const songName = document.getElementById("mapName");
+const preBSRBottom = document.getElementById("bottomBSR");
 
-const topCurve = "border-radius: 0px 10px 0px 0px;";
-const bottomCurve = "border-radius: 0px 0px 10px 0px;";
-const bothCurve = "border-radius: 0px 10px 10px 0px;";
-const noCurve = "border-radius: 0px;";
-const mapNameExtras = " font-size: xx-large; padding-bottom: 5px;";
+const topCurve = "0px 10px 0px 0px";
+const bottomCurve = "0px 0px 10px 0px";
+const bothCurve = "0px 10px 10px 0px";
+const noCurve = "0px";
 
 function mapDetails()
 {
@@ -86,26 +85,30 @@ function mapDetails()
     artist.innerHTML = gameData.SongAuthor;
     mapper.innerHTML = gameData.Mapper;
     bsr.innerHTML = "BSR: " + gameData.BSRKey;
+    preBSR.innerHTML = "Previous BSR: " + gameData.PreviousBSR;
+    preBSRBottom.innerHTML = "Pre BSR: " + gameData.PreviousBSR;
 
+    //Hide UI elements if data is null
     artist.style.display = gameData.SongAuthor == null || gameData.SongAuthor == "" ? "none" : "block";
     mapper.style.display = gameData.Mapper == null || gameData.Mapper == "" ? "none" : "block";
     bsr.style.display = gameData.BSRKey == null ? "none" : "block";
+    bsr.style.visibility = gameData.PreviousBSR == null ? "hidden" : "visible";
 
-    if (songName.client < artist.offsetWidth / 2) { songName.style = bottomCurve + mapNameExtras; }
-    else { songName.style = bothCurve + mapNameExtras; }
+    if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = bottomCurve; }
+    else { songName.style.borderRadius = bothCurve; }
 
-    if (artist.offsetWidth > songName.offsetWidth && artist.offsetWidth > mapper.offsetWidth) { artist.style = bothCurve; }
-    else if (artist.offsetWidth < songName.offsetWidth && artist.offsetWidth > mapper.offsetWidth) { artist.style = topCurve; }
-    else if (artist.offsetWidth > songName.offsetWidth && artist.offsetWidth < mapper.offsetWidth) { artist.style = bottomCurve; }
-    else { artist.style = noCurve; } /*Shorter then the above and below containers*/
+    if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; }
+    else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = topCurve; }
+    else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = bottomCurve; }
+    else { artist.style.borderRadius = noCurve; }
 
-    if (mapper.offsetWidth > artist.offsetWidth && mapper.offsetWidth > bsr.offsetWidth) { mapper.style = bothCurve; }
-    else if (mapper.offsetWidth < artist.offsetWidth && mapper.offsetWidth > bsr.offsetWidth) { mapper.style = topCurve; }
-    else if (mapper.offsetWidth > artist.offsetWidth && mapper.offsetWidth < bsr.offsetWidth) { mapper.style = bottomCurve; }
-    else { artist.style = noCurve; } /*Shorter then the above and below containers*/
+    if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; }
+    else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = topCurve; }
+    else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; }
+    else { mapper.style.borderRadius = noCurve; }
 
-    if (bsr.offsetWidth < mapper.offsetWidth) { bsr.style = topCurve; }
-    else { bsr.style = bothCurve; }
+    if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = topCurve; }
+    else { bsr.style.borderRadius = bothCurve; }
 }
 //#endregion
 

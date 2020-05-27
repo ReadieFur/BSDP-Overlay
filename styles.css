@@ -23,13 +23,18 @@ body {
     justify-content: space-around;
     display: flex;
     min-width: 400px;
+    width: fit-content;
     height: 50px;
+    padding-left: 1%;
     background: rgba(40, 40, 40, 0.7);
     border-radius: 0px 0px 10px 10px;
     line-height: 0px;
     font-size: x-large;
     color: white;
 }
+
+#mainStats > p { padding-left: 5%; }
+#combo { padding-right: 5%; }
 
 #previousBSRContainer
 {
@@ -45,6 +50,7 @@ body {
     color: white;
     background: rgba(40, 40, 40, 0.7);
     border-radius: 0px 0px 10px 10px;
+    visibility: hidden;
 }
 /*#endregion*/
 
@@ -64,7 +70,7 @@ body {
     position: absolute;
     bottom: 0px;
     background: rgba(40, 40, 40, 0.7);
-    border-radius: 10px 10px 0px 10px;
+    border-radius: 0px 10px 0px 10px;
 }
 
 #beatmapCover
@@ -88,12 +94,24 @@ body {
 {
     display: block;
     padding-top: 5px;
-    padding-bottom: 3px;
+    padding-bottom: 3.7px;
     padding-left: 1.5px;
     padding-right: 10px;
     width: fit-content;
     background: rgba(40, 40, 40, 0.7);
     border-radius: 0px 10px 0px 0px;
+}
+
+#bottomBSR
+{
+    position: absolute;
+    flex-direction: column;
+    bottom: 160px;
+    background: rgba(40, 40, 40, 0.7);
+    padding-top: 6px;
+    padding-left: 2%;
+    padding-right: 10px;
+    border-radius: 10px 10px 0px 0px;
 }
 /*#endregion*/
 
