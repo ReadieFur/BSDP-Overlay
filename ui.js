@@ -48,7 +48,7 @@ function scoreDetails()
         timerRunning = true;
         if (gameData.PraticeMode) {elapsed = gameData.PraticeModeModifiers["startSongTime"]; }
         else { elapsed = 0; }
-        setTimeout(() => { timerIncrement(); }, 500);
+        timerIncrement();
     }
 
     if (gameData.LevelPaused || gameData.LevelFinished)
