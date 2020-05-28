@@ -8,9 +8,12 @@ changes the scale of the UI, the site was designed for 1080p recording/streaming
 E.G. scale=0.8
 
 ### Beatmap/stats/modifiersVis:
-Changes the visibility of the three elements on the overlay.
-E.G. beatmapVis=hidden
+Changes the visibility of the three main elements on the overlay (adding this parameter will hide the element).
+E.G. beatmapVis
 
 ### ip=
 Use this parameter if you have the mod setup to send the data over a different port (LAN use only)
 E.G. ip=192.168.1.197
+
+### moveBSR:
+Adding this parameter will move the 'previous BSR' element back to where it was in the old overlay.
