@@ -92,22 +92,39 @@ function mapDetails()
     artist.style.display = gameData.SongAuthor == null || gameData.SongAuthor == "" ? "none" : "block";
     mapper.style.display = gameData.Mapper == null || gameData.Mapper == "" ? "none" : "block";
     bsr.style.display = gameData.BSRKey == null ? "none" : "block";
-    bsr.style.visibility = gameData.PreviousBSR == null ? "hidden" : "visible";
+    if (urlParams.has("moveBSR")) { preBSR.style.visibility = gameData.PreviousBSR == null ? "hidden" : "visible"; }
+    else
+    {
+        if (gameData.PreviousBSR == null)
+        {
+            preBSRBottom.style.visibility = "hidden";
+            document.getElementById("coverContainer").style.borderRadius = "10px 10px 0px 10px";
+        }
+        else
+        {
+            preBSRBottom.style.visibility = "visible";
+            document.getElementById("coverContainer").style.borderRadius = "0px 10px 0px 10px";
+        }
+    }
 
-    if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = bottomCurve; }
+    //Song style
+    if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = bottomCurve; } //Self < Top
     else { songName.style.borderRadius = bothCurve; }
 
-    if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; }
-    else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = topCurve; }
-    else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = bottomCurve; }
+    //Artist style
+    if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+    else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
+    else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
     else { artist.style.borderRadius = noCurve; }
 
-    if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; }
-    else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = topCurve; }
-    else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; }
+    //Mapper style
+    if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+    else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
+    else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
     else { mapper.style.borderRadius = noCurve; }
 
-    if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = topCurve; }
+    //BSR style
+    if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = topCurve; } //Self < Bottom
     else { bsr.style.borderRadius = bothCurve; }
 }
 //#endregion
