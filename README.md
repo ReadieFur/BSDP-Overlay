@@ -12,7 +12,7 @@ Changes the visibility of the three main elements on the overlay (adding this pa
 E.G. beatmapVis
 
 ### ip=
-Use this parameter if you have the mod setup to send the data over a different port (LAN use only)
+Use this parameter if you have the mod setup to send the data over a different port (Currently for LAN use only)
 E.G. ip=192.168.1.197
 
 ### moveBSR:
