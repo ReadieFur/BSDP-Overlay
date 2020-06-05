@@ -7,7 +7,7 @@ This overlay is easy to use, just open the [Overlay](https://kofreadie.github.io
 changes the scale of the UI, the site was designed for 1080p recording/streaming.
 E.G. scale=0.8
 
-### Beatmap/stats/modifiersVis:
+### beatmapInfo/stats/rightBar:
 Changes the visibility of the three main elements on the overlay (adding this parameter will hide the element).
 E.G. beatmapVis
 
@@ -17,3 +17,6 @@ E.G. ip=192.168.1.197
 
 ### moveBSR:
 Adding this parameter will move the 'previous BSR' element back to where it was in the old overlay.
+
+### flip:
+Moves the song information to the right and the modifiers/health to the right
