@@ -55,7 +55,7 @@ body {
 /*#endregion*/
 
 /*#region BeatmapInfo*/
-#beatmapInfo
+.beatmapInfo
 {
     width: 50%;
     position: fixed;
@@ -63,7 +63,7 @@ body {
     left: 10px;
 }
 
-#beatmapInfo #coverContainer
+.beatmapInfo .coverContainer
 {
     width: 160px;
     height: 160px;
@@ -82,7 +82,7 @@ body {
     transform: translate(-50%, -50%);
 }
 
-#beatmapText
+.beatmapText
 {
     position: absolute;
     left: 160px;
@@ -90,7 +90,7 @@ body {
     bottom: 0px;
 }
 
-#beatmapText > div
+.beatmapText > div
 {
     display: block;
     padding-top: 5px;
@@ -102,7 +102,7 @@ body {
     border-radius: 0px 10px 0px 0px;
 }
 
-#bottomBSR
+.bottomBSR
 {
     position: absolute;
     flex-direction: column;
@@ -113,10 +113,73 @@ body {
     padding-right: 10px;
     border-radius: 10px 10px 0px 0px;
 }
+/*#region Right*/
+.beatmapInfoRight
+{
+    width: 50%;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.beatmapInfoRight .coverContainerRight
+{
+    right: 0px;
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    bottom: 0px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 0px 10px 0px;
+}
+
+#beatmapCoverRight
+{
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.beatmapTextRight
+{
+    direction: rtl;
+    position: absolute;
+    right: 160px;
+    flex-direction: column;
+    bottom: 0px;
+}
+
+.beatmapTextRight > div
+{
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 3.7px;
+    padding-left: 10px;
+    padding-right: 1.5px;
+    width: fit-content;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 0px 0px 0px;
+}
+
+.bottomBSRRight
+{
+    right: 0px;
+    position: absolute;
+    flex-direction: column;
+    bottom: 160px;
+    background: rgba(40, 40, 40, 0.7);
+    padding-top: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px 10px 0px 0px;
+}
+/*#endregion*/
 /*#endregion*/
 
 /*#region Right Bar*/
-#rightBar
+.rightBar
 {
     position: absolute;
     right: 0px;
@@ -124,7 +187,7 @@ body {
     transform: translate(0%, -50%);
 }
 
-#modifiers
+.modifiers
 {
     text-align: center;
     font-size: x-large;
@@ -137,7 +200,7 @@ body {
     height: auto;
 }
 
-#healthContainer
+.healthContainer
 {
     border-radius: 10px 0px 0px 10px;
     top: 10%;
@@ -148,7 +211,7 @@ body {
     padding-right: 30%;
 }
 
-#healthBarBackground
+.healthBarBackground
 {
     border-radius: 5px 5px 5px 5px;
     width: 10px;
@@ -170,4 +233,50 @@ body {
     bottom: 0px;
     transition: all 100ms;
 }
+
+/*#region Left*/
+.rightBarLeft
+{
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.modifiersLeft
+{
+    text-align: center;
+    font-size: x-large;
+    line-height: 20px;
+    color: rgb(83, 83, 83);
+    border-radius: 0px 10px 10px 0px;
+    background: rgba(40, 40, 40, 0.7);
+    padding: 10px;
+    width: 50px;
+    height: auto;
+}
+
+.healthContainerLeft
+{
+    border-radius: 0px 10px 10px 0px;
+    top: 10%;
+    height: 80%;
+    background: rgba(40, 40, 40, 0.7);
+    position: absolute;
+    left: 100%;
+    padding-right: 30%;
+}
+
+.healthBarBackgroundLeft
+{
+    border-radius: 5px 5px 5px 5px;
+    width: 10px;
+    height: 90%;
+    background: rgb(83, 83, 83);
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/*#endregion*/
 /*#endregion*/

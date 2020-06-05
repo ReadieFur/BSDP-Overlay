@@ -71,10 +71,12 @@ const artist = document.getElementById("artist");
 const songName = document.getElementById("mapName");
 const preBSRBottom = document.getElementById("bottomBSR");
 
-const topCurve = "0px 10px 0px 0px";
-const bottomCurve = "0px 0px 10px 0px";
-const bothCurve = "0px 10px 10px 0px";
-const noCurve = "0px";
+var topCurve = "0px 10px 0px 0px";
+var bottomCurve = "0px 0px 10px 0px";
+var bothCurve = "0px 10px 10px 0px";
+var noCurve = "0px";
+var coverRadiusHid = "10px 10px 0px 10px";
+var coverRadiusVis = "0px 10px 0px 10px";
 
 function mapDetails()
 {
@@ -98,12 +100,12 @@ function mapDetails()
         if (gameData.PreviousBSR == null)
         {
             preBSRBottom.style.visibility = "hidden";
-            document.getElementById("coverContainer").style.borderRadius = "10px 10px 0px 10px";
+            document.getElementById("coverContainer").style.borderRadius = coverRadiusHid;
         }
         else
         {
             preBSRBottom.style.visibility = "visible";
-            document.getElementById("coverContainer").style.borderRadius = "0px 10px 0px 10px";
+            document.getElementById("coverContainer").style.borderRadius = coverRadiusVis;
         }
     }
 
