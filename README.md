@@ -19,4 +19,4 @@ E.G. ip=192.168.1.197
 Adding this parameter will move the 'previous BSR' element back to where it was in the old overlay.
 
 ### flip:
-Moves the song information to the right and the modifiers/health to the right
+Moves the song information to the right and the modifiers/health to the left.
