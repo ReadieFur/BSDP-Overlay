@@ -19,14 +19,23 @@ function connect()
         console.log(e.data);
     }
   
+    ws.onopen = function(e)
+    {
+        document.getElementById("beatmapInfo").style.visibility = "visible";
+        document.getElementById("stats").style.visibility = "visible";
+        document.getElementById("rightBar").style.visibility = "visible";
+    }
+
     ws.onclose = function(e)
     {
-        validConnection = false;
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-        setTimeout(function()
+        if (urlParams.has("hideInactive"))
         {
-          connect();
-        }, 1000);
+            document.getElementById("beatmapInfo").style.visibility = "hidden";
+            document.getElementById("stats").style.visibility = "hidden";
+            document.getElementById("rightBar").style.visibility = "hidden";
+        }
+        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        setTimeout(function() { connect(); }, 1000);
     };
 }
 

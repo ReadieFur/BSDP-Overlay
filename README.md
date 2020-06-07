@@ -20,3 +20,6 @@ Adding this parameter will move the 'previous BSR' element back to where it was 
 
 ### flip:
 Moves the song information to the right and the modifiers/health to the left.
+
+### hideInactive:
+Hides the UI when BeatSaber is closed.
