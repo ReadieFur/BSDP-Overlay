@@ -6,8 +6,7 @@ function connect()
 {
     const urlParams = new URLSearchParams(location.search);
     const IP = urlParams.has("ip") ? urlParams.get("ip") : "127.0.0.1";
-    if (urlParams.has("ip") && !urlParams.has("redirect"))
-    {window.location.href = "http://readie.globalgamingco.org?redirect=true&" + window.location.href.split('?')[1];} //WSS work in progress ;)
+    if (urlParams.has("ip") && !urlParams.has("redirect")) //wss work in progress ;)
 
     var ws = new WebSocket('ws://' + IP + ':2946/BSDataPuller');
 

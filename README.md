@@ -1,6 +1,6 @@
 # BeatSaber-Overlay
 A BeatSaber overlay I have created for my [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod.
-This overlay is easy to use, just open the [Overlay](https://kofreadie.github.io/BeatSaber-Overlay/) and add the URL to your recording/streaming software of choice (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
+This overlay is easy to use, just open the [Overlay](http://kofreadie.globalgamingco.org) and add the URL to your recording/streaming software of choice (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
 
 ## Options
 ### scale:
