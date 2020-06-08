@@ -16,7 +16,6 @@ function connect()
         console.log(e.data)
         gameData = JSON.parse(e.data);
         document.dispatchEvent(dataRecived);
-        console.log(e.data);
     }
   
     ws.onopen = function(e)
