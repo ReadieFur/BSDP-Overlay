@@ -3,16 +3,6 @@ const urlParams = new URLSearchParams(location.search);
 function args()
 {
     document.body.style.zoom = urlParams.has("scale") ? urlParams.get("scale") : 1;
-    
-    document.getElementById("beatmapInfo").style.visibility = urlParams.has("beatmapVis") ? "hidden" : "visible";
-    document.getElementById("stats").style.visibility = urlParams.has("statsVis") ? "hidden" : "visible";
-    document.getElementById("rightBar").style.visibility = urlParams.has("modifiersVis") ? "hidden" : "visible";
-    if (urlParams.has("moveBSR"))
-    {
-        document.getElementById("previousBSRContainer").style.visibility = "visible";
-        document.getElementById("bottomBSR").style.visibility = "hidden";
-        document.getElementById("coverContainer").style.borderRadius = urlParams.has("flip") ? "10px 10px 10px 0px" : "10px 10px 0px 10px";
-    }
 
     if (urlParams.has("flip") && urlParams.has("top"))
     {
@@ -89,6 +79,17 @@ function args()
         coverRadiusHid = "10px 0px 10px 10px";
         coverRadiusVis = "10px 0px 10px 0px";
     }
+
+    if (urlParams.has("moveBSR"))
+    {
+        document.getElementById("previousBSRContainer").style.visibility = "visible";
+        document.getElementById("bottomBSR").style.visibility = "hidden";
+        document.getElementById("coverContainer").style.borderRadius = urlParams.has("flip") ? "10px 10px 10px 0px" : "10px 10px 0px 10px";
+    }
+
+    document.getElementsByClassName(document.getElementById("beatmapInfo").className)[0].style.visibility = urlParams.has("beatmapInfoVis") ? "hidden" : "visible";
+    document.getElementsByClassName(document.getElementById("stats").className)[0].style.visibility = urlParams.has("statsVis") ? "hidden" : "visible";
+    document.getElementsByClassName(document.getElementById("rightBar").className)[0].style.visibility = urlParams.has("rightBarVis") ? "hidden" : "visible";
 };
 
 args();

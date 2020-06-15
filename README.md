@@ -7,7 +7,7 @@ This overlay is easy to use, just open the [Overlay](http://kofreadie.globalgami
 changes the scale of the UI, the site was designed for 1080p recording/streaming.
 E.G. scale=0.8
 
-### beatmapInfo/stats/rightBar:
+### beatmapInfo/stats/rightBar Vis:
 Changes the visibility of the three main elements on the overlay (adding this parameter will hide the element).
 E.G. beatmapVis
 
