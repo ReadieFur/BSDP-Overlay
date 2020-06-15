@@ -10,7 +10,10 @@ body {
 }
 
 /*#region Top Bar*/
-#stats
+#mainStats > p { padding-left: 5%; }
+#combo { padding-right: 5%; }
+/*#region Top*/
+.stats
 {
     position: absolute;
     top: 0px;
@@ -18,7 +21,7 @@ body {
     transform: translate(-50%);
 }
 
-#mainStats
+.mainStats
 {
     justify-content: space-around;
     display: flex;
@@ -33,10 +36,7 @@ body {
     color: white;
 }
 
-#mainStats > p { padding-left: 5%; }
-#combo { padding-right: 5%; }
-
-#previousBSRContainer
+.previousBSRContainer
 {
     position: absolute;
     top: 50px;
@@ -53,8 +53,51 @@ body {
     visibility: hidden;
 }
 /*#endregion*/
+/*#region Bottom*/
+.statsBottom
+{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.mainStatsBottom
+{
+    justify-content: space-around;
+    display: flex;
+    min-width: 400px;
+    width: fit-content;
+    height: 50px;
+    padding-left: 1%;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 10px 0px 0px;
+    line-height: 0px;
+    font-size: x-large;
+    color: white;
+}
+
+.previousBSRContainerBottom
+{
+    position: absolute;
+    bottom: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    height: 30px;
+    line-height: 0px;
+    font-size: medium;
+    color: white;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 10px 0px 0px;
+    visibility: hidden;
+}
+/*#endregion*/
+/*#endregion*/
 
 /*#region BeatmapInfo*/
+    /*#region BottomLeft*/
 .beatmapInfo
 {
     width: 50%;
@@ -113,7 +156,8 @@ body {
     padding-right: 10px;
     border-radius: 10px 10px 0px 0px;
 }
-/*#region Right*/
+/*#endregion*/
+    /*#region BottomRight*/
 .beatmapInfoRight
 {
     width: 50%;
@@ -174,6 +218,127 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px 10px 0px 0px;
+}
+/*#endregion*/
+    /*#region TopLeft*/
+.beatmapInfoTopLeft
+{
+    width: 50%;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.beatmapInfoTopLeft .coverContainerTopLeft
+{
+    width: 160px;
+    height: 160px;
+    bottom: 0px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 0px 10px 0px;
+    float: left;
+}
+
+#beatmapCoverTopLeft
+{
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(3.5%, 3.5%);
+}
+
+.beatmapTextTopLeft
+{
+    position: absolute;
+    left: 160px;
+    flex-direction: column;
+    float: left;
+    overflow: hidden;
+}
+
+.beatmapTextTopLeft > div
+{
+    display: block;
+    padding-top: 3.75px;
+    padding-bottom: 5px;
+    padding-left: 1.5px;
+    padding-right: 10px;
+    width: fit-content;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 0px 10px 0px;
+}
+
+.bottomBSRTopLeft
+{
+    position: absolute;
+    flex-direction: column;
+    top: 160px;
+    background: rgba(40, 40, 40, 0.7);
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0px 0px 10px 10px;
+}
+/*#endregion*/
+    /*#region TopRight*/
+.beatmapInfoTopRight
+{
+    width: 50%;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.beatmapInfoTopRight .coverContainerTopRight
+{
+    width: 160px;
+    height: 160px;
+    bottom: 0px;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 10px 0px 10px;
+    float: right;
+}
+
+#beatmapCoverTopRight
+{
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(3.5%, 3.5%);
+}
+
+.beatmapTextTopRight
+{
+    direction: rtl;
+    position: absolute;
+    right: 160px;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.beatmapTextTopRight > div
+{
+    display: block;
+    padding-bottom: 5px;
+    padding-top: 3.7px;
+    padding-left: 10px;
+    padding-right: 1.5px;
+    width: fit-content;
+    background: rgba(40, 40, 40, 0.7);
+    border-radius: 0px 0px 0px 10px;
+}
+
+.bottomBSRTopRight
+{
+    right: 0px;
+    position: absolute;
+    flex-direction: column;
+    top: 160px;
+    background: rgba(40, 40, 40, 0.7);
+    padding-bottom: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0px 0px 10px 10px;
 }
 /*#endregion*/
 /*#endregion*/

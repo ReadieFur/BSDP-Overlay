@@ -109,25 +109,50 @@ function mapDetails()
         }
     }
 
-    //Song style
-    if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = bottomCurve; } //Self < Top
-    else { songName.style.borderRadius = bothCurve; }
+    if (urlParams.has("top"))
+    {
+        //Song style
+        if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = topCurve; } //Self < Top
+        else { songName.style.borderRadius = bothCurve; }
 
-    //Artist style
-    if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
-    else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
-    else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
-    else { artist.style.borderRadius = noCurve; }
+        //Artist style
+        if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+        else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bottomCurve; } //Self < Bottom & Self > Top
+        else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = topCurve; } //Self > Bottom & Self < Top
+        else { artist.style.borderRadius = noCurve; }
 
-    //Mapper style
-    if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
-    else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
-    else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
-    else { mapper.style.borderRadius = noCurve; }
+        //Mapper style
+        if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+        else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; } //Self < Bottom & Self > Top
+        else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = topCurve; } //Self > Bottom & Self < Top
+        else { mapper.style.borderRadius = noCurve; }
+        
+        //BSR style
+        if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = bottomCurve; } //Self < Bottom
+        else { bsr.style.borderRadius = bothCurve; }
+    }
+    else
+    {
+        //Song style
+        if (songName.clientWidth < artist.clientWidth) { songName.style.borderRadius = bottomCurve; } //Self < Top
+        else { songName.style.borderRadius = bothCurve; }
 
-    //BSR style
-    if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = topCurve; } //Self < Bottom
-    else { bsr.style.borderRadius = bothCurve; }
+        //Artist style
+        if (artist.clientWidth > songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+        else if (artist.clientWidth < songName.clientWidth && artist.clientWidth > mapper.clientWidth) { artist.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
+        else if (artist.clientWidth > songName.clientWidth && artist.clientWidth < mapper.clientWidth) { artist.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
+        else { artist.style.borderRadius = noCurve; }
+
+        //Mapper style
+        if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = bothCurve; } //Self > Bottom & Self > Top
+        else if (mapper.clientWidth < artist.clientWidth && mapper.clientWidth > bsr.clientWidth) { mapper.style.borderRadius = topCurve; } //Self < Bottom & Self > Top
+        else if (mapper.clientWidth > artist.clientWidth && mapper.clientWidth < bsr.clientWidth) { mapper.style.borderRadius = bottomCurve; } //Self > Bottom & Self < Top
+        else { mapper.style.borderRadius = noCurve; }
+        
+        //BSR style
+        if (bsr.clientWidth < mapper.clientWidth) { bsr.style.borderRadius = topCurve; } //Self < Bottom
+        else { bsr.style.borderRadius = bothCurve; }
+    }
 }
 //#endregion
 
