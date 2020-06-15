@@ -21,5 +21,8 @@ Adding this parameter will move the 'previous BSR' element back to where it was 
 ### flip:
 Moves the song information to the right and the modifiers/health to the left.
 
+### top:
+Places the map information at the top, combine this with `flip` to have the overlay in the top right of the screen.
+
 ### hideInactive:
 Hides the UI when BeatSaber is closed.
