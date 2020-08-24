@@ -1,0 +1,210 @@
+body
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: white;
+    background: black;
+    margin: 0;
+    overflow: hidden;
+}
+
+body > * { position: absolute; }
+
+p { line-height: 0; margin: 0; }
+h2 { line-height: 0; margin: 0; }
+h1 { line-height: 0; margin: 0; }
+
+/*#region scoreStats*/
+.scoreStats, .scoreStatsBottom
+{
+    left: 50%;
+    transform: translate(-50%);
+    width: max-content;
+    min-width: 400px;
+    background-color: rgba(40, 40, 40, 0.7);
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0px 0px 10px 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.scoreStats > h2, .scoreStatsBottom > h2
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    top: 100%;
+    transform: translate(0, -50%);
+}
+/*#endregion*/
+
+/*#region mapInfo*/
+.mapInfo
+{
+    bottom: 10px;
+    left: 10px;
+    max-width: 75%;
+}
+
+.preBSR
+{
+    position: relative;
+    background-color: rgba(40, 40, 40, 0.7);
+    border-radius: 10px 10px 0px 0px;
+    padding: 17.5px 10px 12.5px 10px;
+    width: max-content;
+}
+
+.mapInfo > div
+{
+    display: flex;
+    align-items: flex-end;
+}
+
+.beatmapImageContainer
+{
+    position: relative;
+    background-color: rgba(40, 40, 40, 0.7);
+    width: 160px;
+    height: 160px;
+    border-radius: 0px 10px 0px 10px;
+}
+
+.beatmapImage
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+}
+
+.beatmapInfo > p
+{
+    width: fit-content;
+    border-radius: 0px 10px 0px 0px;
+    padding: 17.5px 10px 12.5px 5px;
+    background-color: rgba(40, 40, 40, 0.7);
+}
+
+.song
+{
+    width: fit-content;
+    border-radius: 0px 10px 10px 0px;
+    padding: 22.5px 10px 22.5px 5px;
+    background-color: rgba(40, 40, 40, 0.7);
+}
+/*#endregion*/
+
+/*#region modifiersHealth*/
+.modifiersHealth, .modifiersHealthLeft
+{
+    right: 0px;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: max-content;
+    height: max-content;
+}
+
+.modifiers
+{
+    background-color: rgba(40, 40, 40, 0.7);
+    width: 70px;
+    height: fit-content;
+    border-radius: 10px 0px 0px 10px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.modifiers > h2
+{
+    line-height: 45px;
+    color: rgba(80, 80, 80, 0.8);
+}
+
+.healthContainer
+{
+    position: absolute;
+    top: 50%;
+    right: 70px;
+    transform: translate(0, -50%);
+    background-color: rgba(40, 40, 40, 0.7);
+    height: 80%;
+    width: 20px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.healthBackground
+{
+    position: absolute;
+    height: 90%;
+    width: 10px;
+    background-color: rgba(80, 80, 80, 0.8);
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    border-radius: 5px;
+}
+
+.health
+{
+    position: absolute;
+    background-color: white;
+    height: 50%;
+    width: 100%;
+    bottom: 0;
+    transition: all 100ms;
+    border-radius: 5px;
+}
+/*#endregion*/
+
+/*#region Args*/
+.mapInfo.Right { right: 10px; left: unset; }
+.mapInfo.Right > p { margin-left: auto; }
+.mapInfo.Right > div > .beatmapInfo > p
+{
+    direction: rtl;
+    margin-left: auto;
+    padding: 17.5px 5px 12.5px 10px;
+}
+.mapInfo.Right > div > .beatmapInfo > .song
+{
+    direction: rtl;
+    margin-left: auto;
+    padding: 22.5px 5px 22.5px 10px;
+}
+
+.modifiersHealthLeft { left: 0 !important; }
+.modifiersHealthLeft > .modifiers { border-radius: 0px 10px 10px 0px; }
+.modifiersHealthLeft > .healthContainer
+{
+    left: 70px !important;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.modifiersHealthLeft > .healthContainer > .healthBackground,
+.modifiersHealthLeft > .healthContainer > .healthBackground > .health
+{ left: 0 !important; }
+/*#endregion*/
+
+/*#region flipVert*/
+.scoreStatsBottom
+{
+    bottom: 0 !important;
+    border-radius: 10px 10px 0px 0px !important;
+}
+
+.mapInfo.Top { top: 10px !important; }
+.mapInfo.Top > div > .beatmapInfo { margin-bottom: auto; }
+.mapInfo.Top > p
+{
+    border-radius: 0px 0px 10px 10px;
+    padding: 12.5px 10px 17.5px 5px;
+}
+/*#endregion*/
+/*#endregion*/

@@ -11,7 +11,7 @@ function connect()
 
     ws.onmessage = function(e)
     {
-        console.log(e.data)
+        console.log(e.data);
         gameData = JSON.parse(e.data);
         document.dispatchEvent(dataRecived);
     }
