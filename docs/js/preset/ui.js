@@ -63,6 +63,7 @@ window.addEventListener("LiveDataUpdated", (data) =>
     scores.forEach(e => { e.innerHTML = data.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ','); });
     accuracies.forEach(e => { e.innerHTML = `${Math.round((data.Accuracy + Number.EPSILON) * 100) / 100}%`; });
     combos.forEach(e => { e.innerHTML = data.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ','); });
+    healthBars.forEach(e => { e.style.height = `${data.PlayerHealth}%`});
 })
 
 function SecondsToMins(seconds)
