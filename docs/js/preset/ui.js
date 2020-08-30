@@ -60,7 +60,7 @@ window.addEventListener("LiveDataUpdated", (data) =>
     data = data.detail;
     times.forEach(e => { e.innerHTML = `${SecondsToMins(data.TimeElapsed)}/${mapLength}`; });
     scores.forEach(e => { e.innerHTML = data.Score.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ','); });
-    accuracies.forEach(e => { e.innerHTML = `${Math.round((data.Accuracy + Number.EPSILON) * 100) / 100}%`; });
+    accuracies.forEach(e => { e.innerHTML = `${Math.round((data.Accuracy + Number.EPSILON) * 10) / 10}%`; });
     combos.forEach(e => { e.innerHTML = data.Combo.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, ','); });
     healthBars.forEach(e => { e.style.height = `${data.PlayerHealth}%`});
 })
