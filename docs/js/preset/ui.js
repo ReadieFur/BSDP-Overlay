@@ -25,7 +25,7 @@ window.addEventListener("StaticDataUpdated", (data) =>
         if (data.BSRKey == null) { e.style.display = "none"; }
         else { e.style.display = "block"; e.innerHTML = `BSR: ${data.BSRKey}`; }
     });
-    mappers.forEach(e => { e.innerHTML = data.Mapper == null ? "Mapper" : data.mapper; });
+    mappers.forEach(e => { e.innerHTML = data.Mapper == null ? "Mapper" : data.Mapper; });
     artists.forEach(e => { e.innerHTML = data.SongAuthor == null ? "ArtistName" : data.SongAuthor; });
     songNames.forEach(e => { e.innerHTML = data.SongName == null ? "SongName" : data.SongName; });
     preBSRs.forEach(e =>
