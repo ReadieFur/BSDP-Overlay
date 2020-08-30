@@ -19,7 +19,7 @@ window.addEventListener("StaticDataUpdated", (data) =>
     data = data.detail;
 
     //#region mapInfo
-    beatmapImages.forEach(e => { e.src = data.coverImage == null ? "/assets/BeatSaberIcon.jpg" : data.coverImage; });
+    beatmapImages.forEach(e => { e.src = data.coverImage == null ? "assets/BeatSaberIcon.jpg" : data.coverImage; });
     BSRs.forEach(e =>
     {
         if (data.BSRKey == null) { e.style.display = "none"; }
