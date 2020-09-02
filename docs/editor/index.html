@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSDP Overlay | Editor</title>
+    <link rel="icon" href="../assets/LogoCircle.png" type="image/svg">
+    <link rel="stylesheet" href="../css/editor.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/client.js"></script>
+    <script src="../js/elements.js"></script>
+    <script src="../js/editor/args.js"></script>
+    <script src="../js/editor/ui.js"></script>
+    <script src="../js/editor/editor.js"></script>
+</head>
+<body>
+    <div class="editorPanel">
+        <h2>BSDP Overlay Editor (Beta)</h2>
+        <div id="editorElements">
+
+        </div>
+        <div id="elementEditor">
+            <hr>
+            <!--<div class="textInput"><p>Left:</p><input></div>
+            <div id="textInput"><p>Right:</p><input></div>-->
+
+            <table class="elementPosition">
+                <tr>
+                    <td>Left:</td>
+                    <td><input placeholder="na" type="number"></td>
+                    <td>Right:</td>
+                    <td><input placeholder="na" type="number"></td>
+                </tr>
+                <tr>
+                    <td>Top:</td>
+                    <td><input placeholder="na" type="number"></td>
+                    <td>Bottom:</td>
+                    <td><input placeholder="na" type="number"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="overlay">
+        <h1 id="splash">Double click to</h1>
+        <!--Custom overlays begin below-->
+        
+        <div class="moveable">
+            <div class="mapTime roundbar">
+                <div>
+                    <p>90</p>
+                    <p>124</p>
+                </div>
+                <svg class="roundBar" style="width: 90px; height: 90px;">
+                    <circle class="remaining" cx="45" cy="45" r="35"></circle>
+                    <circle class="progress" cx="45" cy="45" r="35"></circle>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

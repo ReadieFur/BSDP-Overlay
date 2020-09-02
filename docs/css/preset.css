@@ -14,6 +14,17 @@ p { line-height: 0; margin: 0; }
 h2 { line-height: 0; margin: 0; }
 h1 { line-height: 0; margin: 0; }
 
+#splash
+{
+    position: absolute;
+    background: transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    width: max-content;
+    display: none; /*REMOVE THIS WHEN THE EDITOR IS COMPLETE*/
+}
+
 /*#region scoreStats*/
 .scoreStats, .scoreStatsBottom
 {

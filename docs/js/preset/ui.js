@@ -14,6 +14,17 @@ var mapper;
 var artist;
 var songName;
 
+window.addEventListener("load", () =>
+{
+    setTimeout(() =>
+    {
+        document.getElementById("splash").style = "transition: all 1000ms; opacity: 0;";
+        setTimeout(() => { splash.style.display = "none"; }, 1000);
+    }, 1000);
+
+    //window.addEventListener("dblclick", () => { window.location = "/editor"; });
+})
+
 window.addEventListener("StaticDataUpdated", (data) =>
 {
     data = data.detail;
