@@ -18,7 +18,6 @@ function InitaliseEditor()
 {
     let editorPanel = document.getElementById("editorPanel");
     overlay["el"] = document.getElementById("overlay");
-    let moveableElements = document.querySelectorAll(".moveable");
 
     resizeWindowEvent();
 
@@ -28,7 +27,7 @@ function InitaliseEditor()
         {
             editorPanel.style.width = ".1px";
             setTimeout(() => { editorPanel.style.display = "none"; }, 100);
-            moveableElements.forEach(e => { disableDragElement(e); });
+            document.querySelectorAll(".moveable").forEach(e => { disableDragElement(e); });
         }
         else
         {
