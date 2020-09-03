@@ -13,6 +13,7 @@ body
 }
 
 .overlay > * { position: absolute; }
+.overlay * { user-select: none; }
 
 p { line-height: 20px; margin: 0px; }
 h2 { margin: 20px; }

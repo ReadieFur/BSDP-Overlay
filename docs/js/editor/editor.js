@@ -16,8 +16,8 @@ window.onresize = resizeWindowEvent;
 function resizeWindowEvent()
 {
     let overlayProperties = overlay.getBoundingClientRect();
-    overlayWidth = overlayProperties["width"];
-    overlayHeight = overlayProperties["height"];
+    overlayWidth = overlayProperties.width;
+    overlayHeight = overlayProperties.height;
 }
 
 function InitaliseEditor()
@@ -33,29 +33,28 @@ function InitaliseEditor()
     elementEditor["top"] = document.querySelectorAll(".elementPosition")[0].querySelectorAll("td")[5].firstChild;
     elementEditor["bottom"] = document.querySelectorAll(".elementPosition")[0].querySelectorAll("td")[7].firstChild;
 
-    elementEditor["left"].oninput = function() //Minimise with function
+    elementEditor.left.oninput = () => { UpdateElementPosition("left"); };
+    elementEditor.right.oninput = () => { UpdateElementPosition("right"); };
+    elementEditor.top.oninput = () => { UpdateElementPosition("top"); };
+    elementEditor.bottom.oninput = () => { UpdateElementPosition("bottom"); };
+    function UpdateElementPosition(toSet)
     {
-        selectedElement.style.right = "unset";
-        elementEditor["right"].value = null;
-        selectedElement.style.left = elementEditor["left"].value + "px";
-    }
-    elementEditor["right"].oninput = function()
-    {
-        selectedElement.style.left = "unset";
-        elementEditor["left"].value = null;
-        selectedElement.style.right = elementEditor["right"].value + "px";
-    }
-    elementEditor["top"].oninput = function()
-    {
-        selectedElement.style.bottom = "unset";
-        elementEditor["bottom"].value = null;
-        selectedElement.style.top = elementEditor["top"].value + "px";
-    }
-    elementEditor["bottom"].oninput = function()
-    {
-        selectedElement.style.top = "unset";
-        elementEditor["top"].value = null;
-        selectedElement.style.bottom = elementEditor["bottom"].value + "px";
+        let opposite;
+        switch(toSet)
+        {
+            case "left": opposite = "right"; break;
+            case "right": opposite = "left"; break;
+            case "top": opposite = "bottom"; break;
+            default: opposite = "top"; break;
+        }
+
+        if (elementEditor[toSet].value < 0) { elementEditor[toSet].value = 0; }
+        if ((toSet == "left" || toSet == "right") && elementEditor[toSet].value > overlayWidth - selectedElement.getBoundingClientRect().width) { elementEditor[toSet].value = overlayWidth - selectedElement.getBoundingClientRect().width; }
+        if ((toSet == "top" || toSet == "bottom") && elementEditor[toSet].value > overlayHeight - selectedElement.getBoundingClientRect().height) { elementEditor[toSet].value = overlayHeight - selectedElement.getBoundingClientRect().height; }
+
+        selectedElement.style[opposite] = "unset";
+        elementEditor[opposite].value = null;
+        selectedElement.style[toSet] = elementEditor[toSet].value + "px";
     }
 
     //#region Startup MOVE TO args.js
@@ -113,15 +112,15 @@ function SetupElements()
     {
         element.querySelectorAll(".progress").forEach(e =>
         {
-            e.style.strokeDasharray = (element.getBoundingClientRect()["width"] / 2 - 10) * Math.PI * 2;
+            e.style.strokeDasharray = (element.getBoundingClientRect().width / 2 - 10) * Math.PI * 2;
         });
     });
 }
 
 //Heavily modified from https://www.w3schools.com/howto/howto_js_draggable.asp
+var elBottom = null, elRight = null;
 function dragElement(elmnt)
 {
-    var elBottom = null, elRight = null;
     var xChange = 0, yChange = 0, mouseX = 0, mouseY = 0;
     elmnt.onmousedown = dragMouseDown;
 
@@ -149,38 +148,36 @@ function dragElement(elmnt)
         mouseX = e.clientX;
         mouseY = e.clientY;
         
-        if (mouseX > 250) //Make sure mouse cannot drag elements into the editor panel
+        if (mouseX > 250 && mouseX - 250 < overlayWidth && mouseY > 0 && mouseY < overlayHeight) //Make sure mouse cannot drag elements into the editor panel
         {
             if (mouseX - 250 > overlayWidth / 2)
             {
-                elRight = overlayWidth - (elmnt.offsetLeft + elmnt.getBoundingClientRect()["width"]);
-                elementEditor["left"].value = null;
-                elementEditor["right"].value = elRight;
+                elRight = overlayWidth - (elmnt.offsetLeft + elmnt.getBoundingClientRect().width);
+                elementEditor.left.value = null;
+                elementEditor.right.value = elRight;
             }
             else
             {
                 elRight = null;
-                elementEditor["right"].value = null;
-                elementEditor["left"].value = elmnt.offsetLeft;
+                elementEditor.right.value = null;
+                elementEditor.left.value = elmnt.offsetLeft;
             }
 
             if (mouseY > overlayHeight / 2)
             {
-                elBottom = overlayHeight - (elmnt.offsetTop + elmnt.getBoundingClientRect()["height"]);
-                elementEditor["top"].value = null;
-                elementEditor["bottom"].value = elBottom;
+                elBottom = overlayHeight - (elmnt.offsetTop + elmnt.getBoundingClientRect().height);
+                elementEditor.top.value = null;
+                elementEditor.bottom.value = elBottom;
             }
             else
             {
                 elBottom = null;
-                elementEditor["bottom"].value = null;
-                elementEditor["top"].value = elmnt.offsetTop;
+                elementEditor.bottom.value = null;
+                elementEditor.top.value = elmnt.offsetTop;
             }
 
             elmnt.style.left = elmnt.offsetLeft + xChange + "px";
             elmnt.style.top = elmnt.offsetTop + yChange + "px";
-            
-            //UpdateElementEditor(elmnt);
         }
     }
       
@@ -200,16 +197,27 @@ function dragElement(elmnt)
             elmnt.style.bottom = elBottom + "px";
             elmnt.style.top = "unset";
         }
+
+        UpdateElementEditor(elmnt);
     }
 }
 
 function disableDragElement(elmnt) { elmnt.onmousedown = null; }
 
+//Try to make ELEMENT.offsetRight a global function
 function UpdateElementEditor(e)
 {
     selectedElement = e;
-    elementEditor["left"].value = selectedElement.getBoundingClientRect()["left"];
-    elementEditor["right"].value = selectedElement.getBoundingClientRect()["right"];
-    elementEditor["top"].value = selectedElement.getBoundingClientRect()["top"];
-    elementEditor["bottom"].value = selectedElement.getBoundingClientRect()["bottom"];
+    let offsetRight = overlayWidth - (selectedElement.offsetLeft + selectedElement.getBoundingClientRect().width);
+    let offsetBottom = overlayHeight - (selectedElement.offsetTop + selectedElement.getBoundingClientRect().height);
+
+    if (selectedElement.offsetLeft < 0) { selectedElement.style.left = "0px"; }
+    else if (offsetRight < 0) { selectedElement.style.right = (offsetRight = 0) + "px"; }
+    if (selectedElement.offsetTop < 0) { selectedElement.style.top = "0px"; }
+    else if (offsetBottom < 0) { selectedElement.style.bottom = (offsetBottom = 0) + "px"; }
+
+    if (elRight == null) { elementEditor.left.value = selectedElement.offsetLeft; }
+    else { elementEditor.right.value = offsetRight; }
+    if (elBottom == null) { elementEditor.top.value = selectedElement.offsetTop; }
+    else { elementEditor.bottom.value = offsetBottom; }
 }
