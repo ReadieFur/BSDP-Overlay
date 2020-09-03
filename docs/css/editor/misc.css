@@ -1,0 +1,35 @@
+body
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: white;
+    background: black;
+    margin: 0;
+    overflow: hidden;
+    margin: 0;
+    display: table;
+    width: 100vw;
+    height: 100vh;
+}
+
+#overlay > * { position: absolute; }
+#overlay * { user-select: none; }
+#overlay
+{
+    position: relative;
+    height: 100%;
+    display: table-cell;
+}
+
+p { line-height: 20px; margin: 0px; }
+h2 { margin: 20px; }
+
+#splash
+{
+    position: absolute;
+    background: transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    width: max-content;
+}

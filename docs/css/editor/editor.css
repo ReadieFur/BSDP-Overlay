@@ -1,0 +1,43 @@
+#editorPanel
+{
+    position: relative;
+    height: 100%;
+    width: 250px;
+    background-color: white;
+    display: table-cell;
+    transition: all 100ms;
+    overflow-x: hidden;
+    color: black;
+    text-align: center;
+    z-index: 9999;
+}
+
+#editorPanel > h2 { height: 60px; }
+
+#editorElements
+{
+    position: absolute;
+    top: 100px;
+    bottom: 20%;
+    width: 100%;
+    overflow: auto;
+}
+#editorElements td { position: relative; }
+
+#elementEditor
+{
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20%;
+}
+
+.elementPosition { width: 80%; margin-left: 2.5%; }
+.elementPosition td > input { width: 45px; margin-right: 10px; }
+
+/*#region elements.css colour swap for editor panel*/
+#editorPanel .roundBar .remaining,
+#editorPanel .roundBar .progress
+{ stroke: black !important; }
+/*#endregion*/

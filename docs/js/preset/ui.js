@@ -16,11 +16,11 @@ var songName;
 
 window.addEventListener("load", () =>
 {
-    setTimeout(() =>
+    /*setTimeout(() =>
     {
         document.getElementById("splash").style = "transition: all 1000ms; opacity: 0;";
         setTimeout(() => { splash.style.display = "none"; }, 1000);
-    }, 1000);
+    }, 1000);*/
 
     //window.addEventListener("dblclick", () => { window.location = "/editor"; });
 })
