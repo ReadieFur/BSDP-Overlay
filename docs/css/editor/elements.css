@@ -29,7 +29,7 @@ hr
     stroke: white;
 }
 
-.mapTime.roundbar > div
+.roundbar > div
 {
     position: absolute;
     top: 50%;

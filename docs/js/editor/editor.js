@@ -46,18 +46,46 @@ function InitaliseEditor()
         editorOpen = !editorOpen;
     });
 
-    document.getElementById("editorElements").querySelectorAll("td").forEach(e =>
+    document.getElementById("editorElements").querySelectorAll("tr").forEach(e =>
     {
-        e.ondblclick = function()
+        var cells = -3;
+        var slideIndex = 0;
+        e.querySelectorAll("td").forEach(el =>
         {
-            let container = document.createElement("div");
-            container.className = "moveable";
-            container.style = "left: 45%; top: 45%;";
-            container.innerHTML = e.innerHTML;
-            overlay.el.appendChild(container);
-            dragElement(container);
-            UpdateElementEditor(container);
-        }
+            if (el.classList.contains("button"))
+            {
+                el.onclick = function()
+                {
+                    if (el.innerHTML == "❮")
+                    {
+                        e.querySelectorAll("td")[slideIndex + 1].style.display = "none";
+                        slideIndex = slideIndex == 0 ? cells : slideIndex - 1;
+                        e.querySelectorAll("td")[slideIndex + 1].style.display = "table-cell";
+                    }
+                    else if ((el.innerHTML == "❯"))
+                    {
+                        e.querySelectorAll("td")[slideIndex + 1].style.display = "none";
+                        slideIndex = slideIndex == cells ? 0 : slideIndex + 1;
+                        e.querySelectorAll("td")[slideIndex + 1].style.display = "table-cell";
+                    }
+                }
+            }
+            else
+            {
+                el.ondblclick = function()
+                {
+                    let container = document.createElement("div");
+                    container.className = "moveable";
+                    container.style = "left: 45%; top: 45%;";
+                    container.innerHTML = el.innerHTML;
+                    overlay.el.appendChild(container);
+                    dragElement(container);
+                    UpdateElementEditor(container);
+                }
+            }
+
+            cells++;
+        });
     });
 
     let elementPosition = document.querySelectorAll(".elementPosition")[0].querySelectorAll("td");
@@ -194,3 +222,50 @@ function UpdateElementEditor(e)
 
 function offsetRight(e) { return e.parentElement.getBoundingClientRect().width - (e.offsetLeft + e.getBoundingClientRect().width); }
 function offsetBottom(e) { return e.parentElement.getBoundingClientRect().height - (e.offsetTop + e.getBoundingClientRect().height); }
+
+window.addEventListener("loaded", () =>
+{
+    window.dispatchEvent(new CustomEvent(`StaticDataUpdated`, { detail: JSON.parse(staticDataPreset) }));
+    window.dispatchEvent(new CustomEvent(`LiveDataUpdated`, { detail: JSON.parse(liveDataPreset) }));
+})
+
+//#region Test data
+let staticDataPreset = `{
+    "SongName": "SongName",
+    "SongSubName": "SongSubName",
+    "SongAuthor": "ArtistName",
+    "Mapper": "Mapper",
+    "BSRKey": "2946",
+    "coverImage": "http://u.readie.global-gaming.co/bsdp-overlay/assets/BeatSaberIcon.jpg",
+    "Length": 123,
+    "Difficulty": 6,
+    "BPM": 180,
+    "NJS": 21.3,
+    "Modifiers":
+    {
+        "noFail": true
+    },
+    "PracticeMode": true,
+    "PracticeModeModifiers":
+    {
+        "songSpeedMul": 120
+    },
+    "PreviousRecord": 1204680,
+    "PreviousBSR": 1234
+}`
+
+let liveDataPreset = `{
+    "InLevel": true,
+    "LevelPaused": false,
+    "LevelFinished": false,
+    "LevelQuit": false,
+    "Score": 3480,
+    "FullCombo": true,
+    "Combo": 7,
+    "Misses": 4,
+    "Accuracy": 94.6,
+    "BlockHitScores": [],
+    "PlayerHealth": 63,
+    "TimeElapsed": 32
+}`
+//#endregion
