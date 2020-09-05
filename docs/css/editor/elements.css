@@ -29,6 +29,17 @@ hr
     stroke: white;
 }
 
+.roundbar
+{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    min-width: 90px;
+    min-height: 90px;
+    width: inherit;
+    height: inherit;
+}
+
 .roundbar > div
 {
     position: absolute;
@@ -36,4 +47,12 @@ hr
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+/**/
+.coverImage
+{
+    border-radius: 10px;
+    min-width: 90px;
+    min-height: 90px;
 }

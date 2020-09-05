@@ -33,3 +33,12 @@ h2 { margin: 20px; }
     transform: translate(-50%);
     width: max-content;
 }
+
+img { pointer-events: none; }
+
+.moveable
+{
+    resize: both;
+    overflow: hidden;
+    height: auto !important;
+}

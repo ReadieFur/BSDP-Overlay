@@ -5,17 +5,16 @@ window.addEventListener("load", () =>
     if (urlParams.has("style"))
     {
         splash.innerHTML += " open the editor";
-        editorPanel.style.transition = "none";
-        editorPanel.style.display = "none";
-        editorPanel.style.width = ".1px";
-        editorPanel.style.transition = "all 100ms";
-        editorOpen = false;
+        window.addEventListener("loaded", () =>
+        {
+            editorPanel.style.transition = "none";
+            editorPanel.style.display = "none";
+            editorPanel.style.width = ".1px";
+            editorPanel.style.transition = "all 100ms";
+            editorOpen = false;
+        })
     }
-    else
-    {
-        splash.innerHTML += " hide the editor";
-        document.querySelectorAll(".moveable").forEach(e => { dragElement(e); });
-    }
+    else { splash.innerHTML += " hide the editor"; }
     setTimeout(() =>
     {
         splash.style = "transition: all 1000ms; opacity: 0;";

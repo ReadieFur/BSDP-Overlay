@@ -1,3 +1,6 @@
+var StaticData;
+var LiveData;
+
 window.addEventListener("load", () =>
 {
     SetupElements();
@@ -12,41 +15,42 @@ let mapLength;
 
 window.addEventListener("StaticDataUpdated", (data) =>
 {
-    data = data.detail;
+    StaticData = data.detail;
 
-    times.forEach(e =>
+    elements.times.forEach(e =>
     {
         if (e.classList.contains("roundbar"))
         {
             let innerText = e.querySelectorAll("div")[0].children;
             innerText[0].innerHTML = "0:00";
-            innerText[1].innerHTML = `${SecondsToMins(mapLength = data.Length)}`;
+            innerText[1].innerHTML = `${SecondsToMins(mapLength = StaticData.Length)}`;
         }
     });
 })
 
 window.addEventListener("LiveDataUpdated", (data) =>
 {
-    data = data.detail;
+    LiveData = data.detail;
 
-    times.forEach(e =>
+    elements.times.forEach(e =>
     {
         if (e.classList.contains("roundbar"))
         {
             let progress = e.querySelectorAll(".progress")[0];
-            progress.style.strokeDashoffset = (1 - data.TimeElapsed / mapLength) * progress.style.strokeDasharray;
-            e.querySelectorAll("div")[0].children[0].innerHTML = SecondsToMins(data.TimeElapsed);
+            progress.style.strokeDashoffset = (1 - LiveData.TimeElapsed / mapLength) * progress.style.strokeDasharray;
+            progress.setAttribute("value", LiveData.TimeElapsed);
+            e.querySelectorAll("div")[0].children[0].innerHTML = SecondsToMins(LiveData.TimeElapsed);
         }
     });
 
-    healths.forEach(e =>
+    elements.healths.forEach(e =>
     {
-        if (e.classList.contains("roundbar")) { setProgressRing(e, data.PlayerHealth) }
+        if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.PlayerHealth); }
     })
 
-    accuracies.forEach(e =>
+    elements.accuracies.forEach(e =>
     {
-        if (e.classList.contains("roundbar")) { setProgressRing(e, data.Accuracy) }
+        if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.Accuracy); }
     })
 
     //Internal functions
@@ -54,6 +58,7 @@ window.addEventListener("LiveDataUpdated", (data) =>
     {
         let progress = e.querySelectorAll(".progress")[0];
         progress.style.strokeDashoffset = (1 - d / 100) * progress.style.strokeDasharray;
+        progress.setAttribute("value", d);
         e.querySelectorAll("div")[0].children[1].innerHTML = Math.trunc(d) + "%";
     }
 })
