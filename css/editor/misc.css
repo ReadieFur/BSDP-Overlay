@@ -1,7 +1,5 @@
 body
 {
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
     color: white;
     background: black;
     margin: 0;
@@ -10,6 +8,12 @@ body
     display: table;
     width: 100vw;
     height: 100vh;
+}
+
+*
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
 }
 
 #overlay > * { position: absolute; }
@@ -40,7 +44,6 @@ img { pointer-events: none; }
 
 .moveable
 {
-    resize: both;
     overflow: hidden;
     height: auto !important;
 }

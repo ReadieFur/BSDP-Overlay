@@ -17,6 +17,8 @@ window.addEventListener("StaticDataUpdated", (data) =>
 {
     StaticData = data.detail;
 
+    elements.coverImages.forEach(e => { e.src = StaticData.coverImage; })
+
     elements.times.forEach(e =>
     {
         if (e.classList.contains("roundbar"))

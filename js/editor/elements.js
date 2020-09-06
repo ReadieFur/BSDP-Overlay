@@ -10,10 +10,16 @@ window.addEventListener("load", () =>
 
 function GetElements(mutations) //Try to only get the new element instead of getting all of them again
 {
+    //#region StaticData
+    elements.coverImages = document.querySelectorAll(".coverImage");
+    //#endregion
+
+    //#region LiveData
     elements.moveable = document.querySelectorAll(".moveable");
     elements.times = document.querySelectorAll(".time");
     elements.accuracies = document.querySelectorAll(".accuracy");
     elements.healths = document.querySelectorAll(".health");
+    //#endregion
 
     window.dispatchEvent(new CustomEvent("NewElement", { detail: elements }));
 }

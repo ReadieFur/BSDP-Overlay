@@ -104,10 +104,10 @@ function InitaliseEditor()
         selectedElement.style[toSet] = elementEditor[toSet].value + "px";
     }
 
-    let TestImage = document.querySelector("#TestImage");
-    TestImage.oninput = function()
+    let TestBackground = document.querySelector("#TestBackground");
+    TestBackground.oninput = function()
     {
-        if (TestImage.checked) { overlay.el.style.backgroundImage = "url(/assets/TestImage.jpg)"; }
+        if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(/assets/TestBackground.jpg)"; }
         else { overlay.el.style.backgroundImage = "none"; }
     }
 
@@ -125,7 +125,7 @@ function InitaliseEditor()
             editorPanel.style.display = "table-cell";
             setTimeout(() =>
             {
-                if (TestImage.checked) { overlay.el.style.backgroundImage = "url(/assets/TestImage.jpg)"; }
+                if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(/assets/TestBackground.jpg)"; }
                 editorPanel.style.width = "250px";
                 setTimeout(() =>
                 {
@@ -137,6 +137,31 @@ function InitaliseEditor()
 
         editorOpen = !editorOpen;
     });
+
+    document.querySelector("#SaveOverlay").onclick = function()
+    {
+        //PHP style generator goes here
+        let UserOverlay = overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "");
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "SaveOverlay.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                if (this.responseText.includes("<br />")) { console.log("Error creating overlay: response: " + this.responseText); }
+                else { console.log(this.responseText); }
+            }
+            else if (this.status != 200) { console.log(`Error creating overlay: status: ${this.status}`); }
+        }
+
+        let html = encodeURIComponent(UserOverlay);
+        let css = encodeURIComponent("");
+        let js = encodeURIComponent("");
+
+        xhttp.send(`html=${html}&css=${css}&js=${js}`);
+    }
 }
 
 //Heavily modified from https://www.w3schools.com/howto/howto_js_draggable.asp
