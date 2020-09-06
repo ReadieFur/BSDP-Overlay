@@ -28,31 +28,6 @@ function InitaliseEditor()
 
     resizeWindowEvent();
 
-    overlay.el.addEventListener("dblclick", () =>
-    {
-        if (editorOpen)
-        {
-            editorPanel.style.width = ".1px";
-            setTimeout(() => { editorPanel.style.display = "none"; }, 100);
-            elements.moveable.forEach(e => { disableDragElement(e); });
-        }
-        else
-        {
-            editorPanel.style.display = "table-cell";
-            setTimeout(() =>
-            {
-                editorPanel.style.width = "250px";
-                setTimeout(() =>
-                {
-                    resizeWindowEvent();
-                    elements.moveable.forEach(e => { dragElement(e); });
-                }, 100);
-            }, 100);
-        }
-
-        editorOpen = !editorOpen;
-    });
-
     document.getElementById("editorElements").querySelectorAll("tr").forEach(e =>
     {
         var cells = -3;
@@ -128,6 +103,40 @@ function InitaliseEditor()
         elementEditor[opposite].value = null;
         selectedElement.style[toSet] = elementEditor[toSet].value + "px";
     }
+
+    let TestImage = document.querySelector("#TestImage");
+    TestImage.oninput = function()
+    {
+        if (TestImage.checked) { overlay.el.style.backgroundImage = "url(/assets/TestImage.jpg)"; }
+        else { overlay.el.style.backgroundImage = "none"; }
+    }
+
+    overlay.el.addEventListener("dblclick", () =>
+    {
+        if (editorOpen)
+        {
+            overlay.el.style.backgroundImage = "none";
+            editorPanel.style.width = ".1px";
+            setTimeout(() => { editorPanel.style.display = "none"; }, 100);
+            elements.moveable.forEach(e => { disableDragElement(e); });
+        }
+        else
+        {
+            editorPanel.style.display = "table-cell";
+            setTimeout(() =>
+            {
+                if (TestImage.checked) { overlay.el.style.backgroundImage = "url(/assets/TestImage.jpg)"; }
+                editorPanel.style.width = "250px";
+                setTimeout(() =>
+                {
+                    resizeWindowEvent();
+                    elements.moveable.forEach(e => { dragElement(e); });
+                }, 100);
+            }, 100);
+        }
+
+        editorOpen = !editorOpen;
+    });
 }
 
 //Heavily modified from https://www.w3schools.com/howto/howto_js_draggable.asp

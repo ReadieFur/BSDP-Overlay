@@ -19,6 +19,8 @@ body
     position: relative;
     height: 100%;
     display: table-cell;
+    background-size: cover;
+    background-position: center;
 }
 
 p { line-height: 20px; margin: 0px; }
