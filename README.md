@@ -1,6 +1,6 @@
 # BSDP-Overlay
 A BeatSaber overlay I have created for my [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod.
-This overlay is easy to use, just add the [Overlay](http://kofreadie.globalgamingco.org) to your recording/streaming software of choice as a browser source. (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
+This overlay is easy to use, just add the [Overlay](http://u.readie.global-gaming.co/bsdp-overlay/) to your recording/streaming software of choice as a browser source. (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
 
 ## Options:
 ### UI Scale:
@@ -9,7 +9,7 @@ This overlay is easy to use, just add the [Overlay](http://kofreadie.globalgamin
 ### Element Visibility:
 - `hideStats`: Hides the map stats (Top).
 - `hideMapDetails`: Hides the map details (Bottom left).
-- `hideMapDetails`: Hides the map details (Bottom left).
+- `hideModifiersHealth`: Hides the modifiers and health (Right).
 Changes the visibility of the three main elements on the overlay.
 
 ### IP:
