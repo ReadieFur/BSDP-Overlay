@@ -107,7 +107,7 @@ function InitaliseEditor()
     let TestBackground = document.querySelector("#TestBackground");
     TestBackground.oninput = function()
     {
-        if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(/assets/TestBackground.jpg)"; }
+        if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(../assets/TestBackground.jpg)"; }
         else { overlay.el.style.backgroundImage = "none"; }
     }
 
@@ -125,7 +125,7 @@ function InitaliseEditor()
             editorPanel.style.display = "table-cell";
             setTimeout(() =>
             {
-                if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(/assets/TestBackground.jpg)"; }
+                if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(../assets/TestBackground.jpg)"; }
                 editorPanel.style.width = "250px";
                 setTimeout(() =>
                 {
