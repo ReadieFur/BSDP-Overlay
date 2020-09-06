@@ -151,7 +151,13 @@ function InitaliseEditor()
             if (this.readyState == 4 && this.status == 200)
             {
                 if (this.responseText.includes("<br />")) { console.log("Error creating overlay: response: " + this.responseText); }
-                else { console.log(this.responseText); }
+                else
+                {
+                    console.log(this.responseText);
+                    urlParams.set("style", this.responseText);
+                    history.replaceState(null, null, "?" + urlParams.toString());
+                    window.location.reload();
+                }
             }
             else if (this.status != 200) { console.log(`Error creating overlay: status: ${this.status}`); }
         }

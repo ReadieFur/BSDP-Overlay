@@ -4,7 +4,7 @@
         $uid = uniqid();
         mkdir("public/$uid");
     
-        $html = fopen("public/$uid/hmtl.txt", "w");
+        $html = fopen("public/$uid/html.txt", "w");
         fwrite($html, $_POST["html"]);
         fclose($html);
     
