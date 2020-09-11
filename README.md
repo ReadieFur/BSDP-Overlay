@@ -1,6 +1,6 @@
 # BSDP-Overlay
 A BeatSaber overlay I have created for my [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod.
-This overlay is easy to use, just add the [Overlay](http://u.readie.global-gaming.co/bsdp-overlay/) to your recording/streaming software of choice as a browser source. (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
+This overlay is easy to use, just add the [Overlay](http://u-readie.global-gaming.co/bsdp-overlay/) to your recording/streaming software of choice as a browser source. (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
 
 ## Options:
 ### UI Scale:
