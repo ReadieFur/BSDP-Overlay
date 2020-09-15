@@ -1,11 +1,11 @@
-window.addEventListener("load", () =>
+var unloadEditor = false;
+
+window.addEventListener("load", () => //Unload editor is style is present, unless it is the owner. OR load it if style is not present
 {
     let splash = document.getElementById("splash");
     let editorPanel = document.getElementById("editorPanel");
     if (urlParams.has("style"))
     {
-        splash.innerHTML += " open the editor";
-
         let styles = document.createElement("link");
         styles.rel = "stylesheet";
         styles.href = `public/${urlParams.get("style")}/styles.css`;
@@ -20,12 +20,28 @@ window.addEventListener("load", () =>
                 document.querySelector("#overlay").innerHTML += this.responseText;
                 document.querySelectorAll(".moveable").forEach(e => { e.style.resize = "none"; })
             }
+            else if (this.readyState == 4 && this.status != 200) { window.location.replace(window.location.origin + window.location.pathname); }
         }
         xhttp.send();
 
         let script = document.createElement("script");
         script.src = `public/${urlParams.get("style")}/script.js`;
         document.head.appendChild(script);
+
+        if (READIE_UI != null || READIE_UP != null)
+        {
+            let unid = encodeURIComponent(READIE_UI);
+            let pass = encodeURIComponent(READIE_UP);
+            let oid = encodeURIComponent(urlParams.get("style"));
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", `overlay.php`, false);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(`method=Verify&unid=${unid}&pass=${pass}&oid=${oid}`);
+
+            if (xhttp.responseText == "false") { unloadEditor = true; splash.innerHTML = null; }
+            else { splash.innerHTML += " open the editor"; }
+        }
+        else { splash.innerHTML = null; }
 
         window.addEventListener("loaded", () =>
         {
@@ -37,10 +53,6 @@ window.addEventListener("load", () =>
         })
     }
     else { splash.innerHTML += " hide the editor"; }
-    setTimeout(() =>
-    {
-        splash = document.getElementById("splash");
-        splash.style = "transition: all 1000ms; opacity: 0;";
-        setTimeout(() => { splash.style.display = "none"; }, 1000);
-    }, 1000);
+
+    if ((READIE_UI == null || READIE_UP == null) && !urlParams.has("style")) { document.querySelector("iframe").style.display = "block"; }
 })

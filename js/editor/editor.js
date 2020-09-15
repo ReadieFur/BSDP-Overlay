@@ -113,60 +113,64 @@ function InitaliseEditor()
 
     overlay.el.addEventListener("dblclick", () =>
     {
-        if (editorOpen)
+        if (!unloadEditor)
         {
-            overlay.el.style.backgroundImage = "none";
-            editorPanel.style.width = ".1px";
-            setTimeout(() => { editorPanel.style.display = "none"; }, 100);
-            elements.moveable.forEach(e => { disableDragElement(e); });
-        }
-        else
-        {
-            editorPanel.style.display = "table-cell";
-            setTimeout(() =>
+            if (editorOpen)
             {
-                if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(../assets/TestBackground.jpg)"; }
-                editorPanel.style.width = "250px";
+                overlay.el.style.backgroundImage = "none";
+                editorPanel.style.width = ".1px";
+                setTimeout(() => { editorPanel.style.display = "none"; }, 100);
+                elements.moveable.forEach(e => { disableDragElement(e); });
+            }
+            else
+            {
+                editorPanel.style.display = "table-cell";
                 setTimeout(() =>
                 {
-                    resizeWindowEvent();
-                    elements.moveable.forEach(e => { dragElement(e); });
+                    if (TestBackground.checked) { overlay.el.style.backgroundImage = "url(../assets/TestBackground.jpg)"; }
+                    editorPanel.style.width = "250px";
+                    setTimeout(() =>
+                    {
+                        resizeWindowEvent();
+                        elements.moveable.forEach(e => { dragElement(e); });
+                    }, 100);
                 }, 100);
-            }, 100);
+            }
+    
+            editorOpen = !editorOpen;
         }
-
-        editorOpen = !editorOpen;
     });
 
     document.querySelector("#SaveOverlay").onclick = function()
     {
-        //PHP style generator goes here
-        let UserOverlay = overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "");
-
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "SaveOverlay.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function()
+        if (READIE_UI == null || READIE_UP == null) { document.querySelector("iframe").style.display = "block"; }
+        else
         {
-            if (this.readyState == 4 && this.status == 200)
+            let unid = encodeURIComponent(READIE_UI);
+            let pass = encodeURIComponent(READIE_UP);
+            let oid = encodeURIComponent(urlParams.get("style"));
+            let p = encodeURIComponent(""); //Not implemented yet
+            let html = encodeURIComponent(overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "")); //Place MOST text on one line (remove whitespace) outside of tags
+            let css = encodeURIComponent(""); //Not implemented yet
+            let js = encodeURIComponent(""); //Not implemented yet
+    
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", `overlay.php`, false);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(`method=Save&unid=${unid}&pass=${pass}&oid=${oid}&public=${p}&html=${html}&css=${css}&js=${js}`);
+                
+            if (xhttp.responseText.includes("<br />") || xhttp.responseText.startsWith("Err"))
             {
-                if (this.responseText.includes("<br />")) { console.log("Error creating overlay: response: " + this.responseText); }
-                else
-                {
-                    console.log(this.responseText);
-                    urlParams.set("style", this.responseText);
-                    history.replaceState(null, null, "?" + urlParams.toString());
-                    window.location.reload();
-                }
+                console.log("Error creating overlay: response: " + xhttp.responseText);
+                //Alert user of overlay creation error
             }
-            else if (this.status != 200) { console.log(`Error creating overlay: status: ${this.status}`); }
+            else
+            {
+                //Alert user of sucessful overlay creation
+                urlParams.set("style", xhttp.responseText);
+                window.history.pushState(xhttp.responseText, `BSDP Overlay | Editor`, "?" + urlParams.toString());
+            }
         }
-
-        let html = encodeURIComponent(UserOverlay);
-        let css = encodeURIComponent("");
-        let js = encodeURIComponent("");
-
-        xhttp.send(`html=${html}&css=${css}&js=${js}`);
     }
 }
 
@@ -321,7 +325,7 @@ window.addEventListener("loaded", () =>
         "SongAuthor": "ArtistName",
         "Mapper": "Mapper",
         "BSRKey": "2946",
-        "coverImage": "http://u.readie.global-gaming.co/bsdp-overlay/assets/BeatSaberIcon.jpg",
+        "coverImage": "http://u-readie.global-gaming.co/bsdp-overlay/assets/BeatSaberIcon.jpg",
         "Length": 123,
         "Difficulty": 6,
         "BPM": 180,

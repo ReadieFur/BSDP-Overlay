@@ -1,3 +1,9 @@
+*
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
 body
 {
     color: white;
@@ -5,15 +11,50 @@ body
     margin: 0;
     overflow: hidden;
     margin: 0;
-    display: table;
     width: 100vw;
     height: 100vh;
 }
 
-*
+#loading
 {
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(20, 20, 20);
+    z-index: 9999;
+    transition: opacity ease 500ms;
+}
+
+#loading > div
+{
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: x-large;
+}
+
+body > iframe
+{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    border: none;
+    display: none;
+}
+
+#editor
+{
+    position: relative;
+    overflow: hidden;
+    display: table;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
 }
 
 #overlay > * { position: absolute; }

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/editor/editor.css">
     <link rel="stylesheet" href="../css/editor/elements.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://api-readie.global-gaming.co/account/account.js"></script>
     <script src="../js/client.js"></script>
     <script src="../js/editor/elements.js"></script>
     <script src="../js/editor/args.js"></script>
@@ -18,86 +19,96 @@
     <script src="../js/editor/late.js"></script>
 </head>
 <body>
-    <div id="editorPanel">
+    <div id="loading">
         <div>
-            <h2>BSDP Overlay Editor (Beta)</h2>
-            <table id="editorElements">
-                <tr>
-                    <td class="button">❮</td>
-                    <td class="visible">
-                        <div class="roundbar time">
-                            <div>
-                                <p>0:00</p>
-                                <p>0:00</p>
-                            </div>
-                            <svg class="roundBar" style="width: 90px; height: 90px;">
-                                <circle class="remaining" cx="45" cy="45" r="35"></circle>
-                                <circle class="progress" cx="45" cy="45" r="35"></circle>
-                            </svg>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="roundbar health">
-                            <div>
-                                <p>HP</p>
-                                <p>50%</p>
-                            </div>
-                            <svg class="roundBar" style="width: 90px; height: 90px;">
-                                <circle class="remaining" cx="45" cy="45" r="35"></circle>
-                                <circle class="progress" cx="45" cy="45" r="35"></circle>
-                            </svg>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="roundbar accuracy">
-                            <div>
-                                <p>Acc</p>
-                                <p>100%</p>
-                            </div>
-                            <svg class="roundBar" style="width: 90px; height: 90px;">
-                                <circle class="remaining" cx="45" cy="45" r="35"></circle>
-                                <circle class="progress" cx="45" cy="45" r="35"></circle>
-                            </svg>
-                        </div>
-                    </td>
-                    <td class="button">❯</td>
-                </tr>
-                <tr>
-                    <td class="visible placeholder"></td>
-                    <td class="visible">
-                        <img class="coverImage" src="../assets/BeatSaberIcon.jpg">
-                    </td>
-                </tr>
-            </table>
-            <div id="elementEditor">
-                <hr>
-                <table class="elementPosition">
-                    <tr>
-                        <td>Left:</td>
-                        <td><input placeholder="na" type="number"></td>
-                        <td>Right:</td>
-                        <td><input placeholder="na" type="number"></td>
-                    </tr>
-                    <tr>
-                        <td>Top:</td>
-                        <td><input placeholder="na" type="number"></td>
-                        <td>Bottom:</td>
-                        <td><input placeholder="na" type="number"></td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <td>Test Background:</td>
-                        <td><input id="TestBackground" type="checkbox"></td>
-                    </tr>
-                </table>
-                <button id="SaveOverlay">Save Overlay</button>
-            </div>
+            <h1>BSDP Overlay Editor</h1>
+            <img src="https://cdn-readie.global-gaming.co/images/logocircle.png" width="256">
+            <h1>Loading...</h1>
         </div>
     </div>
-    <div id="overlay">
-        <h1 id="splash">Double click to</h1>
-        <!--Custom overlays begin below-->
+    <iframe title="Account" src="https://api-readie.global-gaming.co/account/"></iframe>
+    <div id="editor">
+        <div id="editorPanel">
+            <div>
+                <h2>BSDP Overlay Editor (Beta)</h2>
+                <table id="editorElements">
+                    <tr>
+                        <td class="button">❮</td>
+                        <td class="visible">
+                            <div class="roundbar time">
+                                <div>
+                                    <p>0:00</p>
+                                    <p>0:00</p>
+                                </div>
+                                <svg class="roundBar" style="width: 90px; height: 90px;">
+                                    <circle class="remaining" cx="45" cy="45" r="35"></circle>
+                                    <circle class="progress" cx="45" cy="45" r="35"></circle>
+                                </svg>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="roundbar health">
+                                <div>
+                                    <p>HP</p>
+                                    <p>50%</p>
+                                </div>
+                                <svg class="roundBar" style="width: 90px; height: 90px;">
+                                    <circle class="remaining" cx="45" cy="45" r="35"></circle>
+                                    <circle class="progress" cx="45" cy="45" r="35"></circle>
+                                </svg>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="roundbar accuracy">
+                                <div>
+                                    <p>Acc</p>
+                                    <p>100%</p>
+                                </div>
+                                <svg class="roundBar" style="width: 90px; height: 90px;">
+                                    <circle class="remaining" cx="45" cy="45" r="35"></circle>
+                                    <circle class="progress" cx="45" cy="45" r="35"></circle>
+                                </svg>
+                            </div>
+                        </td>
+                        <td class="button">❯</td>
+                    </tr>
+                    <tr>
+                        <td class="visible placeholder"></td>
+                        <td class="visible">
+                            <img class="coverImage" src="../assets/BeatSaberIcon.jpg">
+                        </td>
+                    </tr>
+                </table>
+                <div id="elementEditor">
+                    <hr>
+                    <table class="elementPosition">
+                        <tr>
+                            <td>Left:</td>
+                            <td><input placeholder="na" type="number"></td>
+                            <td>Right:</td>
+                            <td><input placeholder="na" type="number"></td>
+                        </tr>
+                        <tr>
+                            <td>Top:</td>
+                            <td><input placeholder="na" type="number"></td>
+                            <td>Bottom:</td>
+                            <td><input placeholder="na" type="number"></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Test Background:</td>
+                            <td><input id="TestBackground" type="checkbox"></td>
+                        </tr>
+                    </table>
+                    <button id="SaveOverlay">Save Overlay</button>
+                </div>
+            </div>
+        </div>
+        <div id="overlay">
+            <h1 id="splash">Double click to</h1>
+            <!--Custom overlays begin below-->
+        </div>
     </div>
 </body>
 </html>
