@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/editor/elements.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://api-readie.global-gaming.co/account/account.js"></script>
+    <!--<script src="https://cdn.global-gaming.co/resources/html2canvas.min.js"></script>-->
     <script src="../js/client.js"></script>
     <script src="../js/editor/elements.js"></script>
     <script src="../js/editor/args.js"></script>
@@ -73,6 +74,22 @@
                         <td class="button">❯</td>
                     </tr>
                     <tr>
+                        <td class="button">❮</td>
+                        <td class="visible"><div class="textItem noResize SongName"><h3>SongName</h3></div></td>
+                        <td><div class="textItem noResize SongSubName"><h3>SongSubName</h3></div></td>
+                        <td><div class="textItem noResize SongAuthor"><h3>SongAuthor</h3></div></td>
+                        <td><div class="textItem noResize Mapper"><h3>Mapper</h3></div></td>
+                        <td><div class="textItem noResize BSRKey"><h3>BSRKey</h3></div></td>
+                        <td><div class="textItem noResize Duration"><h3>Duration</h3></div></td>
+                        <td><div class="textItem noResize Difficulty"><h3>Difficulty</h3></div></td>
+                        <td><div class="textItem noResize BPM"><h3>BPM</h3></div></td>
+                        <td><div class="textItem noResize NJS"><h3>NJS</h3></div></td>
+                        <td><div class="textItem noResize PreviousRecord"><h3>PreviousRecord</h3></div></td>
+                        <td><div class="textItem noResize PreviousBSR"><h3>PreviousBSR</h3></div></td>
+                        <!--Pratice modifiers list-->
+                        <td class="button">❯</td>
+                    </tr>
+                    <tr>
                         <td class="visible placeholder"></td>
                         <td class="visible">
                             <img class="coverImage" src="../assets/BeatSaberIcon.jpg">
@@ -83,22 +100,22 @@
                     <hr>
                     <table class="elementPosition">
                         <tr>
-                            <td>Left:</td>
-                            <td><input placeholder="na" type="number"></td>
-                            <td>Right:</td>
-                            <td><input placeholder="na" type="number"></td>
+                            <td>Left:</td><td><input placeholder="na" type="number"></td>
+                            <td>Right:</td><td><input placeholder="na" type="number"></td>
                         </tr>
                         <tr>
-                            <td>Top:</td>
-                            <td><input placeholder="na" type="number"></td>
-                            <td>Bottom:</td>
-                            <td><input placeholder="na" type="number"></td>
+                            <td>Top:</td><td><input placeholder="na" type="number"></td>
+                            <td>Bottom:</td><td><input placeholder="na" type="number"></td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <td>Test Background:</td>
-                            <td><input id="TestBackground" type="checkbox"></td>
+                            <td>Test Background:</td><td><input id="TestBackground" type="checkbox"></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Name:</td><td><input id="OverlayName" placeholder="Overlay" type="text" required></td>
                         </tr>
                     </table>
                     <button id="SaveOverlay">Save Overlay</button>

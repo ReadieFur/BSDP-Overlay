@@ -56,9 +56,13 @@ function InitaliseEditor()
             {
                 el.ondblclick = function()
                 {
+                    let noMove = el.children[0].classList.contains("noMove");
+                    let noResize = el.children[0].classList.contains("noResize");
+
                     let childElementCss = window.getComputedStyle(el.children[0]);
                     let container = document.createElement("div");
-                    container.className = "moveable";
+                    container.className = noMove ? "" : " moveable";
+                    container.className += noResize ? "" : " resizable";
                     container.style =`
                         min-width: ${childElementCss["min-width"]};
                         min-height: ${childElementCss["min-height"]};
@@ -143,21 +147,35 @@ function InitaliseEditor()
 
     document.querySelector("#SaveOverlay").onclick = function()
     {
+        let overlayName = document.querySelector("#OverlayName");
         if (READIE_UI == null || READIE_UP == null) { document.querySelector("iframe").style.display = "block"; }
+        else if (overlayName.value == "") { alert("An overlay name must be provided."); }
         else
         {
             let unid = encodeURIComponent(READIE_UI);
             let pass = encodeURIComponent(READIE_UP);
             let oid = encodeURIComponent(urlParams.get("style"));
-            let p = encodeURIComponent(""); //Not implemented yet
+            overlayName = encodeURIComponent(overlayName.value);
+            let p = ""; //Not implemented yet
             let html = encodeURIComponent(overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "")); //Place MOST text on one line (remove whitespace) outside of tags
             let css = encodeURIComponent(""); //Not implemented yet
             let js = encodeURIComponent(""); //Not implemented yet
-    
+            let thumbnail;
+
+            //Fix white page render
+            /*html2canvas(document.querySelector("#overlay"),
+            {
+ 
+            }).then(canvas =>
+            {
+                thumbnail = canvas.toDataURL();
+                console.log(thumbnail);
+            });*/
+
             let xhttp = new XMLHttpRequest();
             xhttp.open("POST", `overlay.php`, false);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send(`method=Save&unid=${unid}&pass=${pass}&oid=${oid}&public=${p}&html=${html}&css=${css}&js=${js}`);
+            xhttp.send(`method=Save&unid=${unid}&pass=${pass}&oid=${oid}&oname=${overlayName}&public=${p}&html=${html}&css=${css}&js=${js}&thumbnail=${thumbnail}`);
                 
             if (xhttp.responseText.includes("<br />") || xhttp.responseText.startsWith("Err"))
             {
@@ -174,7 +192,7 @@ function InitaliseEditor()
     }
 }
 
-//Heavily modified from https://www.w3schools.com/howto/howto_js_draggable.asp
+//Modified from https://www.w3schools.com/howto/howto_js_draggable.asp
 var elBottom = null, elRight = null;
 function dragElement(el)
 {
@@ -238,11 +256,13 @@ function dragElement(el)
                 el.style.top = el.offsetTop + yChange + "px";
             }
         }
-        else //Resize
+        else if (el.classList.contains("resizable"))
         {
+            //let bcr = el.getBoundingClientRect();
             el.style.height = el.style.width;
             el.children[0].style.width = el.style.width;
             el.children[0].style.height = el.style.width;
+            //el.children[0].style.height = Math.round((bcr.width / bcr.height) * bcr.width) + "px";
             el.dispatchEvent(new CustomEvent("ElementResized", { detail: elements }));
         }
     }
@@ -295,6 +315,7 @@ window.addEventListener("NewElement", () =>
     {
         e.parentElement.addEventListener("ElementResized", () =>
         {
+            let bcr = e.getBoundingClientRect();
             e.children[1].style.width = e.style.width;
             e.children[1].style.height = e.style.height;
 

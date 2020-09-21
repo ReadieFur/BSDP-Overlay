@@ -83,8 +83,5 @@ h2 { margin: 20px; }
 
 img { pointer-events: none; }
 
-.moveable
-{
-    overflow: hidden;
-    height: auto !important;
-}
+.moveable { height: auto !important; }
+.resizable { overflow: hidden; }

@@ -26,7 +26,7 @@
 {
     position: absolute;
     top: 100px;
-    bottom: 20%;
+    bottom: 200px;
     width: 100%;
     overflow: auto;
     user-select: none;
@@ -48,7 +48,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 20%;
+    height: 200px;
 }
 #elementEditor table { margin-left: 7px; margin-bottom: 5px; }
 
@@ -76,6 +76,8 @@
     color: white;
     cursor: pointer;
 }
+
+#OverlayName { width: 167.5px; margin-right: 10px; }
 
 /*#region elements.css colour swap for editor panel*/
 #editorPanel .roundBar .remaining,

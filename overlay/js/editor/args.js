@@ -39,9 +39,9 @@ window.addEventListener("load", () => //Unload editor is style is present, unles
             xhttp.send(`method=Verify&unid=${unid}&pass=${pass}&oid=${oid}`);
 
             if (xhttp.responseText == "false") { unloadEditor = true; splash.innerHTML = null; }
-            else { splash.innerHTML += " open the editor"; }
+            else { splash.innerHTML += " open the editor"; document.querySelector("#OverlayName").value = xhttp.responseText; }
         }
-        else { splash.innerHTML = null; }
+        else { unloadEditor = true; splash.innerHTML = null; }
 
         window.addEventListener("loaded", () =>
         {
@@ -54,5 +54,6 @@ window.addEventListener("load", () => //Unload editor is style is present, unles
     }
     else { splash.innerHTML += " hide the editor"; }
 
-    if ((READIE_UI == null || READIE_UP == null) && !urlParams.has("style")) { document.querySelector("iframe").style.display = "block"; }
+    //if ((READIE_UI == null || READIE_UP == null) && !urlParams.has("style")) { document.querySelector("iframe").style.display = "block"; }
+    if ((READIE_UI == null || READIE_UP == null) && !urlParams.has("style")) { window.location.replace(`https://api-readie.global-gaming.co/account/?redirect=${encodeURIComponent(window.location.href)}`); }
 })
