@@ -156,7 +156,7 @@ function InitaliseEditor()
             let pass = encodeURIComponent(READIE_UP);
             let oid = encodeURIComponent(urlParams.get("style"));
             overlayName = encodeURIComponent(overlayName.value);
-            let p = ""; //Not implemented yet
+            let p = "1"; //Not implemented yet
             let html = encodeURIComponent(overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "")); //Place MOST text on one line (remove whitespace) outside of tags
             let css = encodeURIComponent(""); //Not implemented yet
             let js = encodeURIComponent(""); //Not implemented yet
