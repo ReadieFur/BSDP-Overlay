@@ -1,5 +1,6 @@
 const urlParams = new URLSearchParams(location.search);
 let searchBox;
+let firstPush = true;
 
 window.addEventListener("load", () =>
 {
@@ -18,7 +19,7 @@ function getOverlays(query)
 
     $.ajax(
     {
-        url: "getOverlays.php",
+        url: "../getOverlays.php",
         data: `q=${encodeURIComponent(queryString)}`,
         type: "GET",
         dataType: "json",
@@ -45,9 +46,9 @@ function getOverlays(query)
                 let creator = document.createElement("a");
         
                 oname.innerHTML = results.oname;
-                oname.href = `../overlay?id=${results.id}`;
+                oname.href = `../overlay/?id=${results.id}`;
                 creator.innerHTML = results.username;
-                creator.href = `../user?unid=${results.unid}`;
+                creator.href = `../user/?unid=${results.unid}`;
     
                 td1.appendChild(oname);
                 td2.appendChild(creator);
@@ -65,14 +66,18 @@ function getOverlays(query)
                 pageBtn.className = "hollowButton";
                 if (bc == query.page) { pageBtn.classList.add("hover"); }
                 pageBtn.style.marginLeft = "10px";
-                let btnFunction = pageOnly ? `getOverlays({page: ${bc}})` : `getOverlays({page: ${bc}, ${queryKey}: "${query[queryKey]}"})`;
+                let btnFunction = pageOnly ? `getOverlays({page: ${bc}})`: `getOverlays({page: ${bc}, ${queryKey}: "${query[queryKey]}"})`;
                 pageBtn.setAttribute("onclick", btnFunction);
                 pagesContainer.appendChild(pageBtn);
                 bc++;
             }
 
-            urlParams.set("q", queryString);
-            window.history.pushState(queryString, `BSDP Overlay | Browser`, "?" + urlParams.toString());
+            if(!firstPush)
+            {
+                urlParams.set("q", queryString);
+                window.history.pushState(queryString, `BSDP Overlay | Browser`, "?" + urlParams.toString());
+            }
+            else { firstPush = false };
         }
     }
 }

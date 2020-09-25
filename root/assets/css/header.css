@@ -1,8 +1,18 @@
 header
 {
-    background-color: var(--main-background);
+    background-color: var(--main-background05);
     width: 100vw;
+    height: 100px;
+    margin: 0;
+    position: relative;
 }
+
+header *
+{
+    user-select: none;
+}
+
+header > hr { border-bottom: 1px solid var(--main-accent); margin: 0; }
 
 header > section { position: relative; z-index: 9999; }
 
@@ -79,5 +89,8 @@ header > section { position: relative; z-index: 9999; }
 .dropdownContent > :last-child
 {
     border-radius: 4px;
-    background-color: var(--main-background09);
+    background-color: var(--main-background05);
+    backdrop-filter: blur(2px);
 }
+
+#darkMode { cursor: pointer; }

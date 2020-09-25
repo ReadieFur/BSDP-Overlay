@@ -2,3 +2,4 @@
 testing/
 public/
 *.php
+tmp

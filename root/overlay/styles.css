@@ -1,0 +1,21 @@
+#overlayImage
+{
+    min-width: 40vw;
+    min-height: auto;
+    max-width: 40vw;
+    max-height: auto;
+}
+
+#overlayDescription
+{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 10px;
+}
+
+#overlayButton { margin-left: 10px; }
+
+span
+{
+    margin-left: 25px;
+}
