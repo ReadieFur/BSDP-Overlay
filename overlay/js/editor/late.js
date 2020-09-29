@@ -7,7 +7,10 @@ window.addEventListener("loaded", () =>
     style.setAttribute("href", "../css/editor/late.css");
     document.head.appendChild(style);
 
-    //All loading complete:
+    document.querySelector("#saveOverlayContainer").style.opacity = 0;
+    document.querySelector("#saveOverlayContainer").style.display = "none";
+
+    //#region All loading complete
     setTimeout(() =>
     {
         let loading = document.querySelector("#loading");
@@ -21,6 +24,7 @@ window.addEventListener("loaded", () =>
         splash.style = "transition: opacity 1000ms; opacity: 0;";
         setTimeout(() => { splash.style.display = "none"; }, 1000);
     }, 2000);
+    //#endregion
 })
 
 window.addEventListener("message", event =>

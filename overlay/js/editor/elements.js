@@ -1,26 +1,60 @@
-//Get all elements to change
 var elements = [];
 
 window.addEventListener("load", () =>
 {
-    let observer = new MutationObserver(GetElements);
+    let observer = new MutationObserver(getAllElements);
     observer.observe(document.getElementById("overlay"), {childList: true});
-    GetElements();
+    getAllElements();
 })
 
-function GetElements(mutations) //Try to only get the new element instead of getting all of them again
+function getAllElements(mutations)
 {
-    elements.moveable = document.querySelectorAll(".moveable");
+    if (mutations != undefined)
+    {
+        try
+        {
+            if (mutations[0].addedNodes != null) { mutations[0].addedNodes.forEach(element => { addElementToList(element); }); }
+            if (mutations[0].removedNodes != null)
+            {
+                mutations[0].removedNodes.forEach(element =>
+                {
+                    if (element.id != "")
+                    {
+                        elements.id[element.id] = element;
+                    }
+                    if (element.classList != "")
+                    {
+                        elements.forEach(e =>
+                        {
+                            if (e.id == element.id) { elements.splice(e); }    
+                        });
+                    }
+                });
+            }
+        }
+        catch (err) { console.error(err); getAllElements(); }
+    }
+    else
+    {
+        elements.id = [];
+        elements.class = [];
+        elements.tag = [];
+        document.body.querySelectorAll("*").forEach(element => { addElementToList(element); })
+    }
 
-    //#region StaticData
-    elements.coverImages = document.querySelectorAll(".coverImage");
-    //#endregion
+    function addElementToList(element)
+    {
+        if (element.id != "") { elements.id[element.id] = element; }
+        if (element.classList != "")
+        {
+            element.classList.forEach(classItem =>
+            {
+                if (elements.class[classItem] == undefined) { elements.class[classItem] = []; }
+                elements.class[classItem].push(element);
+            });
+        }
 
-    //#region LiveData
-    elements.times = document.querySelectorAll(".time");
-    elements.accuracies = document.querySelectorAll(".accuracy");
-    elements.healths = document.querySelectorAll(".health");
-    //#endregion
-
-    window.dispatchEvent(new CustomEvent("NewElement", { detail: elements }));
+        if (elements.tag[element.tagName] == undefined) { elements.tag[element.tagName] = []; }
+        elements.tag[element.tagName].push(element);
+    }
 }

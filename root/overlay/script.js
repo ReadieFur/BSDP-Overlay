@@ -6,7 +6,6 @@ window.addEventListener("load", () =>
 {
     if (urlParams.has("id"))
     {
-        console.log(urlParams.get("id"));
         let queryString = JSON.stringify({id: urlParams.get("id")});
         $.ajax(
         {
@@ -28,10 +27,12 @@ window.addEventListener("load", () =>
                 let overlayButton = document.querySelector("#overlayButton");
                 let overlayCreator = document.querySelector("#overlayCreator");
                 let overlayID = document.querySelector("#overlayID");
-
-                //Get image
+                overlayImage.src = "data:image/png;base64," + btoa(
+                    new Uint8Array(data.result.b64)
+                    .reduce((bytedata, byte) => bytedata + String.fromCharCode(byte), '')
+                );
                 overlayName.innerHTML = data.result.oname;
-                //overlayDescription.innerHTML = data.result.desc;
+                overlayDescription.innerHTML = data.result.comment;
                 overlayButton.setAttribute("onclick", `window.location = "http://u-readie.global-gaming.co/bsdp-overlay/editor/?style=${data.result.id}";`);
                 overlayCreator.innerHTML = data.result.username;
                 overlayCreator.href = `../user/?unid=${data.result.unid}`;

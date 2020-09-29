@@ -37,23 +37,32 @@ function getOverlays(query)
             while (overlayList.childElementCount > 1) { overlayList.removeChild(overlayList.lastChild); }
             while (pagesContainer.childElementCount > 0) { pagesContainer.removeChild(pagesContainer.lastChild); }
 
-            data.results.forEach(results =>
+            //Add a short description, ending with elipsis after X characters?
+            data.results.forEach(result =>
             {
                 let tr = document.createElement("tr");
                 let td1 = document.createElement("td");
                 let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let b64 = document.createElement("img");
                 let oname = document.createElement("a");
                 let creator = document.createElement("a");
-        
-                oname.innerHTML = results.oname;
-                oname.href = `../overlay/?id=${results.id}`;
-                creator.innerHTML = results.username;
-                creator.href = `../user/?unid=${results.unid}`;
+
+                b64.src = "data:image/png;base64," + btoa(
+                    new Uint8Array(result.b64)
+                    .reduce((bytedata, byte) => bytedata + String.fromCharCode(byte), '')
+                );
+                oname.innerHTML = result.oname;
+                oname.href = `../overlay/?id=${result.id}`;
+                creator.innerHTML = result.username;
+                creator.href = `../user/?unid=${result.unid}`;
     
-                td1.appendChild(oname);
-                td2.appendChild(creator);
+                td1.appendChild(b64);
+                td2.appendChild(oname);
+                td3.appendChild(creator);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
+                tr.appendChild(td3);
                 overlayList.appendChild(tr);
             });
         
@@ -77,7 +86,7 @@ function getOverlays(query)
                 urlParams.set("q", queryString);
                 window.history.pushState(queryString, `BSDP Overlay | Browser`, "?" + urlParams.toString());
             }
-            else { firstPush = false };
+            else { firstPush = false; }
         }
     }
 }

@@ -17,9 +17,9 @@ window.addEventListener("StaticDataUpdated", (data) =>
 {
     StaticData = data.detail;
 
-    elements.coverImages.forEach(e => { e.src = StaticData.coverImage; })
+    document.querySelectorAll(".coverImage").forEach(e => { e.src = StaticData.coverImage; })
 
-    elements.times.forEach(e =>
+    document.querySelectorAll(".time").forEach(e =>
     {
         if (e.classList.contains("roundbar"))
         {
@@ -34,7 +34,7 @@ window.addEventListener("LiveDataUpdated", (data) =>
 {
     LiveData = data.detail;
 
-    elements.times.forEach(e =>
+    document.querySelectorAll(".time").forEach(e =>
     {
         if (e.classList.contains("roundbar"))
         {
@@ -45,12 +45,12 @@ window.addEventListener("LiveDataUpdated", (data) =>
         }
     });
 
-    elements.healths.forEach(e =>
+    document.querySelectorAll(".health").forEach(e =>
     {
         if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.PlayerHealth); }
     })
 
-    elements.accuracies.forEach(e =>
+    document.querySelectorAll(".accuracy").forEach(e =>
     {
         if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.Accuracy); }
     })

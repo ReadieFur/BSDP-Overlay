@@ -6,18 +6,20 @@
     <title>BSDP Overlay | Editor</title>
     <link rel="icon" href="../assets/LogoCircle.png" type="image/svg">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800" rel="stylesheet">
+    <!--<link href="https://cdn.global-gaming.co/resources/fonts/montserrat/stylesheet.css" rel="stylesheet">--><!--Just in case googleAPI font does not work anymore-->
     <link rel="stylesheet" href="../css/editor/misc.css">
     <link rel="stylesheet" href="../css/editor/editor.css">
     <link rel="stylesheet" href="../css/editor/elements.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
     <script src="https://api-readie.global-gaming.co/account/account.js"></script>
-    <!--<script src="https://cdn.global-gaming.co/resources/html2canvas.min.js"></script>-->
+    <script src="https://cdn.global-gaming.co/resources/scripts/dom-to-image.min.js"></script>
     <script src="../js/client.js"></script>
-    <script src="../js/editor/elements.js"></script>
+    <!--<script src="../js/editor/elements.js"></script>-->
     <script src="../js/editor/args.js"></script>
     <script src="../js/editor/editor.js"></script>
     <script src="../js/editor/ui.js"></script>
     <script src="../js/editor/late.js"></script>
+    <!--<script src="../tmp/script.js"></script>--><!--Testing script-->
 </head>
 <body>
     <div id="loading">
@@ -28,6 +30,28 @@
         </div>
     </div>
     <iframe title="Account" src="https://api-readie.global-gaming.co/account/"></iframe>
+    <div id="saveOverlayContainer">
+        <div>
+            <table>
+                <tr>
+                    <td id="overlayThumbnail">
+                        <img>
+                    </td>
+                    <td>
+                        <div>
+                            <input id="overlayName" type="text" placeholder="Title"><br>
+                            <textarea id="overlayDescription" placeholder="Description"></textarea><br>
+                            <div>
+                                <span>Public: <input id="overlayPublic" type="checkbox" checked></span>
+                                <button id="save">Publish</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div></div>
+    </div>
     <div id="editor">
         <div id="editorPanel">
             <div>
@@ -113,12 +137,7 @@
                             <td>Test Background:</td><td><input id="TestBackground" type="checkbox"></td>
                         </tr>
                     </table>
-                    <table>
-                        <tr>
-                            <td>Name:</td><td><input id="OverlayName" placeholder="Overlay" type="text" required></td>
-                        </tr>
-                    </table>
-                    <button id="SaveOverlay">Save Overlay</button>
+                    <button id="SaveOverlay">Save</button>
                 </div>
             </div>
         </div>

@@ -16,6 +16,10 @@ function resizeWindowEvent()
 
 function InitaliseEditor()
 {
+    window.dispatchEvent(new CustomEvent("NewElement", { detail: null }));
+    let observer = new MutationObserver((mutations) => { window.dispatchEvent(new CustomEvent("NewElement", { detail: null })); });
+    observer.observe(document.getElementById("overlay"), {childList: true});
+
     let editorPanel = document.getElementById("editorPanel");
     overlay.el = document.getElementById("overlay");
 
@@ -124,7 +128,7 @@ function InitaliseEditor()
                 overlay.el.style.backgroundImage = "none";
                 editorPanel.style.width = ".1px";
                 setTimeout(() => { editorPanel.style.display = "none"; }, 100);
-                elements.moveable.forEach(e => { disableDragElement(e); });
+                document.querySelectorAll(".moveable").forEach(e => { disableDragElement(e); });
             }
             else
             {
@@ -136,7 +140,7 @@ function InitaliseEditor()
                     setTimeout(() =>
                     {
                         resizeWindowEvent();
-                        elements.moveable.forEach(e => { dragElement(e); });
+                        document.querySelectorAll(".moveable").forEach(e => { dragElement(e); });
                     }, 100);
                 }, 100);
             }
@@ -145,37 +149,57 @@ function InitaliseEditor()
         }
     });
 
+    document.querySelector("#saveOverlayContainer").children[1].addEventListener("click", () =>
+    {
+        document.querySelector("#saveOverlayContainer").style.opacity = 0;
+        setTimeout(() => { document.querySelector("#saveOverlayContainer").style.display = "none"; }, 100);
+    })
+
     document.querySelector("#SaveOverlay").onclick = function()
     {
-        let overlayName = document.querySelector("#OverlayName");
+        let overlayClone = document.createElement("div");
+        overlayClone.id = "overlayClone";
+        overlayClone.innerHTML = overlay.el.innerHTML;
+        document.body.appendChild(overlayClone);
+
+        domtoimage.toPng(overlayClone, { width: 1280, height: 720, windowWidth: 1280, windowHeight: 720 })
+        .then(function (dataUrl)
+        {
+            document.body.removeChild(overlayClone);
+            document.getElementById("overlayThumbnail").children[0].src = dataUrl;
+            document.querySelector("#saveOverlayContainer").style.opacity = 0;
+            document.querySelector("#saveOverlayContainer").style.display = "block";
+            setTimeout(() => { document.querySelector("#saveOverlayContainer").style.opacity = 1; }, 100);
+        })
+        .catch(function (error) { console.error(error); });
+    }
+
+    document.querySelector("#save").onclick = function()
+    {
+        let overlayName = document.querySelector("#overlayName");
+        let overlayDescription = document.querySelector("#overlayDescription");
         if (READIE_UI == null || READIE_UP == null) { document.querySelector("iframe").style.display = "block"; }
-        else if (overlayName.value == "") { alert("An overlay name must be provided."); }
+        else if (overlayName.value == "" || overlayDescription.value == "") { alert("Please fill out all the fields."); }
         else
         {
             let unid = encodeURIComponent(READIE_UI);
             let pass = encodeURIComponent(READIE_UP);
             let oid = encodeURIComponent(urlParams.get("style"));
             overlayName = encodeURIComponent(overlayName.value);
-            let p = "1"; //Not implemented yet
+            overlayDescription = encodeURIComponent(overlayDescription.value);
+            let p = document.querySelector("#overlayPublic").checked ? "1" : "0";
             let html = encodeURIComponent(overlay.el.innerHTML.split("<!--Custom overlays begin below-->")[1].replace(/(?<=\>)\s*(?=\<)/gm, "")); //Place MOST text on one line (remove whitespace) outside of tags
             let css = encodeURIComponent(""); //Not implemented yet
             let js = encodeURIComponent(""); //Not implemented yet
-            let thumbnail;
-
-            //Fix white page render
-            /*html2canvas(document.querySelector("#overlay"),
-            {
- 
-            }).then(canvas =>
-            {
-                thumbnail = canvas.toDataURL();
-                console.log(thumbnail);
-            });*/
+            let b64imagedata = atob(document.querySelector("#overlayThumbnail").children[0].src.split(",")[1]); //Thanks UnskilledFreak
+            let byteArray = new Array(b64imagedata.length); //Create the char array with same size
+            for (let i = 0; i < b64imagedata.length; i++) { byteArray[i] = b64imagedata.charCodeAt(i); }
+            let thumbnail = new Uint8Array(byteArray);
 
             let xhttp = new XMLHttpRequest();
             xhttp.open("POST", `overlay.php`, false);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhttp.send(`method=Save&unid=${unid}&pass=${pass}&oid=${oid}&oname=${overlayName}&public=${p}&html=${html}&css=${css}&js=${js}&thumbnail=${thumbnail}`);
+            xhttp.send(`method=Save&unid=${unid}&pass=${pass}&oid=${oid}&oname=${overlayName}&comment=${overlayDescription}&public=${p}&html=${html}&css=${css}&js=${js}&b64=${thumbnail}`);
                 
             if (xhttp.responseText.includes("<br />") || xhttp.responseText.startsWith("Err"))
             {
@@ -194,7 +218,7 @@ function InitaliseEditor()
 
 //Modified from https://www.w3schools.com/howto/howto_js_draggable.asp
 var elBottom = null, elRight = null;
-function dragElement(el)
+function dragElement(el) //Work percentages into it, perhapse bydefault after the first half of the quadrent it is being dragged in
 {
     var xChange = 0, yChange = 0, mouseX = 0, mouseY = 0;
     el.onmousedown = dragMouseDown;
@@ -263,7 +287,7 @@ function dragElement(el)
             el.children[0].style.width = el.style.width;
             el.children[0].style.height = el.style.width;
             //el.children[0].style.height = Math.round((bcr.width / bcr.height) * bcr.width) + "px";
-            el.dispatchEvent(new CustomEvent("ElementResized", { detail: elements }));
+            el.dispatchEvent(new CustomEvent("ElementResized", { detail: null }));
         }
     }
       
