@@ -67,4 +67,11 @@ window.addEventListener("load", () =>
     if (urlParams.has("hideStats")) { times.forEach(e => { e.parentElement.style.display = "none"; }); }
     if (urlParams.has("hideMapDetails")) { preBSRs.forEach(e => { e.parentElement.style.display = "none"; }); }
     if (urlParams.has("hideModifiersHealth")) { document.querySelectorAll(".IF").forEach(e => { e.parentElement.parentElement.style.display = "none"; }); }
-})
+
+    if (urlParams.has("hideInactive"))
+    {
+        document.body.style.visibility = "hidden";
+        window.addEventListener("WebsocketReconnect", () => { document.body.style.visibility = "hidden"; });
+        window.addEventListener("LiveDataConnected", () => { document.body.style.visibility = "visible"; });
+    }
+});
