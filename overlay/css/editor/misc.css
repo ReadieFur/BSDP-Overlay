@@ -85,7 +85,7 @@ h2 { margin: 20px; }
 
 img { pointer-events: none; }
 
-.moveable { height: auto !important; }
+/*.moveable { height: auto !important; }*/
 .resizable { overflow: hidden; }
 
 #overlayClone

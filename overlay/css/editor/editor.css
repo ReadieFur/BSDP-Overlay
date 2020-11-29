@@ -31,7 +31,12 @@
     overflow: auto;
     user-select: none;
 }
-#editorElements td { position: relative; }
+#editorElements td
+{
+    position: relative;
+    max-width: 90px !important;
+    min-height: 60px !important;
+}
 #editorElements td.visible { display: table-cell; }
 #editorElements td.button
 {
@@ -83,4 +88,19 @@
 #editorPanel .roundBar .remaining,
 #editorPanel .roundBar .progress
 { stroke: black !important; }
+
+#editorPanel .straightbar { background-color: rgba(0, 0, 0, .25) !important; }
+#editorPanel .straightbar .progress { background-color: black !important; }
 /*#endregion*/
+
+.placeholderText
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    -webkit-text-stroke-color: gray;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
