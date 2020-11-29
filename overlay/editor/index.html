@@ -35,7 +35,7 @@
             <table>
                 <tr>
                     <td id="overlayThumbnail">
-                        <img>
+                        <img alt="Failed to generate thumbnail">
                     </td>
                     <td>
                         <div>
@@ -60,19 +60,19 @@
                     <tr>
                         <td class="button">❮</td>
                         <td class="visible">
-                            <div class="roundbar time">
+                            <div class="element roundbar time">
                                 <div>
                                     <p>0:00</p>
                                     <p>0:00</p>
                                 </div>
-                                <svg class="roundBar" style="width: 90px; height: 90px;">
+                                <svg class="element roundBar" style="width: 90px; height: 90px;">
                                     <circle class="remaining" cx="45" cy="45" r="35"></circle>
                                     <circle class="progress" cx="45" cy="45" r="35"></circle>
                                 </svg>
                             </div>
                         </td>
                         <td>
-                            <div class="roundbar health">
+                            <div class="element roundbar health">
                                 <div>
                                     <p>HP</p>
                                     <p>50%</p>
@@ -84,7 +84,7 @@
                             </div>
                         </td>
                         <td>
-                            <div class="roundbar accuracy">
+                            <div class="element roundbar accuracy">
                                 <div>
                                     <p>Acc</p>
                                     <p>100%</p>
@@ -99,24 +99,47 @@
                     </tr>
                     <tr>
                         <td class="button">❮</td>
-                        <td class="visible"><div class="textItem noResize SongName"><h3>SongName</h3></div></td>
-                        <td><div class="textItem noResize SongSubName"><h3>SongSubName</h3></div></td>
-                        <td><div class="textItem noResize SongAuthor"><h3>SongAuthor</h3></div></td>
-                        <td><div class="textItem noResize Mapper"><h3>Mapper</h3></div></td>
-                        <td><div class="textItem noResize BSRKey"><h3>BSRKey</h3></div></td>
-                        <td><div class="textItem noResize Duration"><h3>Duration</h3></div></td>
-                        <td><div class="textItem noResize Difficulty"><h3>Difficulty</h3></div></td>
-                        <td><div class="textItem noResize BPM"><h3>BPM</h3></div></td>
-                        <td><div class="textItem noResize NJS"><h3>NJS</h3></div></td>
-                        <td><div class="textItem noResize PreviousRecord"><h3>PreviousRecord</h3></div></td>
-                        <td><div class="textItem noResize PreviousBSR"><h3>PreviousBSR</h3></div></td>
+                        <td class="visible"><div class="element textItem noResize SongName"><h3>SongName</h3></div></td>
+                        <td><div class="element textItem noResize SongSubName"><h3>SongSubName</h3></div></td>
+                        <td><div class="element textItem noResize SongAuthor"><h3>SongAuthor</h3></div></td>
+                        <td><div class="element textItem noResize Mapper"><h3>Mapper</h3></div></td>
+                        <td><div class="element textItem noResize BSRKey"><h3>BSRKey</h3></div></td>
+                        <td><div class="element textItem noResize Duration"><h3>00:00</h3></div></td>
+                        <td><div class="element textItem noResize Difficulty"><h3>Difficulty</h3></div></td>
+                        <td><div class="element textItem noResize BPM"><h3>BPM</h3></div></td>
+                        <td><div class="element textItem noResize NJS"><h3>NJS</h3></div></td>
+                        <td><div class="element textItem noResize PreviousRecord"><h3>PreviousRecord</h3></div></td>
+                        <td><div class="element textItem noResize PreviousBSR"><h3>PreviousBSR</h3></div></td>
+                        <!--Pratice modifiers list-->
+                        <td class="button">❯</td>
+                    </tr>
+                    <tr>
+                        <td class="button">❮</td>
+                        <td class="visible">
+                            <div class="element straightbar time">
+                                <div><div class="progress"></div></div>
+                            </div>
+                            <h2 class="placeholderText">Time</h2>
+                        </td>
+                        <td>
+                            <div class="element straightbar health">
+                                <div><div class="progress"></div></div>
+                            </div>
+                            <h2 class="placeholderText">Health</h2>
+                        </td>
+                        <td>
+                            <div class="element straightbar accuracy">
+                                <div><div class="progress"></div></div>
+                            </div>
+                            <h2 class="placeholderText">Accuracy</h2>
+                        </td>
                         <!--Pratice modifiers list-->
                         <td class="button">❯</td>
                     </tr>
                     <tr>
                         <td class="visible placeholder"></td>
                         <td class="visible">
-                            <img class="coverImage" src="../assets/BeatSaberIcon.jpg">
+                            <img class="element coverImage" src="../assets/BeatSaberIcon.jpg">
                         </td>
                     </tr>
                 </table>

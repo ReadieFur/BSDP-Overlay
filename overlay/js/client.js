@@ -25,8 +25,15 @@ class DataPullerWebsocket
         this.ws[Endpoint].onopen = ()=> { window.dispatchEvent(new CustomEvent(`${Endpoint}Connected`)); }
         this.ws[Endpoint].onmessage = (e) =>
         {
-            window.dispatchEvent(new CustomEvent(`${Endpoint}Updated`, { detail: JSON.parse(e.data) }));
-            if (urlParams.has("debug")) { console.log(e.data); }
+            let jsonData = JSON.parse(e.data);
+            window.dispatchEvent(new CustomEvent(`${Endpoint}Updated`, { detail: jsonData }));
+            /*if (urlParams.has("debug"))
+            {
+                console.log(jsonData);
+                let debugBox = document.querySelector("#debug");
+                debugBox.value += "\n" + e.data;
+                debugBox.scrollTop = debugBox.scrollHeight;
+            }*/
         };
     }
 

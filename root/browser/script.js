@@ -24,10 +24,10 @@ function getOverlays(query)
         type: "GET",
         dataType: "json",
         error: (err) => { console.log(err); },
-        success: sucess
+        success: success
     });
 
-    function sucess(data)
+    function success(data)
     {
         if (data.results != null)
         {

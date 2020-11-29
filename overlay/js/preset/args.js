@@ -9,6 +9,7 @@ window.addEventListener("load", () =>
     songNames.forEach(e => { if (e.parentElement.parentElement.parentElement.className.includes("mapInfo")) { songName = e; } });
     
     document.body.style.zoom = urlParams.has("scale") ? urlParams.get("scale") : 1;
+    //if (urlParams.has("debug")) { document.querySelector("#debug").style.display = "block"; }
 
     if (urlParams.has("flipHori") && urlParams.has("flipVert"))
     {
