@@ -3,7 +3,7 @@ let elementEditor = [];
 let selectedElement;
 let overlay = [];
 
-window.addEventListener("load", () => { InitaliseEditor(); });
+window.addEventListener("load", () => { InitaliseEditor(); console.log("This code is very messy, there was lots of trial and error here. When I have figured more out I will clean this up ;)"); });
 
 window.onresize = resizeWindowEvent;
 
@@ -60,10 +60,10 @@ function InitaliseEditor()
             {
                 el.ondblclick = function()
                 {
-                    let noMove = el.children[0].classList.contains("noMove");
-                    let noResize = el.children[0].classList.contains("noResize");
+                    let noMove = el.querySelector(".element").classList.contains("noMove");
+                    let noResize = el.querySelector(".element").classList.contains("noResize");
 
-                    let childElementCss = window.getComputedStyle(el.children[0]);
+                    let childElementCss = window.getComputedStyle(el.querySelector(".element"));
                     let container = document.createElement("div");
                     container.className = noMove ? "" : " moveable";
                     container.className += noResize ? "" : " resizable";
@@ -73,6 +73,7 @@ function InitaliseEditor()
                         left: 45%;
                         top: 45%;`;
                     container.innerHTML = el.innerHTML;
+                    container.childNodes.forEach(elm => { if (elm.classList != undefined && elm.classList.contains("placeholderText")) { container.removeChild(elm); } });
                     overlay.el.appendChild(container);
                     dragElement(container);
                     UpdateElementEditor(container);
@@ -218,9 +219,18 @@ function InitaliseEditor()
 
 //Modified from https://www.w3schools.com/howto/howto_js_draggable.asp
 var elBottom = null, elRight = null;
-function dragElement(el) //Work percentages into it, perhapse bydefault after the first half of the quadrent it is being dragged in
+function dragElement(el) //Work percentages into it, perhapse by default after the first half of the quadrent it is being dragged in
 {
-    var xChange = 0, yChange = 0, mouseX = 0, mouseY = 0;
+    let aspectRatio = el.getBoundingClientRect().width / el.getBoundingClientRect().height;
+    el.addEventListener("mouseup", () => { el.style.height = el.getBoundingClientRect().width / aspectRatio + "px"; });
+    new ResizeObserver(function()
+    {
+        let newHeight = el.getBoundingClientRect().width / aspectRatio;
+        el.style.height = newHeight + "px";
+        el.dispatchEvent(new CustomEvent("ElementResized", { detail: {h: newHeight} }));
+    }).observe(el); //make resizing fixed to the aspect ratio for some elements and freeform for other elements.
+
+    let xChange = 0, yChange = 0, mouseX = 0, mouseY = 0;
     el.onmousedown = dragMouseDown;
     el.style.resize = "both";
 
@@ -282,12 +292,15 @@ function dragElement(el) //Work percentages into it, perhapse bydefault after th
         }
         else if (el.classList.contains("resizable"))
         {
-            //let bcr = el.getBoundingClientRect();
-            el.style.height = el.style.width;
-            el.children[0].style.width = el.style.width;
-            el.children[0].style.height = el.style.width;
-            //el.children[0].style.height = Math.round((bcr.width / bcr.height) * bcr.width) + "px";
-            el.dispatchEvent(new CustomEvent("ElementResized", { detail: null }));
+            //let newHeight = el.getBoundingClientRect().width / aspectRatio;
+            //el.setAttribute("h", newHeight);
+            //el.style.height = newHeight + "px";
+            //el.dispatchEvent(new CustomEvent("ElementResized", { detail: {h: newHeight} }));
+            
+            //el.style.height = el.style.width;
+            //el.children[0].style.width = el.style.width;
+            //el.children[0].style.height = el.style.width;
+            //el.children[0].style.height = (bcr.width / bcr.height) * bcr.width + "px";
         }
     }
       
@@ -337,11 +350,13 @@ window.addEventListener("NewElement", () =>
 {
     document.querySelectorAll(".roundbar").forEach(e =>
     {
-        e.parentElement.addEventListener("ElementResized", () =>
+        e.parentElement.addEventListener("ElementResized", (data) => //Make use of the ResizeObserver?
         {
+            data = data.detail;
             let bcr = e.getBoundingClientRect();
-            e.children[1].style.width = e.style.width;
-            e.children[1].style.height = e.style.height;
+            e.children[1].style.width =  e.style.width; //Issue here 100%
+            //e.children[1].style.height = e.style.height;
+            e.children[1].style.height = data.h + "px";
 
             let circles = e.querySelectorAll(".remaining, .progress");
             let c = e.getBoundingClientRect().width / 2;

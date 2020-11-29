@@ -1,5 +1,4 @@
-var StaticData;
-var LiveData;
+let StaticData;
 
 window.addEventListener("load", () =>
 {
@@ -8,10 +7,11 @@ window.addEventListener("load", () =>
 
 function SetupElements()
 {
-    document.querySelectorAll(".progress").forEach(e => { e.style.strokeDasharray = (e.parentElement.getBoundingClientRect().width / 2 - 10) * Math.PI * 2; });
+    document.querySelectorAll(".progress").forEach(e =>
+    {
+        if (e.parentElement.classList.contains("roundBar")) { e.style.strokeDasharray = (e.parentElement.getBoundingClientRect().width / 2 - 10) * Math.PI * 2; }
+    });
 }
-
-let mapLength;
 
 window.addEventListener("StaticDataUpdated", (data) =>
 {
@@ -23,36 +23,40 @@ window.addEventListener("StaticDataUpdated", (data) =>
     {
         if (e.classList.contains("roundbar"))
         {
-            let innerText = e.querySelectorAll("div")[0].children;
+            let innerText = e.querySelector("div").children;
             innerText[0].innerHTML = "0:00";
-            innerText[1].innerHTML = `${SecondsToMins(mapLength = StaticData.Length)}`;
+            innerText[1].innerHTML = `${SecondsToMins(StaticData.Length)}`;
         }
+        else if (e.classList.contains("straightbar")) { e.querySelector(".progress").style.width = "0%"; }
     });
 })
 
 window.addEventListener("LiveDataUpdated", (data) =>
 {
-    LiveData = data.detail;
+    data = data.detail;
 
     document.querySelectorAll(".time").forEach(e =>
     {
         if (e.classList.contains("roundbar"))
         {
-            let progress = e.querySelectorAll(".progress")[0];
-            progress.style.strokeDashoffset = (1 - LiveData.TimeElapsed / mapLength) * progress.style.strokeDasharray;
-            progress.setAttribute("value", LiveData.TimeElapsed);
-            e.querySelectorAll("div")[0].children[0].innerHTML = SecondsToMins(LiveData.TimeElapsed);
+            let progress = e.querySelector(".progress");
+            progress.style.strokeDashoffset = (1 - data.TimeElapsed / StaticData.Length) * progress.style.strokeDasharray;
+            progress.setAttribute("value", data.TimeElapsed);
+            e.querySelectorAll("div")[0].children[0].innerHTML = SecondsToMins(data.TimeElapsed);
         }
+        else if (e.classList.contains("straightbar")) { e.querySelector(".progress").style.width = (data.TimeElapsed / StaticData.Length) * 100 + "%"; }
     });
 
     document.querySelectorAll(".health").forEach(e =>
     {
-        if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.PlayerHealth); }
+        if (e.classList.contains("roundbar")) { setProgressRing(e, data.PlayerHealth); }
+        else if (e.classList.contains("straightbar")) { setStraightBar(e, data.PlayerHealth); }
     })
 
     document.querySelectorAll(".accuracy").forEach(e =>
     {
-        if (e.classList.contains("roundbar")) { setProgressRing(e, LiveData.Accuracy); }
+        if (e.classList.contains("roundbar")) { setProgressRing(e, data.Accuracy); }
+        else if (e.classList.contains("straightbar")) { setStraightBar(e, data.Accuracy); }
     })
 
     //Internal functions
@@ -63,6 +67,8 @@ window.addEventListener("LiveDataUpdated", (data) =>
         progress.setAttribute("value", d);
         e.querySelectorAll("div")[0].children[1].innerHTML = Math.trunc(d) + "%";
     }
+
+    function setStraightBar(e, d) { e.querySelector(".progress").style.width = d + "%"; }
 })
 
 function SecondsToMins(seconds)
