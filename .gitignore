@@ -3,3 +3,5 @@ testing/
 public/
 *.php
 tmp
+template.*
+elements/
