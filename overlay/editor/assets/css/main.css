@@ -1,0 +1,72 @@
+@media screen and (max-width: 1280px)
+{
+    body
+    {
+        zoom: 0.75;
+    }
+}
+
+body
+{
+    /*background: transparent;*/
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: open sans,sans-serif;
+}
+
+/*#region text*/
+h1, h2, h3, h4, h5, h6,
+.h1 ,.h2, .h3, .h4, .h5, .h6
+{
+    text-transform: uppercase;
+    margin: 20px 10px;
+    font-weight: bolder
+}
+h1, .h1 { font-size: 3rem }
+h2, .h2 { font-size: 2.35rem }
+h3, .h3 { font-size: 1.75rem }
+h4, .h4 { font-size: 1.32rem }
+h5, .h5 { font-size: 1.02rem }
+h6, .h6 { font-size: .88rem }
+.center.text { text-align: center; }
+/*#endregion*/
+
+body > table
+{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    padding: 0;
+    border: hidden;
+}
+
+.editorContainer
+{
+    width: 350px;
+    height: 100%;
+    background-color: white;
+}
+
+.editorContainer > table
+{
+    position: fixed;
+    top: 0;
+    width: 350px;
+    height: 100%;
+}
+
+.titleContainer
+{
+    height: 100px;
+}
+
+.positionContainer
+{
+    height: 200px;
+}
