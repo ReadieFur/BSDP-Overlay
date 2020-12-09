@@ -1,10 +1,10 @@
 .vscode/
 testing/
 public/
-*.gi.*
 tmp
 template.*
 .exclude/
 *.ts.js
 tsconfig.json
 node_packages/
+.htaccess
