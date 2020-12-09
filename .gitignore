@@ -1,7 +1,7 @@
 .vscode/
 testing/
 public/
-*.php
+*.gi.*
 tmp
 template.*
 .exclude/
