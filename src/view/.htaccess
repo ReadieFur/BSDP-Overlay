@@ -1,0 +1,14 @@
+DirectoryIndex index.php
+
+SetEnv HTTP_MOD_REWRITE On
+Options -MultiViews
+RewriteEngine on
+
+RewriteCond %{REQUEST_URI} !^/template/
+RewriteCond %{REQUEST_URI} !^/lib/
+RewriteCond %{REQUEST_URI} !^/ajax.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule (.*) index.php?url=$1

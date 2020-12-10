@@ -5,6 +5,8 @@ tmp
 template.*
 .exclude/
 *.ts.js
-tsconfig.json
-node_packages/
-.htaccess
+#tsconfig.json
+#node_packages/
+#.htaccess
+#package.json
+#pnpm-lock.yaml
