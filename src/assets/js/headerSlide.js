@@ -8,7 +8,7 @@ window.addEventListener("load", () =>
         {
             transition: top ease 100ms, background-color ease 100ms;
             position: fixed;
-            background-color: var(--backgroundAlt);
+            background-color: rgb(var(--backgroundAlt));
         }
 
         .slideMenuClick

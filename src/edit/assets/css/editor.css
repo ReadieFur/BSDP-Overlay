@@ -3,7 +3,7 @@
     display: table-cell !important;
     width: var(--editorWidth);
     height: 100%;
-    background-color: var(--background);
+    background-color: rgb(var(--background));
 }
 
 #editorContainer > table
@@ -32,7 +32,7 @@ hr
 .menuContainer hr
 {
     margin-left: 10px;
-    background: var(--foreground);
+    background: rgb(var(--foreground));
     width: 25px;
 }
 

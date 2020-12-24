@@ -1,10 +1,12 @@
 :root { --main-accent: rgb(100, 0, 255); }
 
+.bottomStrip { border-bottom: 4px solid var(--main-accent); }
+
 header *
 {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 }
 
 header h3

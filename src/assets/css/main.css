@@ -15,13 +15,13 @@
 {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 }
 
 /*#region Body*/
 body
 {
-    background: var(--background);
+    background: rgb(var(--background));
     margin: 0;
     overflow-x: hidden;
     /*min-height: 100vh;*/
@@ -34,10 +34,10 @@ body
 
 /*Work on using this style for elements but not the main page*/
 /*::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-track { background: rgb(var(--background)); }
 ::-webkit-scrollbar-thumb
 {
-    background: var(--foreground);
+    background: rgb(var(--foreground));
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--foreground09); }
@@ -158,7 +158,7 @@ button
     transition: ease .4s;
     transition-property: background-color;
     border-style: none;
-    color: var(--foreground);
+    color: rgb(var(--foreground));
     padding: 10px 15px;
     border-radius: 4px;
     font-weight: bold;
@@ -171,15 +171,15 @@ button:hover { background-color: #3d4555; cursor: pointer; }
 
 .hollowButton
 {
-    border: 2.5px solid var(--foreground);
+    border: 2.5px solid rgb(var(--foreground));
     background-color: transparent;
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 }
 .hollowButton:hover,
 .hollowButton.hover
 {
-    background-color: var(--foreground);
-    color: var(--background);
+    background-color: rgb(var(--foreground));
+    color: rgb(var(--background));
 }
 /*#endregion*/
 
@@ -187,7 +187,7 @@ button:hover { background-color: #3d4555; cursor: pointer; }
 hr
 {
     border: none;
-    border-bottom: 1px solid var(--foreground);
+    border-bottom: 1px solid rgb(var(--foreground));
 }
 
 .center

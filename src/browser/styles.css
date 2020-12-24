@@ -14,13 +14,13 @@
 }
 #search input
 {
-    border: 1px solid var(--foreground);
+    border: 1px solid rgb(var(--foreground));
     box-sizing: content-box;
     height: 20px;
 }
 #search input[type="text"]
 {
-    color: var(--foreground);
+    color: rgb(var(--foreground));
     background-color: transparent;
     outline-width: 0;
     border-radius: 4px 0 0 4px;
@@ -45,8 +45,8 @@
 #overlays th { text-align: left; font-weight: bold; }
 #overlays * { font-weight: normal; }
 #overlays th, #overlays td { padding: 15px 10px; }
-#overlays th { border-bottom: 2px solid var(--foreground); }
-#overlays td { width: 33.3%; border-bottom: 1px solid var(--foreground); }
+#overlays th { border-bottom: 2px solid rgb(var(--foreground)); }
+#overlays td { width: 33.3%; border-bottom: 1px solid rgb(var(--foreground)); }
 
 #pages
 {

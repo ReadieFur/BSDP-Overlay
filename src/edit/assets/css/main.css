@@ -9,7 +9,7 @@
 :root
 {
     --editorWidth: 250px;
-    --gradient-fBf: linear-gradient(90deg, var(--background) 0%, var(--foreground) 25%, var(--foreground) 50%, var(--foreground) 75%, var(--background) 100%);
+    --gradient-fBf: linear-gradient(90deg, rgb(var(--background)) 0%, rgb(var(--foreground)) 25%, rgb(var(--foreground)) 50%, rgb(var(--foreground)) 75%, rgb(var(--background)) 100%);
 }
 
 body
@@ -67,7 +67,7 @@ body > table
 
 #splashScreen
 {
-    background-color: var(--background);
+    background-color: rgb(var(--background));
     position: fixed;
     top: 0;
     left: 0;

@@ -51,9 +51,9 @@ function darkTheme(dark)
         themeColours.innerHTML = `
             :root
             {
-                --foreground: ${dark ? "white" : "black"};
-                --background: rgb(${dark ? "13, 17, 23" : "255, 255, 255"});
-                --backgroundAlt: rgb(${dark ? "22, 27, 34" : "225, 225, 225"});
+                --foreground: ${dark ? "255, 255, 255" : "0, 0, 0"};
+                --background: ${dark ? "13, 17, 23" : "255, 255, 255"};
+                --backgroundAlt: ${dark ? "22, 27, 34" : "225, 225, 225"};
             }
         `;
     }
