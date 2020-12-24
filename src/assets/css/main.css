@@ -1,3 +1,11 @@
+@media screen and (max-width: 1280px)
+{
+    body
+    {
+        zoom: 0.75;
+    }
+}
+
 :root
 {
     --main-accent: rgb(100, 0, 255);
@@ -7,38 +15,42 @@
 {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
-    color: var(--main-foreground);
+    color: var(--foreground);
 }
 
 /*#region Body*/
 body
 {
-    background: var(--main-background);
+    background: var(--background);
     margin: 0;
     overflow-x: hidden;
-    min-height: 100vh !important;
-    position: relative;
+    /*min-height: 100vh;*/
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
 }
 
 /*Work on using this style for elements but not the main page*/
 /*::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: var(--main-background); }
+::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb
 {
-    background: var(--main-foreground);
+    background: var(--foreground);
     border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--main-foreground09); }
+::-webkit-scrollbar-thumb:hover { background: var(--foreground09); }
 /*#endregion*/
 
 /*#region Containers*/
-span { width: 100vw; }
+span { width: 100%; }
 
 section
 {
     /*margin-top: 50px;*/
-    margin-left: 10vw;
-    margin-right: 10vw;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 /*section:first-of-type { margin-top: 100px; }
 section:last-of-type { margin-bottom: 100px; }*/
@@ -68,6 +80,7 @@ section:last-of-type { margin-bottom: 100px; }*/
     min-width: 75px;
     min-height: 75px;
 }
+
 .imgIcon
 {
     max-width: 50px;
@@ -145,7 +158,7 @@ button
     transition: ease .4s;
     transition-property: background-color;
     border-style: none;
-    color: var(--main-foreground);
+    color: var(--foreground);
     padding: 10px 15px;
     border-radius: 4px;
     font-weight: bold;
@@ -158,15 +171,15 @@ button:hover { background-color: #3d4555; cursor: pointer; }
 
 .hollowButton
 {
-    border: 2.5px solid var(--main-foreground);
+    border: 2.5px solid var(--foreground);
     background-color: transparent;
-    color: var(--main-foreground);
+    color: var(--foreground);
 }
 .hollowButton:hover,
 .hollowButton.hover
 {
-    background-color: var(--main-foreground);
-    color: var(--main-background);
+    background-color: var(--foreground);
+    color: var(--background);
 }
 /*#endregion*/
 
@@ -174,7 +187,7 @@ button:hover { background-color: #3d4555; cursor: pointer; }
 hr
 {
     border: none;
-    border-bottom: 1px solid var(--main-foreground);
+    border-bottom: 1px solid var(--foreground);
 }
 
 .center

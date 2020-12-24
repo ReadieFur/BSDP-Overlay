@@ -6,6 +6,7 @@ template.*
 .exclude/
 *.ts.js
 #tsconfig.json
+#/node_modules/
 node_modules/
 #.htaccess
 #package.json

@@ -12,9 +12,9 @@
         <!--<a href="/">Home</a>-->
         <!--<a href="<?php echo $WEB_ROOT ?>/">About</a>-->
         <!--<a href="<?php echo $WEB_ROOT ?>/mod">Mod</a>-->
-        <a href="<?php echo $WEB_ROOT ?>/browser">Browser</a>
-        <a href="<?php echo $WEB_ROOT ?>/view">Default</a>
-        <a href="<?php echo $WEB_ROOT ?>/edit">Editor</a>
+        <a href="<?php echo $WEB_ROOT ?>/browser/">Browser</a>
+        <a href="<?php echo $WEB_ROOT ?>/view/">Default</a>
+        <a href="<?php echo $WEB_ROOT ?>/edit/">Editor</a>
         <!--<div class="naviDropdown">
             <a>Overlay +</a>
             <div class="dropdownContent">
