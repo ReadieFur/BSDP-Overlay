@@ -8,7 +8,11 @@ body
     overflow: hidden;
 }
 
-body > * { position: absolute; }
+body > *
+{
+    position: absolute;
+    user-select: none;
+}
 
 p { line-height: 0; margin: 0; }
 h2 { line-height: 0; margin: 0; }
