@@ -1,0 +1,40 @@
+#editorContainer
+{
+    display: table-cell !important;
+    width: var(--editorWidth);
+    height: 100%;
+    background-color: var(--background);
+}
+
+#editorContainer > table
+{
+    position: fixed;
+    top: 0;
+    width: var(--editorWidth);
+    height: 100%;
+}
+
+.positionContainer { height: 200px; }
+
+hr
+{
+    border: none;
+    background: var(--gradient-fBf);
+    height: 1px;
+    border-radius: .5px;
+}
+
+.menuContainer
+{
+    height: 30px;
+}
+
+.menuContainer hr
+{
+    margin-left: 10px;
+    background: var(--foreground);
+    width: 25px;
+}
+
+#editorContainer > table > tbody > tr > td > div
+{ height: 100%; }

@@ -4,7 +4,7 @@ import { eventDispatcher } from "./eventDispatcher.ts.js";
 export class client
 {
     public IP: string;
-    public websocketData: {[key: string]: IWebsocket};
+    public websocketData: {[key: string]: eventWebsocket};
 
     constructor(_IP: string | null)
     {
@@ -16,7 +16,7 @@ export class client
 
     public AddEndpoint(endpoint: string)
     {
-        let socket: IWebsocket = this.websocketData[endpoint] = new IWebsocket(new WebSocket(`ws://${this.IP}:2946/BSDataPuller/${endpoint}`));
+        let socket: eventWebsocket = this.websocketData[endpoint] = new eventWebsocket(new WebSocket(`ws://${this.IP}:2946/BSDataPuller/${endpoint}`));
         socket.e = new eventDispatcher();
 
         socket.ws.onerror = (e) => { socket.e.dispatch("error"); this.Reconnect(endpoint); };
@@ -37,9 +37,64 @@ export class client
     }
 }
 
-class IWebsocket
+class eventWebsocket
 {
     e: eventDispatcher = new eventDispatcher();
     ws: WebSocket;
     constructor(_ws: WebSocket) { this.ws = _ws; }
+}
+
+export type StaticData =
+{
+    GameVersion: string,
+    PluginVersion: string,
+
+    //Map
+    Hash: string,
+    SongName: string,
+    SongSubName: string,
+    SongAuthor: string,
+    Mapper: string,
+    BSRKey: string,
+    coverImage: string,
+    Length: number,
+    TimeScale: number,
+
+    //Difficulty
+    MapType: string,
+    Difficulty: string,
+    CustomDifficultyLabel: string,
+    BPM: number,
+    NJS: number,
+    Modifiers: { [key: string]: boolean },
+    PracticeMode: boolean,
+    PracticeModeModifiers: { [key: string]: number },
+    PP: number,
+    Star: number,
+
+    //Misc
+    PreviousRecord: number,
+    PreviousBSR: string
+}
+
+export type LiveData =
+{
+    //Level
+    InLevel: boolean,
+    LevelPaused: boolean,
+    LevelFinished: boolean,
+    LevelFailed: boolean,
+    LevelQuit: boolean,
+
+    //Score
+    Score: number,
+    FullCombo: boolean,
+    Combo: number,
+    Misses: number,
+    Accuracy: number,
+    BlockHitScores: number[],
+    PlayerHealth: number,
+
+    //Misc
+    TimeElapsed: number
 }

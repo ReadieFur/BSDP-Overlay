@@ -1,0 +1,8 @@
+.circle_bar.time_01 > div
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

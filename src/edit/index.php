@@ -1,41 +1,35 @@
+<?php
+    $title = 'BSDP Overlay | Editor';
+
+    global $WEB_ROOT;
+    global $SITE_ROOT;
+    $DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
+    require_once "$DOCUMENT_ROOT/roots.php";
+    require_once "$SITE_ROOT/assets/php/main.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSDP-Overlay | Editor</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="./assets/css/main.css">
-    <script type="module" src="./assets/js/index.ts.js"></script>
+    <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
+    <link rel="stylesheet" href="../edit/assets/css/main.css">
+    <script type="module" src="../edit/assets/js/index.ts.js"></script>
+    <script src="<?php echo $WEB_ROOT; ?>/assets/js/headerSlide.js"></script>
 </head>
+<header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
+    <span id="splashScreen">
+        <div class="center text">
+            <h2 id="ssHeader">BSDP Overlay</h2>
+            <img class="imgMedium" alt="A missing picture of me ;)" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
+            <h3 id="ssSubHeader">Loading...</h3>
+        </div>
+    </span>
+    <span class="slideMenuClick view"></span>
     <table>
         <tbody>
             <tr>
-                <td class="editorContainer">
-                    <table>
-                        <tbody>
-                            <tr class="titleContainer">
-                                <td><h3 class="center text">BSDP-Overlay<br>Editor</h3></td>
-                            </tr>
-                            <tr class="elementContainer">
-                                <td>
-                                    <div>
-                                        
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="positionContainer">
-                                <td>
-                                    <div>
-                                        <hr>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-                <td class="overlayContainer">
+                <td id="editorContainer"></td>
+                <td class="overlayContainer" style="background-image: url('<?php echo $WEB_ROOT; ?>/assets/images/beat-saber.jpg');">*/
                 </td>
             </tr>
         </tbody>

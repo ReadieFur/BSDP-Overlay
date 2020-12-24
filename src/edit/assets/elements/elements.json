@@ -1,0 +1,19 @@
+{
+    "time":
+    {
+        "round_bar":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "text":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
+    }
+}
