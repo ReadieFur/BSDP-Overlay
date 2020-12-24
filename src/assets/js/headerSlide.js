@@ -8,8 +8,10 @@ window.addEventListener("load", () =>
         {
             transition: top ease 100ms, background-color ease 100ms;
             position: fixed;
-            background-color: rgb(var(--backgroundAlt));
+            background-color: rgb(var(--backgroundAlt)) !important;
         }
+
+        .dropdownContent > :last-child { background-color: rgba(var(--background), 0.5) !important; }
 
         .slideMenuClick
         {
@@ -23,7 +25,6 @@ window.addEventListener("load", () =>
     hideHeader();
 
     document.querySelectorAll(".slideMenuClick").forEach(e => { e.addEventListener("click", showHeader); });
-    //document.querySelectorAll(".slideMenuHover").forEach(e => {});
 
     function showHeader() { header.style.top = "0px"; }
     function hideHeader() { header.style.top = "-100px"; }

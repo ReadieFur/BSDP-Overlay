@@ -91,7 +91,7 @@ header > section { position: relative; z-index: 9999; }
 .dropdownContent > :last-child
 {
     border-radius: 4px;
-    background-color: rgba(var(--foreground), 0.5);
+    background-color: rgba(var(--backgroundAlt), 0.5);
     backdrop-filter: blur(2px);
 }
 
