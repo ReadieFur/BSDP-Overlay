@@ -2,24 +2,20 @@ window.addEventListener("DOMContentLoaded", () =>
 {
     highlightActivePage();
 
-    if (RetreiveCache("READIE-DARK") == "true") { switchTheme(true); }
+    if (RetreiveCache("READIE-DARK") != "false") { darkTheme(true); }
+    else { darkTheme(false); }
     document.querySelector("#darkMode").addEventListener("click", () =>
     {
         let cachedValue = RetreiveCache("READIE-DARK");
-        if (cachedValue == undefined || cachedValue == "false")
-        { SetCache("READIE-DARK", "true", 365); switchTheme(true); }
-        else { SetCache("READIE-DARK", "false", 365); switchTheme(false); }
+        if (cachedValue == undefined || cachedValue == "false") { darkTheme(true); }
+        else { darkTheme(false); }
     });
 });
 
 window.addEventListener("load", () =>
 {
     let staticStyles = document.createElement("style");
-    staticStyles.innerHTML = `
-    *
-    {
-        transition: background-color ease 100ms;
-    }`;
+    staticStyles.innerHTML = `* { transition: background-color ease 100ms; }`;
     document.head.appendChild(staticStyles);
 });
 
@@ -43,49 +39,25 @@ function highlightActivePage()
     });
 }
 
-function switchTheme(dark)
+function darkTheme(dark)
 {
     try
     {
+        SetCache("READIE-DARK", dark ? "true" : "false", 365);
         let darkButton = document.querySelector("#darkMode");
         let themeColours = document.querySelector("#themeColours");
-        if (dark)
-        {
-            darkButton.classList.add("accentText");
-            themeColours.innerHTML = `
+        if (dark) { darkButton.classList.add("accentText"); }
+        else { darkButton.classList.remove("accentText"); }
+        themeColours.innerHTML = `
             :root
             {
-                --main-foreground: white;
-                --main-foreground09: rgba(255, 255, 255, 0.9);
-                --main-foreground05: rgba(255, 255, 255, 0.5);
-                --main-foreground01: rgba(255, 255, 255, 0.1);
-                --main-background: rgb(20, 20, 20);
-                --main-background09: rgba(20, 20, 20, 0.9);
-                --main-background05: rgba(20, 20, 20, 0.5);
-                --main-background01: rgba(20, 20, 20, 0.1);
-            }`;
-        }
-        else
-        {
-            darkButton.classList.remove("accentText");
-            themeColours.innerHTML = `
-            :root
-            {
-                --main-background: white;
-                --main-background09: rgba(255, 255, 255, 0.9);
-                --main-background05: rgba(255, 255, 255, 0.5);
-                --main-background01: rgba(255, 255, 255, 0.1);
-                --main-foreground: black;
-                --main-foreground09: rgba(0, 0, 0, 0.9);
-                --main-foreground05: rgba(0, 0, 0, 0.5);
-                --main-foreground01: rgba(0, 0, 0, 0.1);
-            }`;
-        }
+                --foreground: ${dark ? "white" : "black"};
+                --background: rgb(${dark ? "13, 17, 23" : "255, 255, 255"});
+                --backgroundAlt: rgb(${dark ? "22, 27, 34" : "225, 225, 225"});
+            }
+        `;
     }
-    catch (err)
-    {
-        console.log("err");
-    }
+    catch (err) { console.log(err); }
 }
 
 function RetreiveCache(cookie_name)
@@ -102,8 +74,8 @@ function RetreiveCache(cookie_name)
 
 function SetCache(cookie_name, value, time)
 {
-    let domain = "readie.global-gaming.co";
-    //domain = "readie.global-gaming.localhost"; //Localhost testing
+    let hostSplit = window.location.host.split("."); //Just for localhost testing
+    let domain = `readie.global-gaming.${hostSplit[hostSplit.length - 1]}`; 
     var expDate = new Date();
     expDate.setDate(expDate.getDate() + time);
     document.cookie = `${cookie_name}=${value}; expires=${expDate.toUTCString()}; path=/; domain=${domain};`;
