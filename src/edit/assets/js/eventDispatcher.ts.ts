@@ -7,22 +7,26 @@ export class eventDispatcher
 {
     events: any = {};
 
-    addListener(event: string, callback: (data?: any) => any)
+    addListener(event: string, callback: (data?: any) => any): boolean
     {
-        if (this.events[event] === undefined) { this.events[event] = { listeners: [] }; }
+        if (this.events[event] !== undefined) { return false; }
+        this.events[event] = { listeners: [] };
         this.events[event].listeners.push(callback);
+        return true;
     }
   
-    removeListener(event: string, callback: (data?: any) => any)
+    removeListener(event: string, callback: (data?: any) => any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         for (let i = 0; i < this.events[event].listeners.length; i++) //Modified to what I understand
         { if (this.events[event].listeners[i] === callback) { delete this.events[event].listeners[i]; } }
+        return true;
     }
   
-    dispatch(event: string, data?: any)
+    dispatch(event: string, data?: any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         this.events[event].listeners.forEach((listener: any) => { listener(data); });
+        return true;
     }
 }
