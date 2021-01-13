@@ -53,31 +53,46 @@ export type StaticData =
     PluginVersion: string,
 
     //Map
-    Hash: string,
-    SongName: string,
-    SongSubName: string,
-    SongAuthor: string,
-    Mapper: string,
-    BSRKey: string,
-    coverImage: string,
+    Hash: string | null,
+    SongName: string | null,
+    SongSubName: string | null,
+    SongAuthor: string | null,
+    Mapper: string | null,
+    BSRKey: string | null,
+    coverImage: string | null,
     Length: number,
     TimeScale: number,
 
     //Difficulty
-    MapType: string,
-    Difficulty: string,
-    CustomDifficultyLabel: string,
+    MapType: string | null,
+    Difficulty: string | null,
+    CustomDifficultyLabel: string | null,
     BPM: number,
     NJS: number,
-    Modifiers: { [key: string]: boolean },
+    Modifiers:
+    {
+        batteryEnergy: boolean
+        disappearingArrows: boolean
+        fasterSong: boolean
+        ghostNotes: boolean
+        instaFail: boolean
+        noArrows: boolean
+        noBombs: boolean
+        noFail: boolean
+        noObstacles: boolean
+        slowerSong: boolean
+    },
     PracticeMode: boolean,
-    PracticeModeModifiers: { [key: string]: number },
+    PracticeModeModifiers:
+    {
+        songSpeedMul: number
+    },
     PP: number,
     Star: number,
 
     //Misc
     PreviousRecord: number,
-    PreviousBSR: string
+    PreviousBSR: string | null
 }
 
 export type LiveData =
@@ -91,13 +106,83 @@ export type LiveData =
 
     //Score
     Score: number,
+    ScoreWithMultipliers: number,
+    MaxScore: number,
+    MaxScoreWithMultipliers: number,
     FullCombo: boolean,
     Combo: number,
     Misses: number,
     Accuracy: number,
     BlockHitScores: number[],
     PlayerHealth: number,
+    Rank: string
 
     //Misc
     TimeElapsed: number
+}
+
+export class sampleData
+{
+    public static staticData: StaticData =
+    {
+        GameVersion: "1.13.0",
+        PluginVersion: "1.1.1.0",
+        Hash: "919801A45C4BCFDC075CF6976D20B9B4315013DB",
+        SongName: "Introduction - Xursed divinitiY",
+        SongSubName: "<NONE FOR THIS MAP>",
+        SongAuthor: "Camellia",
+        Mapper: "Schwank & Jabob",
+        BSRKey: "123ba",
+        coverImage: "https://beatsaver.com/cdn/123ba/919801a45c4bcfdc075cf6976d20b9b4315013db.jpg",
+        Length: 220,
+        TimeScale: 0,
+        MapType: "Standard",
+        Difficulty: "ExpertPlus",
+        CustomDifficultyLabel: "Swaks COLD BREW",
+        BPM: 222,
+        NJS: 22,
+        Modifiers:
+        {
+            batteryEnergy: true,
+            disappearingArrows: true,
+            fasterSong: false,
+            ghostNotes: false,
+            instaFail: false,
+            noArrows: false,
+            noBombs: false,
+            noFail: false,
+            noObstacles: false,
+            slowerSong: false
+        },
+        PracticeMode: false,
+        PracticeModeModifiers:
+        {
+            songSpeedMul: 1
+        },
+        PP: 408,
+        Star: 0,
+        PreviousRecord: 1323492,
+        PreviousBSR: "11bca"
+    }
+
+    public static liveData: LiveData =
+    {
+        InLevel: false,
+        LevelPaused: false,
+        LevelFinished: false,
+        LevelFailed: true,
+        LevelQuit: false,
+        Score: 0,
+        ScoreWithMultipliers: 0,
+        MaxScore: 1495,
+        MaxScoreWithMultipliers: 1495,
+        FullCombo: false,
+        Combo: 0,
+        Misses: 6,
+        Accuracy: 0,
+        BlockHitScores: [115, 110, 107, 56, 95, 4, 102],
+        PlayerHealth: 0,
+        Rank: "E",
+        TimeElapsed: 19
+    }
 }

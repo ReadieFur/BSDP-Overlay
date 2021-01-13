@@ -4,7 +4,7 @@ import { main } from "./index.ts.js";
 export class ui
 {
     public ImportedElements: ElementsJSON = {};
-    public ActiveElements!: activeElements;
+    public ActiveElements?: activeElements;
 
     public async init(id?: string): Promise<ui>
     {
@@ -42,22 +42,21 @@ export class ui
                     });
                     this.ImportedElements[type][category][name].data = elementHTML.replace("ELEMENTPATH", elementPath);
 
-                    //this.ImportedElements![type][category][name].script = new (await import(`../elements/${elementPath}/script.ts.js`)).script().init();
                     this.ImportedElements[type][category][name].script = await import(`../elements/${elementPath}/script.ts.js`);
                 }
             }
         }
     }
 
-    //Give each element its own TS event and control the element from there, just use this function to pass the data over
-    //Send data out to all elements and let the element decide what to do with it
-    public updateUIElements(jsonData: StaticData | LiveData): void
+    public updateUIElements(jsonData: StaticData | LiveData | any): void
     {
-        if (this.isStaticData(jsonData)) { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateStaticData(jsonData); } }
-        else { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateLiveData(jsonData); } }
+        if (this.ActiveElements !== undefined)
+        {
+            function isStaticData(data: StaticData | LiveData): data is StaticData { return (data as StaticData).GameVersion !== undefined; }
+            if (isStaticData(jsonData)) { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateStaticData(jsonData); } }
+            else { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateLiveData(jsonData); } }
+        }
     }
-
-    private isStaticData(data: StaticData | LiveData): data is StaticData { return (data as StaticData).GameVersion !== undefined; }
 }
 
 class activeElements

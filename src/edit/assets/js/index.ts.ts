@@ -37,11 +37,14 @@ export class main
             { this._editor = new (await import("./editor.ts.js")).editor().init(); }
         }
 
-        this._client = new client().init(main.params.has("ip") ? main.params.get("ip") : "127.0.0.1");
-        this._client.AddEndpoint("StaticData");
-        this._client.websocketData["StaticData"].e.addListener("message", this._ui.updateUIElements);
-        this._client.AddEndpoint("LiveData");
-        this._client.websocketData["LiveData"].e.addListener("message", this._ui.updateUIElements);
+        if (this._ui !== undefined)
+        {
+            this._client = new client().init(main.params.has("ip") ? main.params.get("ip") : "127.0.0.1");
+            this._client.AddEndpoint("StaticData");
+            this._client.websocketData["StaticData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
+            this._client.AddEndpoint("LiveData");
+            this._client.websocketData["LiveData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
+        }
 
         this.hideSplashScreen();
 
@@ -57,3 +60,5 @@ export class main
     }
 }
 new main().init();
+
+export function sleep(ms: number) { return new Promise(resolve => setTimeout(resolve, ms)); }
