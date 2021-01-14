@@ -40,8 +40,8 @@ export class main
         if (this._ui !== undefined)
         {
             this._client = new client().init(main.params.has("ip") ? main.params.get("ip") : "127.0.0.1");
-            this._client.AddEndpoint("StaticData");
-            this._client.websocketData["StaticData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
+            this._client.AddEndpoint("MapData");
+            this._client.websocketData["MapData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
             this._client.AddEndpoint("LiveData");
             this._client.websocketData["LiveData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
         }
