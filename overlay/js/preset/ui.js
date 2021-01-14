@@ -25,7 +25,7 @@ window.addEventListener("load", () =>
     //window.addEventListener("dblclick", () => { window.location = "/editor"; });
 })
 
-window.addEventListener("StaticDataUpdated", (data) =>
+window.addEventListener("MapDataUpdated", (data) =>
 {
     data = data.detail;
 
@@ -57,9 +57,12 @@ window.addEventListener("StaticDataUpdated", (data) =>
     //#endregion
 
     //#region modifiersHealth
-    for (let [key, value] of Object.entries(data.Modifiers))
+    if (data.Modifiers != null)
     {
-        ModifiersShort[key].forEach(e => { e.style.color = value ? "white" : "rgba(80, 80, 80, 0.8)"; });
+        for (let [key, value] of Object.entries(data.Modifiers))
+        {
+            ModifiersShort[key].forEach(e => { e.style.color = value ? "white" : "rgba(80, 80, 80, 0.8)"; });
+        }
     }
     //#endregion
 
