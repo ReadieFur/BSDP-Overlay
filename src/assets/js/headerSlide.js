@@ -24,7 +24,7 @@ window.addEventListener("load", () =>
     header.addEventListener("mouseleave", hideHeader);
     hideHeader();
 
-    document.querySelectorAll(".slideMenuClick").forEach(e => { e.addEventListener("click", showHeader); });
+    document.querySelectorAll(".slideMenu").forEach(e => { e.addEventListener("click", showHeader); });
 
     function showHeader() { header.style.top = "0px"; }
     function hideHeader() { header.style.top = "-100px"; }

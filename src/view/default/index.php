@@ -26,7 +26,7 @@
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
-    <span class="slideMenuClick"></span>
+    <span class="slideMenu"></span>
 
     <div class="scoreStats">
         <h2 class="time">Time</h2>

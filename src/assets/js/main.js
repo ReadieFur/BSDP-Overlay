@@ -72,11 +72,11 @@ function RetreiveCache(cookie_name)
     }
 }
 
-function SetCache(cookie_name, value, time)
+function SetCache(cookie_name, value, time, path = '/')
 {
     let hostSplit = window.location.host.split("."); //Just for localhost testing
     let domain = `readie.global-gaming.${hostSplit[hostSplit.length - 1]}`; 
     var expDate = new Date();
     expDate.setDate(expDate.getDate() + time);
-    document.cookie = `${cookie_name}=${value}; expires=${expDate.toUTCString()}; path=/; domain=${domain};`;
+    document.cookie = `${cookie_name}=${value}; expires=${expDate.toUTCString()}; path=${path}; domain=${domain};`;
 }

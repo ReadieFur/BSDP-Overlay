@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"@types/jquery": "^3.5.5",
+		"@types/sizzle": "^2.3.2"
+	}
+}

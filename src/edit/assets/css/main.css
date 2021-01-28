@@ -57,7 +57,7 @@ body > table
     background-size: cover;
 }
 
-.slideMenuClick.view
+.slideMenu.view
 {
     width: 100%;
     position: fixed;

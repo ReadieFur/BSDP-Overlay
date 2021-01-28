@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
-<meta property="og:title" content="BSDP-Overlay"/>
+<meta property="og:title" content="BSDP Overlay"/>
 <meta property="og:description" content="<?php echo $DirName; ?>"/>
 <meta property="og:url" content="https://readie.global-gaming.co/bsdp-overlay<?php echo $REQUEST_URI; ?>"/>
 <meta property="og:image" content="https://cdn.global-gaming.co/images/team/members/readiecircle.png"/>
@@ -17,5 +17,5 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $WEB_ROOT; ?>/assets/css/main.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="<?php echo $WEB_ROOT; ?>/assets/js/main.js"></script>
-<script>var WEB_ROOT = "<?php echo $WEB_ROOT; ?>"</script>
+<script>var WEB_ROOT = "<?php echo $WEB_ROOT; ?>";</script>
 <style id="themeColours"></style>

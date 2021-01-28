@@ -24,7 +24,7 @@
             <h3 id="ssSubHeader">Loading...</h3>
         </div>
     </span>
-    <span class="slideMenuClick view"></span>
+    <span class="slideMenu view"></span>
     <table>
         <tbody>
             <tr>

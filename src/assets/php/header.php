@@ -40,3 +40,4 @@
     </div>
 </section>
 <!--<hr>-->
+<!-- Work on making these assets dynamic across all of my projects pages -->

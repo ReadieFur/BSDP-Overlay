@@ -5,9 +5,9 @@
  */
 export class eventDispatcher
 {
-    events: any = {};
+    private events: Events = {};
 
-    addListener(event: string, callback: (data?: any) => any): boolean
+    public addListener(event: string, callback: (data?: any) => any): boolean
     {
         if (this.events[event] !== undefined) { return false; }
         this.events[event] = { listeners: [] };
@@ -15,7 +15,7 @@ export class eventDispatcher
         return true;
     }
   
-    removeListener(event: string, callback: (data?: any) => any): boolean
+    public removeListener(event: string, callback: (data?: any) => any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         for (let i = 0; i < this.events[event].listeners.length; i++) //Modified to what I understand
@@ -23,10 +23,18 @@ export class eventDispatcher
         return true;
     }
   
-    dispatch(event: string, data?: any): boolean
+    public dispatch(event: string, data?: any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         this.events[event].listeners.forEach((listener: any) => { listener(data); });
         return true;
+    }
+}
+
+type Events =
+{
+    [eventName: string]:
+    {
+        listeners: { (data?: any): any; } []
     }
 }
