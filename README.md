@@ -31,5 +31,20 @@ Changes the visibility of the three main elements on the overlay.
 ### An example of mixed URL parameters:  
 <img src="./previews/scale=1.1&flipHori&FlipVert&hideModifiersHealth.png" width="512">
 
+### Colors adjustment with CSS
+
+If your straming/recording software allows custom CSS you can add and adjust this snippet to change colors of panels, text and health bar:
+
+```css
+html
+{
+    --text-color-primary: white;
+    --text-color-disabled: rgba(80, 80, 80, 0.8);
+    --panels-color-bg: rgba(40, 40, 40, 0.7);
+    --health-color-primary: white;
+    --health-color-bg: rgba(80, 80, 80, 0.8);
+}
+```
+
 ## Upcoming changes:
 I plan to create an overlay editor, similar to WIX where you can drag and drop elements onto the page, you will be able to customise the fonts and designs etc, at first it may be a little janky but I hope to work on it an improve it a lot over time.

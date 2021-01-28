@@ -61,7 +61,7 @@ window.addEventListener("MapDataUpdated", (data) =>
     {
         for (let [key, value] of Object.entries(data.Modifiers))
         {
-            ModifiersShort[key].forEach(e => { e.style.color = value ? "white" : "rgba(80, 80, 80, 0.8)"; });
+            ModifiersShort[key].forEach(e => { e.classList[value ? 'add' : 'remove']('active'); });
         }
     }
     //#endregion
