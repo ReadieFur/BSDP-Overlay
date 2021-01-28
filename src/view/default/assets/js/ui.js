@@ -55,7 +55,13 @@ window.addEventListener("MapDataUpdated", (data) =>
     }
     //#endregion
 
-    times.forEach(e => { e.innerHTML = `00:00/${mapLength = SecondsToMins(data.Length)}`; });
+    times.forEach(e =>
+    {
+        var timeSplit = e.innerHTML.split("/");
+        mapLength = SecondsToMins(data.Length)
+        if (timeSplit.length == 2) { e.innerHTML = `${timeSplit[0]}/${mapLength}`; }
+        else { e.innerHTML = `00:00/${mapLength}`; }
+    });
 })
 
 window.addEventListener("LiveDataUpdated", (data) =>
