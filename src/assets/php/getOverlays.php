@@ -1,4 +1,5 @@
 <?php
+//Make a TS file just for this
 include_once $_SERVER['DOCUMENT_ROOT'] . '/../api/account/DBDetails.php';
 
 $query = json_decode($_GET["q"], true);

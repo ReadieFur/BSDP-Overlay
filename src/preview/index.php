@@ -9,8 +9,8 @@
 <html lang="en">
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="preview.css">
+    <script src="preview.js" type="module"></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>

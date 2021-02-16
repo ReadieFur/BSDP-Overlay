@@ -4,7 +4,7 @@
     <span class="bottomStripThin"></span>
     <div class="titleContainer">
         <a href="<?php echo $WEB_ROOT ?>/">
-            <img class="imgSmall titleIcon" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
+            <img class="small titleIcon" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
             <h3 class="title">BSDP Overlay</h3>
         </a>
     </div>
@@ -13,7 +13,7 @@
         <!--<a href="<?php echo $WEB_ROOT ?>/">About</a>-->
         <!--<a href="<?php echo $WEB_ROOT ?>/mod">Mod</a>-->
         <a href="<?php echo $WEB_ROOT ?>/browser/">Browser</a>
-        <a href="<?php echo $WEB_ROOT ?>/view/">Default</a>
+        <a href="<?php echo $WEB_ROOT ?>/view/default/">Default</a>
         <a href="<?php echo $WEB_ROOT ?>/edit/">Editor</a>
         <!--<div class="naviDropdown">
             <a>Overlay +</a>

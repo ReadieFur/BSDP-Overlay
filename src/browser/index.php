@@ -9,8 +9,8 @@
 <html lang="en">
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="./browser.css">
+    <script src="browser.js" type="module"></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
@@ -18,7 +18,7 @@
         <div class="top">
             <h4>Browser</h4>
             <form id="search">
-                <input type="text" placeholder="Search"><input class="hollowButton" type="submit" value="Search">
+                <input type="text" placeholder="Search"><input class="asButton" type="submit" value="Search">
             </form>
         </div>
         <hr>

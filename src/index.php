@@ -1,5 +1,5 @@
 <?php
-    $title = 'BSDP Overlay | About';
+    $title = 'About | BSDP Overlay';
 
     $WEB_ROOT;
     $SITE_ROOT;
@@ -11,7 +11,8 @@
 <html lang="en">
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js" type="module"></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
@@ -21,7 +22,7 @@
             <div></div>
             <div class="center text bottomStrip">
                 <h3>BSDP Overlay</h3>
-                <p>The only overlay tool you will need for BeatSaber</p>
+                <p>The only overlay tool you will need for BeatSaber</p> <!--This won't be the final quote XD-->
             </div>
         </section>
     </div>

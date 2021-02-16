@@ -10,6 +10,11 @@
     $overlayID = $splitPath[count($splitPath)];
 
     if (strlen($overlayID) == 13) { $page = execAndRead("../edit/index.php"); }
-    else { $page = execAndRead("./default/index.php"); } //Default overlay
+    else //Default overlay
+    {
+        $REQUEST_SCHEME = $_SERVER["REQUEST_SCHEME"];
+        $HTTP_HOST = $_SERVER["HTTP_HOST"];
+        header("Location: $REQUEST_SCHEME://$HTTP_HOST$WEB_ROOT/view/default/", true, 301);
+    }
     echo $page;
 ?>
