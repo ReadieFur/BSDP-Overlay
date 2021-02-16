@@ -1,9 +1,14 @@
 import { Main } from "./main";
-export class HeaderSlide {
-    constructor() {
+
+export class HeaderSlide
+{
+    constructor()
+    {
         window.addEventListener("load", () => { this.WindowLoadEvent(); });
     }
-    WindowLoadEvent() {
+
+    private WindowLoadEvent()
+    {
         let style = document.createElement("style");
         style.innerHTML = `
             #header
@@ -21,15 +26,20 @@ export class HeaderSlide {
             }
         `;
         document.head.appendChild(style);
+    
         Main.header.addEventListener("mouseleave", () => { this.HideHeader(); });
         this.HideHeader();
-        document.querySelectorAll(".slideMenu").forEach((e) => { e.addEventListener("click", () => { this.ShowHeader(); }); });
+    
+        document.querySelectorAll(".slideMenu").forEach((e: Element) => { e.addEventListener("click", () => { this.ShowHeader(); }); });
     }
-    ShowHeader() {
+
+    private ShowHeader()
+    {
         Main.header.style.top = "0px";
     }
-    HideHeader() {
+
+    private HideHeader()
+    {
         Main.header.style.top = "-100px";
     }
 }
-//# sourceMappingURL=headerSlide.js.map
