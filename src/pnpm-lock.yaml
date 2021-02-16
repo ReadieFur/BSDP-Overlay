@@ -1,6 +1,5 @@
 dependencies:
   '@types/jquery': 3.5.5
-  '@types/sizzle': 2.3.2
 lockfileVersion: 5.2
 packages:
   /@types/jquery/3.5.5:
@@ -15,4 +14,3 @@ packages:
       integrity: sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 specifiers:
   '@types/jquery': ^3.5.5
-  '@types/sizzle': ^2.3.2

@@ -1,12 +1,12 @@
-import { StaticData, LiveData } from "./client.ts.js";
-import { main } from "./index.ts.js";
+import { MapData, LiveData } from "./client.js";
+import { main } from "../../../edit/assets/js/index.js";
 
-export class ui
+export class UI
 {
     public ImportedElements: ElementsJSON = {};
     public ActiveElements?: activeElements;
 
-    public async init(id?: string): Promise<ui>
+    public async init(id?: string): Promise<UI>
     {
         await this.importElements();
         if (this.importElements === undefined) { throw new TypeError("ImportedElements is undefined"); }
@@ -42,17 +42,17 @@ export class ui
                     });
                     this.ImportedElements[type][category][name].data = elementHTML.replace("ELEMENTPATH", elementPath);
 
-                    this.ImportedElements[type][category][name].script = await import(`../elements/${elementPath}/script.ts.js`);
+                    this.ImportedElements[type][category][name].script = await import(`../elements/${elementPath}/script.js`);
                 }
             }
         }
     }
 
-    public updateUIElements(jsonData: StaticData | LiveData | any): void
+    public updateUIElements(jsonData: MapData | LiveData | any): void
     {
         if (this.ActiveElements !== undefined)
         {
-            function isStaticData(data: StaticData | LiveData): data is StaticData { return (data as StaticData).GameVersion !== undefined; }
+            function isStaticData(data: MapData | LiveData): data is MapData { return (data as MapData).GameVersion !== undefined; }
             if (isStaticData(jsonData)) { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateStaticData(jsonData); } }
             else { for (let i = 0; i < this.ActiveElements.scripts.length; i++) { this.ActiveElements.scripts[i].updateLiveData(jsonData); } }
         }
@@ -139,6 +139,6 @@ export type OverlayElements =
 interface elementScript
 {
     init(): elementScript;
-    updateStaticData(data: StaticData): void;
+    updateStaticData(data: MapData): void;
     updateLiveData(data: LiveData): void;
 }

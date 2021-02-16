@@ -1,5 +1,5 @@
-import { client } from "./client.ts.js";
-import { ui } from "./ui.ts.js";
+import { Client } from "../../../assets/js/overlay/client.js";
+import { UI } from "../../../assets/js/overlay/ui.js";
 //Editor import is dynamic based on the URL
 
 export class main
@@ -8,15 +8,15 @@ export class main
     public static params: URLSearchParams = new URLSearchParams(window.location.search);
     public static useEditor: boolean = window.location.pathname.includes("/edit/");
 
-    private _ui?: ui;
+    private _ui?: UI;
     private _editor?: object;
-    private _client?: client;
+    private _client?: Client;
 
     public async init(): Promise<main>
     {
         setInterval(() => { console.clear(); }, 600000); //Try to clear some memory every 10 mins (mainly for clearing disconnected client errors)
         
-        this._ui = await new ui().init();
+        this._ui = await new UI().init();
 
         if (main.useEditor)
         {
@@ -34,12 +34,12 @@ export class main
             document.head.appendChild(editorCSS);
 
             if (this._ui !== undefined && this._ui.ImportedElements !== undefined)
-            { this._editor = new (await import("./editor.ts.js")).editor().init(); }
+            { this._editor = new (await import("./editor.js")).editor().init(); }
         }
 
         if (this._ui !== undefined)
         {
-            this._client = new client().init(main.params.has("ip") ? main.params.get("ip") : "127.0.0.1");
+            this._client = new Client(main.params.get("ip"));
             this._client.AddEndpoint("MapData");
             this._client.websocketData["MapData"].e.addListener("message", (data) => { this._ui!.updateUIElements(data); });
             this._client.AddEndpoint("LiveData");

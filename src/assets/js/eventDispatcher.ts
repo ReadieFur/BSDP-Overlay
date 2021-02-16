@@ -3,7 +3,7 @@
  * Simple (Event)Dispatcher class
  * Inspiered by https://medium.com/@LeoAref/simple-event-dispatcher-implementation-using-javascript-36d0eadf5a11
  */
-export class eventDispatcher
+export class EventDispatcher
 {
     private events: Events = {};
 

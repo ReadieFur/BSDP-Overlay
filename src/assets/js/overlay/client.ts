@@ -1,34 +1,32 @@
-import { main } from "./index.ts.js";
-import { eventDispatcher } from "./eventDispatcher.ts.js";
+import { Main } from "../main"
+import { EventDispatcher } from "../eventDispatcher";
 
-export class client
+export class Client
 {
-    public IP!: string;
+    public IP: string;
     public websocketData!: {[key: string]: eventWebsocket};
 
-    //constructor() {} //Could be used here as no async funtions are run but for consistency I'll keep using .init()
-
-    public init(_IP: string | null): client
+    constructor(_IP?: string | null)
     {
-        if (typeof _IP !== "string") { throw new TypeError("IP is not a type of string"); }
-        else if (!RegExp(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/).test(_IP)) { throw new SyntaxError("Invalid IP"); }
-        this.IP = _IP;
+        if (_IP === undefined || _IP === null) { this.IP = "127.0.0.1"; }
+        else if (RegExp(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/).test(_IP)) { this.IP = _IP; }
+        else { throw new SyntaxError("Invalid IP"); }
+
         this.websocketData = {};
-        return this;
     }
 
     public AddEndpoint(endpoint: string): void
     {
         let socket: eventWebsocket = this.websocketData[endpoint] = new eventWebsocket(new WebSocket(`ws://${this.IP}:2946/BSDataPuller/${endpoint}`));
-        socket.e = new eventDispatcher();
+        socket.e = new EventDispatcher();
 
         socket.ws.onerror = (e) => { socket.e.dispatch("error"); this.Reconnect(endpoint); };
         socket.ws.onopen = (e) => { socket.e.dispatch("open"); };
         socket.ws.onmessage = (e) =>
         {
-            let jsonData: StaticData | LiveData = JSON.parse(e.data);
+            let jsonData: MapData | LiveData = JSON.parse(e.data);
             socket.e.dispatch("message", jsonData);
-            if (main.params.has("debug")) { console.log(jsonData); }
+            if (Main.urlParams.has("debug")) { console.log(jsonData); }
         };
     }
 
@@ -42,12 +40,12 @@ export class client
 
 class eventWebsocket
 {
-    e: eventDispatcher = new eventDispatcher();
+    e: EventDispatcher = new EventDispatcher();
     ws: WebSocket;
     constructor(_ws: WebSocket) { this.ws = _ws; }
 }
 
-export type StaticData =
+export type MapData =
 {
     GameVersion: string,
     PluginVersion: string,
@@ -123,7 +121,7 @@ export type LiveData =
 
 export class sampleData
 {
-    public static staticData: StaticData =
+    public static mapData: MapData =
     {
         GameVersion: "1.13.0",
         PluginVersion: "1.1.1.0",
