@@ -1,0 +1,162 @@
+//Some variables get changed at runtime so I will not be using SCSS variables for some things.
+
+@media screen and (max-width: 1280px)
+{
+    body
+    {
+        zoom: 0.75;
+    }
+}
+
+*
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: rgba(var(--foregroundColour), 1);
+
+    &:root
+    {
+        //This colour will not be changed at runtime for now but could be in the future so I have left it as a CSS variable so naming is easier in the future.
+        --linkColour: 0, 180, 235;
+    }
+}
+
+body
+{
+    background: rgba(var(--backgroundColour), 1); //For other properties, should I be using 'background' and not 'background-color'?
+    margin: 0;
+    overflow-x: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+}
+
+//#region Containers
+span
+{
+    width: 100%;
+}
+
+section
+{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+//#endregion
+
+img
+{
+    &.large
+    {
+        max-width: 400px;
+        max-height: 400px;
+        min-width: 400px;
+        min-height: 400px;
+    }
+
+    &.medium
+    {
+        max-width: 250px;
+        max-height: 250px;
+        min-width: 250px;
+        min-height: 250px;
+    }
+
+    &.small
+    {
+        max-width: 75px;
+        max-height: 75px;
+        min-width: 75px;
+        min-height: 75px;
+    }
+
+    &.icon
+    {
+        max-width: 50px;
+        max-height: 50px;
+        min-width: 50px;
+        min-height: 50px;
+    }
+}
+
+a
+{
+    text-decoration: none;
+    color: inherit;
+
+    &.colour
+    {
+        color: rgba(var(--linkColour), 1);
+    }
+}
+
+//#region Text
+h1, .h1 { font-size: 3rem; }
+h2, .h2 { font-size: 2.35rem; }
+h3, .h3 { font-size: 1.75rem; }
+h4, .h4 { font-size: 1.32rem; }
+h5, .h5 { font-size: 1.02rem; }
+h6, .h6 { font-size: .88rem; }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
+{
+    text-transform: uppercase;
+    margin: 20px 10px;
+    font-weight: bolder;
+
+    &.accent
+    {
+        color: rgba(var(--accentColour), 1);
+    }
+}
+//#endregion
+
+button, .asButton
+{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: medium;
+    color: rgba(var(--foregroundColour), 1);
+    background-color: transparent;
+    transition: ease .4s;
+    transition-property: background-color, color;
+    border-radius: 4px;
+    padding: 10px 15px;
+    outline: none;
+    border: 2.5px solid rgba(var(--foregroundColour), 1);
+
+    &:hover
+    {
+        color: rgba(var(--backgroundColour), 1);
+        background-color: rgba(var(--foregroundColour), 1);
+        cursor: pointer;
+    }
+
+    .fill
+    {
+        background-color: rgba(var(--backgroundColourAlt), 1);
+    }
+}
+
+//#region Misc
+hr
+{
+    border: none;
+    border-bottom: 1px solid rgba(var(--foregroundColour), 1);
+}
+
+.center
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bottomStrip
+{
+    border-bottom: 4px solid rgba(var(--accentColour), 1);
+}
+//#endregion

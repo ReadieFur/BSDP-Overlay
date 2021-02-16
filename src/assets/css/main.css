@@ -1,202 +1,150 @@
-@media screen and (max-width: 1280px)
-{
-    body
-    {
-        zoom: 0.75;
-    }
+@media screen and (max-width: 1280px) {
+  body {
+    zoom: 0.75;
+  }
 }
 
-:root
-{
-    --main-accent: rgb(100, 0, 255);
+* {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: rgba(var(--foregroundColour), 1);
 }
 
-*
-{
-    font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    color: rgb(var(--foreground));
+*:root {
+  --linkColour: 0, 180, 235;
 }
 
-/*#region Body*/
-body
-{
-    background: rgb(var(--background));
-    margin: 0;
-    overflow-x: hidden;
-    /*min-height: 100vh;*/
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
+body {
+  background: rgba(var(--backgroundColour), 1);
+  margin: 0;
+  overflow-x: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
 }
 
-/*Work on using this style for elements but not the main page*/
-/*::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: rgb(var(--background)); }
-::-webkit-scrollbar-thumb
-{
-    background: rgb(var(--foreground));
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--foreground09); }
-/*#endregion*/
-
-/*#region Containers*/
-span { width: 100%; }
-
-section
-{
-    /*margin-top: 50px;*/
-    margin-left: 10%;
-    margin-right: 10%;
-}
-/*section:first-of-type { margin-top: 100px; }
-section:last-of-type { margin-bottom: 100px; }*/
-/*#endregion*/
-
-/*#region Images*/
-.imgLarge
-{
-    max-width: 400px;
-    max-height: 400px;
-    min-width: 400px;
-    min-height: 400px;
+span {
+  width: 100%;
 }
 
-.imgMedium
-{
-    max-width: 250px;
-    max-height: 250px;
-    min-width: 250px;
-    min-height: 250px;
+section {
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
-.imgSmall
-{
-    max-width: 75px;
-    max-height: 75px;
-    min-width: 75px;
-    min-height: 75px;
+img.large {
+  max-width: 400px;
+  max-height: 400px;
+  min-width: 400px;
+  min-height: 400px;
 }
 
-.imgIcon
-{
-    max-width: 50px;
-    max-height: 50px;
-    min-width: 50px;
-    min-height: 50px;
+img.medium {
+  max-width: 250px;
+  max-height: 250px;
+  min-width: 250px;
+  min-height: 250px;
 }
 
-.circleImage
-{
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
+img.small {
+  max-width: 75px;
+  max-height: 75px;
+  min-width: 75px;
+  min-height: 75px;
 }
 
-.circleImage > img
-{
-    width: 100%;
-    height: 100%;
+img.icon {
+  max-width: 50px;
+  max-height: 50px;
+  min-width: 50px;
+  min-height: 50px;
 }
 
-.containImage
-{
-    position: absolute;
-    border-radius: 4px 4px 0px 0px;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.blurImage
-{
-    border-radius: 4px 4px 0px 0px;
-    position: relative !important;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
+a.colour {
+  color: rgba(var(--linkColour), 1);
 }
 
-.blurImage > img
-{
-    height: 110% !important;
-    width: 110% !important;
-    filter: blur(4px);
-    margin: -5px;
-}
-/*#endregion*/
-
-/*#region Links*/
-a { color: inherit; text-decoration: none; }
-/*#endregion*/
-
-/*#region Text*/
-/*Size*/
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
-{
-    text-transform: uppercase;
-    margin: 20px 10px;
-    font-weight: bolder;
-}
-h1, .h1 { font-size: 3rem; }
-h2, .h2 { font-size: 2.35rem; }
-h3, .h3 { font-size: 1.75rem; }
-h4, .h4 { font-size: 1.32rem; }
-h5, .h5 { font-size: 1.02rem; }
-h6, .h6 { font-size: .88rem; }
-/*#endregion*/
-
-.accentText { color: var(--main-accent) !important; }
-
-/*#region Buttons*/
-button
-{
-    outline: none;
-    transition: ease .4s;
-    transition-property: background-color;
-    border-style: none;
-    color: rgb(var(--foreground));
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: medium;
-    background-color: #2f3541;
+h1, .h1 {
+  font-size: 3rem;
 }
 
-button:hover { background-color: #3d4555; cursor: pointer; }
-
-.hollowButton
-{
-    border: 2.5px solid rgb(var(--foreground));
-    background-color: transparent;
-    color: rgb(var(--foreground));
-}
-.hollowButton:hover,
-.hollowButton.hover
-{
-    background-color: rgb(var(--foreground));
-    color: rgb(var(--background));
-}
-/*#endregion*/
-
-/*#region Misc*/
-hr
-{
-    border: none;
-    border-bottom: 1px solid rgb(var(--foreground));
+h2, .h2 {
+  font-size: 2.35rem;
 }
 
-.center
-{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+h3, .h3 {
+  font-size: 1.75rem;
 }
 
-.bottomStrip { border-bottom: 4px solid var(--main-accent); }
-/*#endregion*/
+h4, .h4 {
+  font-size: 1.32rem;
+}
+
+h5, .h5 {
+  font-size: 1.02rem;
+}
+
+h6, .h6 {
+  font-size: .88rem;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  text-transform: uppercase;
+  margin: 20px 10px;
+  font-weight: bolder;
+}
+
+h1.accent, h2.accent, h3.accent, h4.accent, h5.accent, h6.accent, .h1.accent, .h2.accent, .h3.accent, .h4.accent, .h5.accent, .h6.accent {
+  color: rgba(var(--accentColour), 1);
+}
+
+button, .asButton {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: medium;
+  color: rgba(var(--foregroundColour), 1);
+  background-color: transparent;
+  -webkit-transition: ease .4s;
+  transition: ease .4s;
+  -webkit-transition-property: background-color, color;
+  transition-property: background-color, color;
+  border-radius: 4px;
+  padding: 10px 15px;
+  outline: none;
+  border: 2.5px solid rgba(var(--foregroundColour), 1);
+}
+
+button:hover, .asButton:hover {
+  color: rgba(var(--backgroundColour), 1);
+  background-color: rgba(var(--foregroundColour), 1);
+  cursor: pointer;
+}
+
+button .fill, .asButton .fill {
+  background-color: rgba(var(--backgroundColourAlt), 1);
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid rgba(var(--foregroundColour), 1);
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.bottomStrip {
+  border-bottom: 4px solid rgba(var(--accentColour), 1);
+}
+/*# sourceMappingURL=main.css.map */
