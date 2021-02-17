@@ -1,4 +1,12 @@
 {
+	"name": "bsdp-overlay",
+	"author": {
+		"name": "kOF.Readie"
+	},
+	"repository": {
+		"url": "https://github.com/kOFReadie/BSDP-Overlay",
+		"type": "git"
+	},
 	"dependencies": {
 		"@types/jquery": "^3.5.5"
 	}

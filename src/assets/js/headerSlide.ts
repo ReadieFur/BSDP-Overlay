@@ -15,15 +15,10 @@ export class HeaderSlide
             {
                 transition: top ease 100ms, background-color ease 100ms;
                 position: fixed;
-                background-color: rgb(var(--backgroundAlt)) !important;
+                background-color: rgba(var(--backgroundAltColour), 1) !important;
             }
     
-            .dropdownContent > :last-child { background-color: rgba(var(--background), 0.5) !important; }
-    
-            .slideMenuClick
-            {
-                user-select: none; cursor: pointer;
-            }
+            .dropdownContent > :last-child { background-color: rgba(var(--backgroundAltColour), 0.5) !important; }
         `;
         document.head.appendChild(style);
     

@@ -159,4 +159,13 @@ hr
 {
     border-bottom: 4px solid rgba(var(--accentColour), 1);
 }
+
+.slideMenu
+{
+    width: 100%;
+    position: fixed;
+    z-index: 998;
+    height: 100px;
+    cursor: pointer;
+}
 //#endregion

@@ -90,6 +90,7 @@ export class Main
         `;
     }
 
+    //I did not realise that PHP could also get the cookies, look into getting cookies from PHP instead for better security.
     public static RetreiveCache(cookie_name: string): string
     {
         var i, x, y, ARRcookies = document.cookie.split(";");

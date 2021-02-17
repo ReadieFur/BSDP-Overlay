@@ -9,23 +9,9 @@
         </a>
     </div>
     <div class="navigationContainer">
-        <!--<a href="/">Home</a>-->
-        <!--<a href="<?php echo $WEB_ROOT ?>/">About</a>-->
-        <!--<a href="<?php echo $WEB_ROOT ?>/mod">Mod</a>-->
         <a href="<?php echo $WEB_ROOT ?>/browser/">Browser</a>
         <a href="<?php echo $WEB_ROOT ?>/view/default/">Default</a>
         <a href="<?php echo $WEB_ROOT ?>/edit/">Editor</a>
-        <!--<div class="naviDropdown">
-            <a>Overlay +</a>
-            <div class="dropdownContent">
-                <div></div>
-                <div class="bottomStrip">
-                    <a href="<?php echo $WEB_ROOT ?>/browser/">Browser</a>
-                    <a href="http://u-readie.global-gaming.co/bsdp-overlay/">Default</a>
-                    <a href="http://u-readie.global-gaming.co/bsdp-overlay/editor/">Editor</a>
-                </div>                
-            </div>
-        </div>-->
         <div class="naviDropdown">
             <a>Account +</a>
             <div class="dropdownContent">
@@ -39,5 +25,3 @@
         </div>
     </div>
 </section>
-<!--<hr>-->
-<!-- Work on making these assets dynamic across all of my projects pages -->
