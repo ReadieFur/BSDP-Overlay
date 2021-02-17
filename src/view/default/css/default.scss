@@ -1,0 +1,341 @@
+body
+{
+    background: black;
+}
+
+#overlay
+{
+    *
+    {
+        font-size: 24px;
+    }
+
+    p
+    {
+        margin: 0;
+        width: max-content;
+        font-size: 17px; //The Pre BSR would overflow just a little too much, so the font size is not 18px
+    }
+
+    &.left
+    {
+        > #modifiersAndHealth
+        {
+            right: 0;
+
+            .healthContainer
+            {
+                border-radius: 10px 0 0 10px;
+
+                .healthBackground
+                {
+                    right: 0;
+                }
+            }
+
+            #modifiersColumn
+            {
+                border-radius: 10px 0 0 10px
+            }
+        }
+
+        > #mapDetails
+        {
+            left: 10px;
+
+            .topLeftRadius { border-top-left-radius: 10px; }
+            .topRightRadius { border-top-right-radius: 10px; }
+            .bottomRightRadius { border-bottom-right-radius: 10px; }
+            .bottomLeftRadius { border-bottom-left-radius: 10px; }
+
+            #mapDetailsContainer
+            {
+                p
+                {
+                    padding-left: 5px;
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+
+    &.bottom
+    {
+        > #stats
+        {
+            border-radius: 0 0 10px 10px;
+        }
+
+        > #mapDetails
+        {
+            bottom: 10px;
+
+            #preBSR
+            {
+                border-radius: 10px 10px 0 0;
+                padding-top: 7.5px;
+                padding-bottom: 2.5px;
+            }
+        }
+    }
+
+    &.right
+    {
+        .topLeftRadius { border-top-right-radius: 10px; }
+        .topRightRadius { border-top-left-radius: 10px; }
+        .bottomRightRadius { border-bottom-left-radius: 10px; }
+        .bottomLeftRadius { border-bottom-right-radius: 10px; }
+
+        > #modifiersAndHealth
+        {
+            .healthContainer, #modifiersColumn
+            {
+                border-radius: 0 10px 10px 0;
+            }
+        }
+
+        > #mapDetails
+        {
+            right: 10px;
+
+            p
+            {
+                margin-left: auto;
+            }
+
+            #mapDetailsContainer
+            {
+                p
+                {
+                    padding-left: 10px;
+                    padding-right: 5px;
+                }
+            }
+        }
+    }
+
+    &.top
+    {
+        > #stats
+        {
+            bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        > #mapDetails
+        {
+            top: 10px;
+
+            #preBSR
+            {
+                border-radius: 0 0 10px 10px;
+                padding-top: 2.5px;
+                padding-bottom: 7.5px;
+            }
+
+            #mapDetailsContainer
+            {
+                vertical-align: top;
+            }
+        }
+    }
+
+    &.bottom.left
+    {
+        > #mapDetails
+        {
+            #mapCoverContainer
+            {
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+        }
+    }
+
+    &.bottom.right
+    {
+        > #mapDetails
+        {
+            #mapCoverContainer
+            {
+                border-top-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+        }
+    }
+
+    &.top.left
+    {
+        > #mapDetails
+        {
+            #mapCoverContainer
+            {
+                border-top-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+        }
+    }
+
+    &.top.right
+    {
+        > #mapDetails
+        {
+            #mapCoverContainer
+            {
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+        }
+    }
+
+    > #stats
+    {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(var(--overlayBackground), 0.7);
+        padding: 10px 0px;
+        border-spacing: 25px 0;
+    }
+
+    > #modifiersAndHealth
+    {
+        font-size: 24px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: max-content;
+        border-spacing: 0;
+
+        #healthColumn
+        {
+            padding: 0;
+            width: 20px;
+
+            .healthContainer
+            {
+                background-color: rgba(var(--overlayBackground), 0.7);
+                width: 100%;
+                height: 80%;
+                position: relative;
+
+                *
+                {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .healthBackground
+                {
+                    position: absolute;
+                    top: 50%;
+                    height: 90%;
+                    width: 50%;
+                    transform: translateY(-50%);
+                    background-color: rgba(var(--overlayAlt), 0.8);
+                    border-radius: 5px;
+                }
+
+                #health
+                {
+                    position: absolute;
+                    bottom: 0;
+                    height: 50%;
+                    width: 100%;
+                    background-color: rgba(var(--overlayForeground), 1);
+                    border-radius: 5px;
+                    transition: height 100ms ease 0s;
+                }
+            }
+        }
+
+        #modifiersColumn
+        {
+            text-align: center;
+            padding: 0 5px;
+            background-color: rgba(var(--overlayBackground), 0.7);
+
+            > table
+            {
+                border-spacing: 10px 15px;
+
+                > tbody
+                {
+                    > tr
+                    {
+                        &.active //This CSS was annoying and messy.
+                        {
+                            > td
+                            {
+                                color: rgba(var(--overlayForeground), 1);
+                            }
+                        }
+
+                        > td
+                        {
+                            color: rgba(var(--overlayAlt), 0.8);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    > #mapDetails
+    {
+        position: absolute;
+        border-spacing: 0;
+
+        table, tbody
+        {
+            border-spacing: 0;
+            vertical-align: bottom;
+        }
+
+        td
+        {
+            padding: 0;
+        }
+
+        #mapCoverContainer
+        {
+            width: 160px;
+            height: 160px;
+            background-color: rgba(var(--overlayBackground), 0.7);
+            position: relative;
+
+            > #mapCover
+            {
+                width: 150px;
+                height: 150px;
+                border-radius: 10px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        #preBSR
+        {
+            background-color: rgba(var(--overlayBackground), 0.7);
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        #mapDetailsContainer
+        {
+            > p
+            {
+                background-color: rgba(var(--overlayBackground), 0.7);
+                padding-top: 7.5px; //This is not changed for any of the UI flips as it looks best this way on all of them.
+                padding-bottom: 5px;
+
+                &#songName
+                {
+                    font-size: xx-large;
+                }
+            }
+        }
+    }
+}
