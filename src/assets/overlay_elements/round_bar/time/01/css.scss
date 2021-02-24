@@ -1,0 +1,61 @@
+//Commented out blocks are set in TypeScript
+/*$pi: 3.141592653589793; //math.$pi wasnt working
+//These are only inital values
+$size: 90;
+$position: 90 / 2; //This is also the radius?
+$strokeWidth: 4;
+$radius: $position - ($strokeWidth * 2);
+$circumference: $radius * 2 * $pi;*/
+
+.circle_bar.time_01
+{
+    transform-origin: 0 0;
+    position: relative;
+    /*min-width: $size+px;
+    min-height: $size+px;
+    width: $size+px;
+    height: $size+px;*/
+
+    > .numbers
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        > p
+        {
+            margin: 5px;
+        }
+    }
+
+    > .roundBar
+    {
+        /*width: $size+px;
+        height: $size+px;*/
+        transform: rotate(-90deg);
+
+        > circle
+        {
+            fill: transparent;
+            /*stroke-width: $strokeWidth+px;
+            cx: $position;
+            cy: $position;
+            r: $radius;*/
+        }
+
+        > .background
+        {
+            stroke: rgba(var(--foregroundColour), 0.5);
+        }
+
+        > .progress
+        {
+            stroke: rgba(var(--foregroundColour), 1);
+            transition: stroke-dashoffset 0.35s;
+            /*stroke-dasharray: $circumference $circumference;
+            stroke-dashoffset: ($circumference - 15 / 100 * $circumference);*/
+        }
+    }
+}

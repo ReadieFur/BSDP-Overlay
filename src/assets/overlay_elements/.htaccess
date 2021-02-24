@@ -1,3 +1,5 @@
+#these .htaccess files are for my localhost Apache testing, the live site is served with Nginx.
+
 DirectoryIndex index.php
 
 SetEnv HTTP_MOD_REWRITE On
