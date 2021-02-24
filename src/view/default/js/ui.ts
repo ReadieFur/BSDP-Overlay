@@ -1,5 +1,5 @@
 import { Main } from "../../../assets/js/main";
-import { LiveData, MapData, sampleData } from "../../../assets/js/overlay/client";
+import { LiveData, MapData, SampleData } from "../../../assets/js/overlay/client";
 
 export class UI
 {
@@ -110,11 +110,11 @@ export class UI
         }
         else { this.overlay.classList.add("left"); }
 
-        //This will be replaced by the event dispatcher in client.ts soon.
+        //Try to replace this in the client.ts event dispatcher.
         if (Main.urlParams.has("debug"))
         {
-            this.MapDataUpdate(sampleData.mapData);
-            this.LiveDataUpdate(sampleData.liveData);
+            this.MapDataUpdate(SampleData.mapData);
+            this.LiveDataUpdate(SampleData.liveData);
         }
     }
 
@@ -122,7 +122,7 @@ export class UI
     {
         this.mapData = data;
 
-        //Check if the game has just opened
+        //Check if the game has just opened.
         if (!(!data.InLevel && !data.LevelFailed && !data.LevelFinished && !data.LevelQuit))
         {
             //Time

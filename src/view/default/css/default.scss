@@ -1,6 +1,13 @@
 body
 {
-    background: black;
+    background: transparent;
+
+    > .slideMenu
+    {
+        width: 100%;
+        position: fixed;
+        height: 100px;
+    }
 }
 
 #overlay

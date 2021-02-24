@@ -5,12 +5,12 @@ class Preview
     constructor()
     {
         new Main();
-        window.addEventListener("DOMContentLoaded", () => { this.DOMContentLoadedEvent(); });
-        window.addEventListener("load", () => { this.WindowLoadEvent(); });
-    }
+        
+        if (!Main.urlParams.has("id"))
+        {
+            window.location.replace("../browser/");
+        }
 
-    private WindowLoadEvent()
-    {
         if (Main.urlParams.has("id"))
         {
             let queryString = JSON.stringify({id: Main.urlParams.get("id")});
@@ -47,14 +47,6 @@ class Preview
                 }
                 else { window.location.replace("../browser/"); }
             }
-        }
-    }
-
-    private DOMContentLoadedEvent()
-    {
-        if (!Main.urlParams.has("id"))
-        {
-            window.location.replace("../browser/");
         }
     }
 }

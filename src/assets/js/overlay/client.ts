@@ -5,7 +5,7 @@ export class Client
 {
     private protocol: "wss" | "ws";
     public IP: string;
-    public websocketData!: {[key: string]: eventWebsocket};
+    public websocketData!: {[key: string]: EventWebsocket};
 
     constructor(_IP?: string | null)
     {
@@ -38,7 +38,7 @@ export class Client
 
     public AddEndpoint(endpoint: string, reconnect?: boolean): void
     {
-        let socket: eventWebsocket = this.websocketData[endpoint] = new eventWebsocket(new WebSocket(`${this.protocol}://${this.IP}:2946/BSDataPuller/${endpoint}`));
+        let socket: EventWebsocket = this.websocketData[endpoint] = new EventWebsocket(new WebSocket(`${this.protocol}://${this.IP}:2946/BSDataPuller/${endpoint}`));
         socket.e = new EventDispatcher();
 
         socket.ws.onerror = (e) => { socket.e.dispatch("error"); this.Reconnect(endpoint); };
@@ -75,7 +75,7 @@ export class Client
     }
 }
 
-class eventWebsocket
+class EventWebsocket
 {
     e: EventDispatcher = new EventDispatcher();
     ws: WebSocket;
@@ -158,7 +158,7 @@ export type LiveData =
     TimeElapsed: number
 }
 
-export class sampleData
+export class SampleData
 {
     public static readonly mapData: MapData =
     {

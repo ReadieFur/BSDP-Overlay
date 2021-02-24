@@ -11,18 +11,12 @@ export class Main
     {
         Main.WEB_ROOT = WEB_ROOT;
         Main.urlParams = new URLSearchParams(location.search);
-        window.addEventListener("DOMContentLoaded", () => { this.DOMContentLoadedEvent(); });
-        window.addEventListener("load", () => { this.WindowLoadEvent(); });
-    }
-
-    private DOMContentLoadedEvent(): void
-    {
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));
         Main.footer = Main.ThrowIfNullOrUndefined(document.querySelector("#footer"));
 
         if (Main.RetreiveCache("READIE-DARK") != "false") { Main.DarkTheme(true); }
         else { Main.DarkTheme(false); }
-        document.querySelector("#darkMode")!.addEventListener("click", () =>
+        Main.ThrowIfNullOrUndefined(document.querySelector("#darkMode")).addEventListener("click", () =>
         {
             var cachedValue = Main.RetreiveCache("READIE-DARK");
             if (cachedValue == undefined || cachedValue == "false") { Main.DarkTheme(true); }
@@ -30,10 +24,7 @@ export class Main
         });
 
         this.HighlightActivePage();
-    }
 
-    private WindowLoadEvent(): void
-    {
         let staticStyles = document.createElement("style");
         staticStyles.innerHTML = `
             *

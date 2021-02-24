@@ -4,16 +4,11 @@ export class HeaderSlide
 {
     constructor()
     {
-        window.addEventListener("load", () => { this.WindowLoadEvent(); });
-    }
-
-    private WindowLoadEvent()
-    {
         let style = document.createElement("style");
         style.innerHTML = `
             #header
             {
-                transition: top ease 100ms, background-color ease 100ms;
+                transition: top ease 100ms, background-color ease 400ms;
                 position: fixed;
                 background-color: rgba(var(--backgroundAltColour), 1) !important;
             }
@@ -25,7 +20,7 @@ export class HeaderSlide
         Main.header.addEventListener("mouseleave", () => { this.HideHeader(); });
         this.HideHeader();
     
-        document.querySelectorAll(".slideMenu").forEach((e: Element) => { e.addEventListener("click", () => { this.ShowHeader(); }); });
+        document.querySelectorAll(".slideMenu, ._slideMenu").forEach((e: Element) => { e.addEventListener("click", () => { this.ShowHeader(); }); });
     }
 
     private ShowHeader()
