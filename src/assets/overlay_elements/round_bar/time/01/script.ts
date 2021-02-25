@@ -2,6 +2,7 @@ import { Main } from "../../../../js/main";
 import { MapData, LiveData } from "../../../../js/overlay/client";
 import { UI } from "../../../../js/overlay/ui";
 
+//Consider making a style for each category/type so ts is not duplicated.
 export class Script
 {
     //For now these values will be the same for all elements.
@@ -28,7 +29,7 @@ export class Script
     }
 
     //Create add update and remove functions
-    public AddElement(element: HTMLDivElement, width?: number, height?: number)
+    public AddElement(element: HTMLDivElement, width?: number, height?: number): void
     {
         this.elements[element.id] =
         {
@@ -66,6 +67,12 @@ export class Script
         if (width !== undefined) { this.Resize(element.id, width); }
 
         this.elements[element.id].mutationObserver.observe(this.elements[element.id].container, { attributes: true });
+    }
+
+    public RemoveElement(element: HTMLDivElement): void
+    {
+        this.elements[element.id].mutationObserver.disconnect();
+        delete this.elements[element.id];
     }
 
     public UpdateMapData(data: MapData): void
@@ -116,8 +123,8 @@ type Elements =
         roundBar: SVGElement,
         element: HTMLDivElement,
         elapsed: HTMLParagraphElement,
-        length: HTMLParagraphElement
-        background: SVGAElement;
+        length: HTMLParagraphElement,
+        background: SVGAElement,
         progress: SVGAElement;
         percentage: number,
         mutationObserver: MutationObserver
