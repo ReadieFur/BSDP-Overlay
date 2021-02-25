@@ -1,0 +1,40 @@
+.circle_bar.health_01
+{
+    transform-origin: 0 0;
+    position: relative;
+
+    > .numbers
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        > p
+        {
+            margin: 5px;
+        }
+    }
+
+    > .roundBar
+    {
+        transform: rotate(-90deg);
+
+        > circle
+        {
+            fill: transparent;
+        }
+
+        > .background
+        {
+            stroke: rgba(var(--foregroundColour), 0.5);
+        }
+
+        > .progress
+        {
+            stroke: rgba(var(--foregroundColour), 1);
+            transition: stroke-dashoffset 0.35s;
+        }
+    }
+}

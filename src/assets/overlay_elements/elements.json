@@ -7,6 +7,13 @@
             {
                 "showInEditor": true
             }
+        },
+        "health":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
         }
     }
 }
