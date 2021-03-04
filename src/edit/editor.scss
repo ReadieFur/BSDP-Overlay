@@ -1,0 +1,373 @@
+$editorWidth: 250px;
+$gradient-fBf: linear-gradient(
+    90deg,
+    rgba(var(--backgroundColour), 1) 0%,
+    rgba(var(--foregroundColour), 1) 25%,
+    rgba(var(--foregroundColour), 1) 50%,
+    rgba(var(--foregroundColour), 1) 75%,
+    rgba(var(--backgroundColour), 1) 100%
+);
+
+@media screen and (max-width: 1280px)
+{
+    #overlay
+    {
+        zoom: 1.25;
+    }
+}
+
+body
+{
+    background: transparent;
+
+    > #splashScreen
+    {
+        z-index: 100;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(var(--backgroundColour), 1);
+        transition: opacity 400ms ease 0s;
+
+        > div
+        {
+            text-align: center;
+        }
+    }
+
+    > #saveMenuContainer
+    {
+        display: none;
+        position: absolute;
+        z-index: 99;
+        width: 100%;
+        height: 100%;
+        transition: opacity 400ms ease 0s;
+        backdrop-filter: blur(2px);
+
+        > #saveMenuBackground
+        {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        > #saveMenu
+        {
+            position: absolute;
+            width: 800px;
+            height: 350px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(var(--backgroundAltColour), 1);
+            border: 1px solid rgba(var(--foregroundColour), 1);
+            border-radius: 10px;
+
+            > table
+            {
+                padding: 2.5%;
+                width: 100%;
+                height: 100%;
+                
+                td
+                {
+                    vertical-align: top;
+                    width: 50%;
+                    height: 100%;
+                }
+
+                #publishContainer
+                {
+                    padding-left: 2.5%;
+                    
+                    > table
+                    {
+                        width: 100%;
+                        height: 100%;
+
+                        //I could've used selectors here but I ended up giving the TDs all IDs.
+                        #thumbnailContainer
+                        {
+                            position: relative;
+                            vertical-align: top;
+                            //height: max-content;
+                            height: 200px;
+                            padding: 0;
+
+                            //When this thumbnail is loaded it moves the table cells down a little, I'd like to fix that.
+                            > #thumbnail
+                            {
+                                width: 100%;
+                                border-radius: 7.5px;
+                                //border: 1px solid rgba(var(--foregroundColour), 1);
+                            }
+
+                            > h4
+                            {
+                                z-index: -1;
+                                position: absolute;
+                                left: 50%;
+                                top: 50%;
+                                transform: translate(-50%, -50%);
+                                margin: 0;
+                                text-align: center;
+                            }
+                        }
+
+                        #overlayPrivateContainer
+                        {
+                            vertical-align: middle;
+                            > #overlayPrivate
+                            {
+                                margin: 0;
+    
+                                h4
+                                {
+                                    margin: 0;
+                                    margin-left: 5px;
+                                }
+                            }
+                        }
+
+                        #publishButtonContainer
+                        {
+                            vertical-align: bottom;
+
+                            > #publishButton
+                            {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+
+                #detailsContainer
+                {
+                    > form
+                    {
+                        height: 100%;
+
+                        > table
+                        {
+                            height: 100%;
+
+                            #titleContainer
+                            {
+                                height: auto;
+                            }
+
+                            #description
+                            {
+                                position: relative;
+                                margin-top: 10px;
+                                resize: none;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    > table
+    {
+        border-spacing: 0;
+        width: 100%;
+        height: 100%;
+
+        .menuContainer
+        {
+            width: $editorWidth;
+            background-color: rgba(var(--backgroundColour), 1);
+            padding: 0;
+
+            > table
+            {
+                height: 100%;
+                width: 100%;
+
+                .slideMenuContainer
+                {
+                    height: max-content;
+
+                    .slideMenu
+                    {
+                        width: max-content;
+                        vertical-align: middle;
+                        cursor: pointer;
+            
+                        hr
+                        {
+                            margin-left: 15px;
+                            border: none;
+                            background: rgba(var(--foregroundColour), 1);
+                            width: 25px;
+                            height: 1px;
+                            border-radius: .5px;
+                            transition: background 100ms ease 0s;
+                        }
+            
+                        &:hover
+                        {
+                            h3
+                            {
+                                color: rgba(var(--accentColour), 1);
+                            }
+            
+                            hr
+                            {
+                                background: rgba(var(--accentColour), 1);
+                            }
+                        }
+                    }
+                }
+
+                #elementsRow
+                {
+                    vertical-align: top;
+                    #elementsTable
+                    {
+                        width: 90%;
+                        height: max-content;
+                        margin-left: auto;
+                        margin-right: auto;
+
+                        tr
+                        {
+                            vertical-align: top;
+
+                            > td
+                            {
+                                user-select: none;
+                                vertical-align: middle;
+                                text-align: center;
+                                display: none;
+                                cursor: pointer;
+
+                                //> &:not(:first-child):not(:last-child)
+                                &.visible
+                                {
+                                    display: table-cell;
+                                    max-width: $editorWidth - 50;
+
+                                    > div
+                                    {
+                                        margin-left: auto;
+                                        margin-right: auto;
+                                    }
+                                }
+
+                                &:first-child:not(.visible), &:last-child:not(.visible)
+                                {
+                                    display: table-cell;
+                                    width: 25px;
+    
+                                    > h3
+                                    {
+                                        margin: 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #optionsRow
+                {
+                    vertical-align: top;
+                    height: 20%;
+
+                    hr
+                    {
+                        margin: 5px;
+                        height: 1px;
+                        background: $gradient-fBf;
+                        border-bottom: none;
+                    }
+                }
+
+                #ssc
+                {
+                    height: max-content;
+                    text-align: center;
+
+                    #showSaveContainer
+                    {
+                        margin: 20px 0;
+                        width: 80%;
+                    }
+                }
+            }
+        }
+
+        .overlayContainer
+        {
+            position: relative;
+
+            > #overlay
+            {
+                background-image: url("../assets/images/beat-saber.jpg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                max-width: 100%;
+                max-height: 100%;
+                min-width: 480px;
+                min-height: 270px;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                resize: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                > .container
+                {
+                    position: absolute;
+                    resize: both;
+                    overflow: hidden;
+                    max-width: 100%;
+                    max-height: 100%;
+
+                    &:hover
+                    {
+                        box-shadow: 0 0 0 1px rgba(var(--foregroundColour), 1);
+                    }
+
+                    &:not(:hover)
+                    {
+                        &::-webkit-resizer
+                        {
+                            opacity: 0;
+                        }
+                    }
+
+                    *
+                    {
+                        user-select: none;
+                    }
+                }
+            }
+        }
+    }
+
+    > #imageRendererContainer
+    {
+        display: none;
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
+        > .container
+        {
+            position: absolute;
+            overflow: hidden;
+        }
+    }
+}
