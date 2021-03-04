@@ -29,17 +29,17 @@ export class Script
     }
 
     //Create add update and remove functions
-    public AddElement(element: HTMLDivElement, width?: number, height?: number): void
+    public AddElement(element: HTMLDivElement): void
     {
         this.elements[element.id] =
         {
             container: element,
-            element: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01`)),
-            roundBar: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01 .roundBar`)),
-            elapsed: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01 .elapsed`)),
-            length: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01 .length`)),
-            background: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01 .background`)),
-            progress: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time_01 .progress`)),
+            element: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01`)),
+            roundBar: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01 .roundBar`)),
+            elapsed: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01 .elapsed`)),
+            length: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01 .length`)),
+            background: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01 .background`)),
+            progress: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.time._01 .progress`)),
             percentage: 0,
             mutationObserver: new MutationObserver((ev: MutationRecord[]) => { this.MutationEvent(element.id, ev); })
         };
@@ -63,8 +63,6 @@ export class Script
         this.elements[element.id].progress.setAttribute("r", this.radius.toString());
         this.elements[element.id].progress.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
         this.elements[element.id].progress.style.strokeDashoffset = (this.circumference - this.elements[element.id].percentage / 100 * this.circumference).toString();
-
-        if (width !== undefined) { this.Resize(element.id, width); }
 
         this.elements[element.id].mutationObserver.observe(this.elements[element.id].container, { attributes: true });
     }

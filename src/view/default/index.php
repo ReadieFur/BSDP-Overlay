@@ -15,8 +15,8 @@
 </head>
 <header id="header">
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?>
-    <link rel="stylesheet" href="./css/default.css">
-    <script src="./js/default.js" type="module"></script>
+    <link rel="stylesheet" href="./default.css">
+    <script src="./default.js" type="module"></script>
 </header>
 <body>
     <span class="slideMenu"></span>

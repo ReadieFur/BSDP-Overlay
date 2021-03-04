@@ -30,7 +30,7 @@ export class DragElement
         this.element.style.bottom = "unset";
         this.container.onmouseup = (e: MouseEvent) => { this.MouseUpEvent(e); };
 
-        if (e.offsetX < this.element.clientWidth - 15 && e.offsetY < this.element.clientHeight - 15) //The resize grabber is 15px
+        if (e.offsetX < this.element.clientWidth - 15 && e.offsetY < this.element.clientHeight - 15)
         {
             e.preventDefault();
             //Remove the elements right/bottom position and replace it back to left/top.
@@ -78,14 +78,14 @@ export class DragElement
         this.container.onmouseup = null;
         this.container.onmousemove = null;
 
-        //Set the elements position with left/right/top/bottom, work % values into this
-        if (this.element.offsetLeft > this.container.clientWidth / 2)
+        //Set the elements position with left/right/top/bottom, work % values into this.
+        if (this.element.offsetLeft + this.element.clientWidth / 2 > this.container.clientWidth / 2)
         {
             this.element.style.right = `${this.container.clientWidth - this.element.offsetLeft - this.element.clientWidth}px`;
             this.element.style.left = "unset";
         }
 
-        if (this.element.offsetTop > this.container.clientHeight / 2)
+        if (this.element.offsetTop + this.element.clientHeight / 2 > this.container.clientHeight / 2)
         {
             this.element.style.bottom = `${this.container.clientHeight - this.element.offsetTop - this.element.clientHeight}px`;
             this.element.style.top = "unset";

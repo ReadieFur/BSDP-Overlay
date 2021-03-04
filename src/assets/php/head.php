@@ -15,7 +15,8 @@
 <meta property="og:image" content="https://cdn.global-gaming.co/images/team/members/readiecircle.png"/>
 <title><?php echo $title != null ? $title : "$DirName | BSDP Overlay"; ?></title>
 <link rel="icon" href="https://cdn.global-gaming.co/images/team/members/readiecircle.png" type="image/png">
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet" type="text/css">
+<link href="https://cdn.global-gaming.co/resources/fonts/montserrat/stylesheet.css" rel="stylesheet" type="text/css"> <!--Main font-->
+<link href="https://cdn.global-gaming.co/resources/fonts/open_sans/stylesheet.css" rel="stylesheet" type="text/css"> <!--Fallback font-->
 <link rel="stylesheet" type="text/css" href="<?php echo $WEB_ROOT; ?>/assets/css/main.css"/>
 <script src="https://cdn.global-gaming.co/resources/scripts/jquery/jquery-3.5.1.min.js"></script>
 <script>var WEB_ROOT = "<?php echo $WEB_ROOT; ?>";</script>

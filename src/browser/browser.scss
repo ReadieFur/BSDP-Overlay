@@ -23,13 +23,10 @@
 
     input[type="text"]
     {
-        color: rgba(var(--foregroundColour), 1);
-        background-color: transparent;
-        outline-width: 0;
-        border-radius: 4px 0 0 4px;
         border-right: 0;
+        border-radius: 4px 0 0 4px;
         padding: 4px 6px;
-        font-weight: normal;
+        width: auto;
     }
 
     input[type="submit"]

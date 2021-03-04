@@ -17,6 +17,7 @@
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
     <div class="fullFrontPage">
+        <!--Make this page with parallax scrolling-->
         <video src="" autoplay muted loop></video>
         <section>
             <div></div>

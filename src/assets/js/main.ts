@@ -6,6 +6,7 @@ export class Main
     public static header: HTMLElement;
     public static footer: HTMLElement;
     public static urlParams: URLSearchParams;
+    public static zoom: number;
 
     constructor()
     {
@@ -13,6 +14,9 @@ export class Main
         Main.urlParams = new URLSearchParams(location.search);
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));
         Main.footer = Main.ThrowIfNullOrUndefined(document.querySelector("#footer"));
+
+        window.addEventListener("resize", () => { this.WindowResizeEvent(); });
+        this.WindowResizeEvent();
 
         if (Main.RetreiveCache("READIE-DARK") != "false") { Main.DarkTheme(true); }
         else { Main.DarkTheme(false); }
@@ -36,6 +40,12 @@ export class Main
             }
         `;
         document.head.appendChild(staticStyles);
+    }
+
+    private WindowResizeEvent(): void
+    {
+        if (window.innerWidth < 1280) { Main.zoom = 0.75; }
+        else { Main.zoom = 1; }
     }
 
     private HighlightActivePage(): void
@@ -77,6 +87,7 @@ export class Main
                 --backgroundColour: ${dark ? "13, 17, 23" : "255, 255, 255"};
                 --backgroundAltColour: ${dark ? "22, 27, 34" : "225, 225, 225"};
                 --accentColour: 100, 0, 255;
+                --accentColourAlt: 255, 120, 0;
             }
         `;
     }
