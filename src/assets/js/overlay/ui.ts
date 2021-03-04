@@ -56,11 +56,10 @@ export class UI
         }
     }
 
-    //This is not final
     public CreateElement(category: string, type: string, id: string): HTMLDivElement
     {
         if (this.importedElements[category][type][id] === undefined)
-        { throw new TypeError(`${type}_${category}_${id} was not found in the imported elements list.`); } //Or return ""
+        { throw new TypeError(`${type}_${category}_${id} was not found in the imported elements list.`); } //Or return an error message
 
         if (this.createdElements.elements[category] === undefined) { this.createdElements.elements[category] = {}; }
         if (this.createdElements.elements[category][type] === undefined) { this.createdElements.elements[category][type] = {}; }
@@ -84,12 +83,16 @@ export class UI
         container.innerHTML = this.importedElements[category][type][id].html;
         
         this.createdElements.elements[category][type][id].script.AddElement(container);
+        //I cannot use computed styles or client/offset values here because the element does not exist on the DOM yet.
         this.createdElements.elements[category][type][id].elements[container.id] =
         {
-            left: container.offsetLeft.toString(),
-            top: container.offsetTop.toString(),
-            width: container.clientWidth.toString(),
-            height: container.clientHeight.toString()
+            position:
+            {
+                top: "0px",
+                left: "0px"
+            },
+            width: container.style.height,
+            height: container.style.height
         };
 
         return container;
@@ -141,19 +144,57 @@ export class UI
     }
 }
 
+export interface OverlayPOSTResponse
+{
+    /*data:
+        "NO_QUERY_FOUND" |
+        "NO_METHOD_FOUND" |
+        "INVALID_METHOD" |
+        "INVALID_CREDENTIALS" |
+        "INVALID_DATA" |
+        "MISSING_PARAMETERS" |
+        object*/
+    //data: string | { [key: string]: any }
+    error: any,
+    data: any
+}
+
 export type ElementsJSON =
 {
     [category: string]:
     {
         [type: string]:
         {
-            [name: string]:
+            [id: string]:
             {
                 showInEditor: boolean,
                 html: string,
                 css: string,
                 script: ElementScript
             }
+        }
+    }
+}
+
+export type SavedElements =
+{
+    [category: string]:
+    {
+        [type: string]:
+        {
+            [id: string]:
+            {
+                position:
+                {
+                    top?: string,
+                    left?: string,
+                    bottom?: string,
+                    right?: string,
+                }
+                width: string,
+                height: string,
+                customValues?: string
+            }[];
         }
     }
 }
@@ -175,11 +216,17 @@ type CreatedElements =
                     {
                         [elementID: string]:
                         {
-                            left: string, //These are left as a string for % values
-                            top: string,
+                            position:
+                            {
+                                //These are left as a string for % values
+                                top?: string,
+                                left?: string,
+                                bottom?: string,
+                                right?: string,
+                            }
                             width: string,
                             height: string,
-                            mutationObserver?: MutationObserver,
+                            //mutationObserver?: MutationObserver,
                             dragElement?: DragElement
                         }
                     }
@@ -192,7 +239,7 @@ type CreatedElements =
 interface ElementScript
 {
     new(): ElementScript,
-    AddElement(element: HTMLDivElement, width?: number, height?: number): void;
+    AddElement(element: HTMLDivElement): void;
     RemoveElement(element: HTMLDivElement): void;
     UpdateMapData(data: MapData): void;
     UpdateLiveData(data: LiveData): void;
