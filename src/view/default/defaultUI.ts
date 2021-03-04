@@ -1,7 +1,7 @@
-import { Main } from "../../../assets/js/main";
-import { LiveData, MapData, SampleData } from "../../../assets/js/overlay/client";
+import { Main } from "../../assets/js/main";
+import { LiveData, MapData, SampleData } from "../../assets/js/overlay/client";
 
-export class UI
+export class DefaultUI
 {
     private overlay: HTMLDivElement;
     private overlayThemeColours: HTMLStyleElement;

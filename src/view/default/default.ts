@@ -1,11 +1,11 @@
-import { Main } from "../../../assets/js/main";
-import { HeaderSlide } from "../../../assets/js/headerSlide";
-import { Client, MapData, LiveData } from "../../../assets/js/overlay/client";
-import { UI } from "./ui.js"; //Due to the directory rewrite I need to put the file type onto the end
+import { Main } from "../../assets/js/main";
+import { HeaderSlide } from "../../assets/js/headerSlide";
+import { Client, MapData, LiveData } from "../../assets/js/overlay/client";
+import { DefaultUI } from "./defaultUI.js"; //Due to the directory rewrite I need to put the file type onto the end
 
 class Default
 {
-    private ui: UI;
+    private ui: DefaultUI;
     private client: Client;
 
     constructor()
@@ -14,7 +14,7 @@ class Default
 
         new Main();
         new HeaderSlide();
-        this.ui = new UI();
+        this.ui = new DefaultUI();
         this.client = new Client(Main.urlParams.get("ip")); //Generate a UI where prefrences are stored on the server and not in the URL/cookies
 
         this.client.AddEndpoint("MapData");
