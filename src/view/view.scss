@@ -1,0 +1,49 @@
+body
+{
+    background: transparent;
+
+    > .slideMenu
+    {
+        z-index: 50;
+        width: 100%;
+        position: fixed;
+        height: 100px;
+        cursor: pointer;
+    }
+
+    > #splashScreen
+    {
+        z-index: 100;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(var(--backgroundColour), 1);
+        transition: opacity 400ms ease 0s;
+
+        > div
+        {
+            text-align: center;
+        }
+    }
+
+    > #overlay
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: none;
+
+        > .container
+        {
+            position: absolute;
+
+            *
+            {
+                user-select: none;
+            }
+        }
+    }
+}
