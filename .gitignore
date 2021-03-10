@@ -4,4 +4,4 @@ public/
 *.php
 tmp
 template.*
-elements/
+src/
