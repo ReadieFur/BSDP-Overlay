@@ -111,23 +111,30 @@ export type MapData =
     NJS: number,
     Modifiers:
     {
-        batteryEnergy: boolean,
-        disappearingArrows: boolean,
-        fasterSong: boolean,
-        ghostNotes: boolean,
-        instaFail: boolean,
-        noArrows: boolean,
+        noFailOn0Energy: boolean,
+        oneLife: boolean,
+        fourLives: boolean,
         noBombs: boolean,
-        noFail: boolean,
-        noObstacles: boolean,
-        slowerSong: boolean
-    } | null,
+        noWalls: boolean,
+        noArrows: boolean,
+        ghostNotes: boolean,
+        disappearingArrows: boolean,
+        smallNotes: boolean,
+        proMode: boolean,
+        strictAngles: boolean,
+        zenMode: boolean,
+        slowerSong: boolean,
+        fasterSong: boolean,
+        superFastSong: boolean
+    },
     ModifiersMultiplier: number,
     PracticeMode: boolean,
     PracticeModeModifiers:
     {
-        songSpeedMul: number
-    } | null,
+        songSpeedMul: number,
+        startInAdvanceAndClearNotes: number,
+        startSongTime: number
+    },
     PP: number,
     Star: number,
 
@@ -185,22 +192,29 @@ export class SampleData
         NJS: 23,
         Modifiers:
         {
-            instaFail: false,
-            batteryEnergy: true,
-            disappearingArrows: true,
-            ghostNotes: false,
-            fasterSong: false,
-            noFail: false,
-            noObstacles: false,
+            noFailOn0Energy: false,
+            oneLife: false,
+            fourLives: false,
             noBombs: false,
+            noWalls: false,
+            noArrows: false,
+            ghostNotes: false,
+            disappearingArrows: true,
+            smallNotes: false,
+            proMode: false,
+            strictAngles: true,
+            zenMode: false,
             slowerSong: false,
-            noArrows: false
+            fasterSong: false,
+            superFastSong: false
         },
         ModifiersMultiplier: 1,
         PracticeMode: false,
         PracticeModeModifiers:
         {
-            songSpeedMul: 1
+            songSpeedMul: 1,
+            startInAdvanceAndClearNotes: 0,
+            startSongTime: 0
         },
         PP: 0,
         Star: 0,

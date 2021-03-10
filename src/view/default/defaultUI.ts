@@ -16,16 +16,21 @@ export class DefaultUI
     private health: HTMLDivElement;
     private modifiers:
     {
-        batteryEnergy: HTMLTableDataCellElement,
-        disappearingArrows: HTMLTableDataCellElement,
-        fasterSong: HTMLTableDataCellElement,
-        ghostNotes: HTMLTableDataCellElement,
-        instaFail: HTMLTableDataCellElement,
-        noArrows: HTMLTableDataCellElement,
+        noFailOn0Energy: HTMLTableDataCellElement,
+        oneLife: HTMLTableDataCellElement,
+        fourLives: HTMLTableDataCellElement,
         noBombs: HTMLTableDataCellElement,
-        noFail: HTMLTableDataCellElement,
-        noObstacles: HTMLTableDataCellElement,
-        slowerSong: HTMLTableDataCellElement
+        noWalls: HTMLTableDataCellElement,
+        noArrows: HTMLTableDataCellElement,
+        ghostNotes: HTMLTableDataCellElement,
+        disappearingArrows: HTMLTableDataCellElement,
+        smallNotes: HTMLTableDataCellElement,
+        proMode: HTMLTableDataCellElement,
+        strictAngles: HTMLTableDataCellElement,
+        zenMode: HTMLTableDataCellElement,
+        slowerSong: HTMLTableDataCellElement,
+        fasterSong: HTMLTableDataCellElement,
+        superFastSong: HTMLTableDataCellElement
     };
 
     private mapDetailsTR: HTMLTableRowElement;
@@ -58,16 +63,21 @@ export class DefaultUI
         this.health = Main.ThrowIfNullOrUndefined(document.querySelector("#health"));
         this.modifiers =
         {
-            instaFail: Main.ThrowIfNullOrUndefined(document.querySelector("#IF")),
-            batteryEnergy: Main.ThrowIfNullOrUndefined(document.querySelector("#BE")),
-            disappearingArrows: Main.ThrowIfNullOrUndefined(document.querySelector("#DA")),
-            ghostNotes: Main.ThrowIfNullOrUndefined(document.querySelector("#GN")),
-            fasterSong: Main.ThrowIfNullOrUndefined(document.querySelector("#FS")),
-            noFail: Main.ThrowIfNullOrUndefined(document.querySelector("#NF")),
-            noObstacles: Main.ThrowIfNullOrUndefined(document.querySelector("#NO")),
+            noFailOn0Energy: Main.ThrowIfNullOrUndefined(document.querySelector("#NF")),
+            oneLife: Main.ThrowIfNullOrUndefined(document.querySelector("#OL")),
+            fourLives: Main.ThrowIfNullOrUndefined(document.querySelector("#FL")),
             noBombs: Main.ThrowIfNullOrUndefined(document.querySelector("#NB")),
+            noWalls: Main.ThrowIfNullOrUndefined(document.querySelector("#NW")),
+            noArrows: Main.ThrowIfNullOrUndefined(document.querySelector("#NA")),
+            ghostNotes: Main.ThrowIfNullOrUndefined(document.querySelector("#GN")),
+            disappearingArrows: Main.ThrowIfNullOrUndefined(document.querySelector("#DA")),
+            smallNotes: Main.ThrowIfNullOrUndefined(document.querySelector("#SN")),
+            proMode: Main.ThrowIfNullOrUndefined(document.querySelector("#PM")),
+            strictAngles: Main.ThrowIfNullOrUndefined(document.querySelector("#SA")),
+            zenMode: Main.ThrowIfNullOrUndefined(document.querySelector("#ZM")),
             slowerSong: Main.ThrowIfNullOrUndefined(document.querySelector("#SS")),
-            noArrows: Main.ThrowIfNullOrUndefined(document.querySelector("#NA"))
+            fasterSong: Main.ThrowIfNullOrUndefined(document.querySelector("#FS")),
+            superFastSong: Main.ThrowIfNullOrUndefined(document.querySelector("#SF"))
         };
 
         this.mapDetailsTR = Main.ThrowIfNullOrUndefined(document.querySelector("#mapDetailsTR"));
@@ -89,6 +99,8 @@ export class DefaultUI
                 --overlayAlt: ${Main.urlParams.has("overlayAlt") ? Main.urlParams.get("overlayAlt") : "80, 80, 80"};
             }
         `;
+
+        document.body.style.zoom = Main.urlParams.has("scale") ? Main.urlParams.get("scale")! : "1";
 
         if (Main.urlParams.has("flipVerti"))
         {
@@ -140,16 +152,21 @@ export class DefaultUI
 
                     switch (key)
                     {
-                        case "batteryEnergy": element = this.modifiers.batteryEnergy; break;
-                        case "disappearingArrows": element = this.modifiers.disappearingArrows; break;
-                        case "fasterSong": element = this.modifiers.fasterSong; break;
-                        case "ghostNotes": element = this.modifiers.ghostNotes; break;
-                        case "instaFail": element = this.modifiers.instaFail; break;
-                        case "noArrows": element = this.modifiers.noArrows; break;
+                        case "noFailOn0Energy": element = this.modifiers.noFailOn0Energy; break;
+                        case "oneLife": element = this.modifiers.oneLife; break;
+                        case "fourLives": element = this.modifiers.fourLives; break;
                         case "noBombs": element = this.modifiers.noBombs; break;
-                        case "noFail": element = this.modifiers.noFail; break;
-                        case "noObstacles": element = this.modifiers.noObstacles; break;
+                        case "noWalls": element = this.modifiers.noWalls; break;
+                        case "noArrows": element = this.modifiers.noArrows; break;
+                        case "ghostNotes": element = this.modifiers.ghostNotes; break;
+                        case "disappearingArrows": element = this.modifiers.disappearingArrows; break;
+                        case "smallNotes": element = this.modifiers.smallNotes; break;
+                        case "proMode": element = this.modifiers.proMode; break;
+                        case "strictAngles": element = this.modifiers.strictAngles; break;
+                        case "zenMode": element = this.modifiers.zenMode; break;
                         case "slowerSong": element = this.modifiers.slowerSong; break;
+                        case "fasterSong": element = this.modifiers.fasterSong; break;
+                        case "superFastSong": element = this.modifiers.superFastSong; break;
                         default: continue;
                     }
 
@@ -159,7 +176,7 @@ export class DefaultUI
             }
 
             //Cover image
-            this.mapCover.src = data.coverImage !== null ? data.coverImage : "/bsdp-overlay/assets/images/BeatSaberIcon.jpg";
+            this.mapCover.src = data.coverImage !== null ? data.coverImage : "./BeatSaberIcon.jpg";
 
             //Map details
             this.HideOnNull(data.BSRKey, this.bsr, "BSR: ");
