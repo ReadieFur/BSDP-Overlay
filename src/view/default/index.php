@@ -46,16 +46,21 @@
                     <td id="modifiersColumn">
                         <table>
                             <tbody>
-                                <tr id="IF"><td>IF</td></tr>
-                                <tr id="BE"><td>BE</td></tr>
-                                <tr id="DA"><td>DA</td></tr>
-                                <tr id="GN"><td>GN</td></tr>
-                                <tr id="FS"><td>FS</td></tr>
-                                <tr id="NF"><td>NF</td></tr>
-                                <tr id="NO"><td>NO</td></tr>
+                            <tr id="NF"><td>NF</td></tr>
+                                <tr id="OL"><td>OL</td></tr>
+                                <tr id="FL"><td>FL</td></tr>
                                 <tr id="NB"><td>NB</td></tr>
-                                <tr id="SS"><td>SS</td></tr>
+                                <tr id="NW"><td>NW</td></tr>
                                 <tr id="NA"><td>NA</td></tr>
+                                <tr id="GN"><td>GN</td></tr>
+                                <tr id="DA"><td>DA</td></tr>
+                                <tr id="SN"><td>SN</td></tr>
+                                <tr id="PM"><td>PM</td></tr>
+                                <tr id="SA"><td>SA</td></tr>
+                                <tr id="ZM"><td>ZM</td></tr>
+                                <tr id="SS"><td>SS</td></tr>
+                                <tr id="FS"><td>FS</td></tr>
+                                <tr id="SF"><td>SF</td></tr>
                             </tbody>
                         </table>
                     </td>
