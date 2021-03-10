@@ -274,7 +274,7 @@ body
 
             > table
             {
-                border-spacing: 10px 15px;
+                border-spacing: 7.5px 10px;
 
                 > tbody
                 {
@@ -291,6 +291,7 @@ body
                         > td
                         {
                             color: rgba(var(--overlayAlt), 0.8);
+                            font-size: 22px;
                         }
                     }
                 }
