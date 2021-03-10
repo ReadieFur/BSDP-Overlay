@@ -1,0 +1,63 @@
+//Some variables get changed at runtime so I will not be using SCSS variables for some things.
+
+@media screen and (max-width: 1280px)
+{
+    body
+    {
+        zoom: 0.75;
+    }
+}
+
+*
+{
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    color: rgba(var(--foregroundColour), 1);
+    transition:
+        background 400ms ease 0s,
+        background-color 400ms ease 0s,
+        color 100ms ease 0s;
+
+    &:root
+    {
+        --linkColour: 0, 180, 235;
+        --foregroundColour: 255, 255, 255;
+        --backgroundColour: 13, 17, 23;
+        --backgroundAltColour: 22, 27, 34;
+        --accentColour: 100, 0, 255;
+        --accentColourAlt: 255, 120, 0;
+    }
+}
+
+body
+{
+    background: rgba(var(--backgroundColour), 1); //For other properties, should I be using 'background' and not 'background-color'?
+    margin: 0;
+    overflow-x: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+}
+
+//#region Text
+h1, .h1 { font-size: 3rem; }
+h2, .h2 { font-size: 2.35rem; }
+h3, .h3 { font-size: 1.75rem; }
+h4, .h4 { font-size: 1.32rem; }
+h5, .h5 { font-size: 1.02rem; }
+h6, .h6 { font-size: .88rem; }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
+{
+    text-transform: uppercase;
+    margin: 20px 10px;
+    //font-weight: bolder;
+
+    &.accent
+    {
+        color: rgba(var(--accentColour), 1);
+    }
+}
+//#endregion

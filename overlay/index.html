@@ -3,61 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSDP Overlay | Preset</title>
-    <link rel="icon" href="assets/LogoCircle.png" type="image/svg">
-    <link rel="stylesheet" href="css/preset.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800" rel="stylesheet">
-    <script src="js/client.js"></script>
-    <script src="js/elements.js"></script>
-    <script src="js/preset/args.js"></script>
-    <script src="js/preset/ui.js"></script>
+    <meta name="color-scheme" content="dark light">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Default | BSDP Overlay"/>
+    <meta property="og:description" content="The default overlay for the BSDataPuller mod."/>
+    <meta property="og:url" content="https://readie.global-gaming.co/bsdp-overlay/"/>
+    <meta property="og:image" content="https://cdn.global-gaming.co/images/team/members/readiecircle.png"/>
+    <title>Default | BSDP Overlay</title>
+    <link rel="icon" href="https://cdn.global-gaming.co/images/team/members/readiecircle.png" type="image/png">
+    <link href="https://cdn.global-gaming.co/resources/fonts/montserrat/stylesheet.css" rel="stylesheet" type="text/css"> <!--Main font-->
+    <link href="https://cdn.global-gaming.co/resources/fonts/open_sans/stylesheet.css" rel="stylesheet" type="text/css"> <!--Fallback font-->
+    <script src="https://cdn.global-gaming.co/resources/scripts/jquery/jquery-3.5.1.min.js"></script>
+    <style id="overlayThemeColours"></style>
+    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./default.css">
+    <script src="./default.js" type="module"></script>
 </head>
 <body>
-    <textarea id="debug" style="position: absolute; top: 0; left: 0; width: 50vw; height: 50vh; background-color: transparent; color: white; display: none;" readonly></textarea>
+    <span class="slideMenu"></span>
 
-    <!--<h1 id="splash">Double click to open the overlay editor</h1>-->
+    <div id="overlay">
+        <table id="stats">
+            <tbody>
+                <tr>
+                    <td id="time">Time</td>
+                    <td id="score">Score</td>
+                    <td id="accuracy">Accuracy</td>
+                    <td id="combo">Combo</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="scoreStats">
-        <h2 class="time">Time</h2>
-        <h2 class="score">Score</h2>
-        <h2 class="accuracy">Accuracy</h2>
-        <h2 class="combo">Combo</h2>
+        <table id="modifiersAndHealth">
+            <tbody>
+                <tr id="modifiersAndHealthTR">
+                    <td id="healthColumn">
+                        <div class="healthContainer">
+                            <div class="healthBackground">
+                                <div id="health"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td id="modifiersColumn">
+                        <table>
+                            <tbody>
+                                <tr id="NF"><td>NF</td></tr>
+                                <tr id="OL"><td>OL</td></tr>
+                                <tr id="FL"><td>FL</td></tr>
+                                <tr id="NB"><td>NB</td></tr>
+                                <tr id="NW"><td>NW</td></tr>
+                                <tr id="NA"><td>NA</td></tr>
+                                <tr id="GN"><td>GN</td></tr>
+                                <tr id="DA"><td>DA</td></tr>
+                                <tr id="SN"><td>SN</td></tr>
+                                <tr id="PM"><td>PM</td></tr>
+                                <tr id="SA"><td>SA</td></tr>
+                                <tr id="ZM"><td>ZM</td></tr>
+                                <tr id="SS"><td>SS</td></tr>
+                                <tr id="FS"><td>FS</td></tr>
+                                <tr id="SF"><td>SF</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table id="mapDetails">
+            <tbody>
+                <tr id="mapDetailsTR">
+                    <td id="mapCoverTD">
+                        <p id="preBSR">Pre BSR:</p>
+                        <div id="mapCoverContainer">
+                            <img id="mapCover" src="./BeatSaberIcon.jpg">
+                        </div>
+                    </td>
+                    <td id="mapDetailsContainer">
+                        <!--The classes in here get changed by UI.ts, they are only added here for the first load-->
+                        <p id="bsr" class="topRightRadius">BSR</p>
+                        <p id="mapper" class="topRightRadius">Mapper</p>
+                        <p id="artistName" class="topRightRadius">Artist Name</p>
+                        <p id="songName" class="topRightRadius bottomRightRadius">Song Name</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <div class="mapInfo">
-        <p class="preBSR">Pre BSR:</p>
-        <div>
-            <div class="beatmapImageContainer">
-                <img class="beatmapImage" src="assets/BeatSaberIcon.jpg" alt="Couldnt load image ;(">
-            </div>
-            <div class="beatmapInfo">
-                <p class="bsr">BSR</p>
-                <p class="mapper">Mapper</p>
-                <p class="artist">ArtistName</p>
-                <h1 class="song">SongName</h1>
-            </div>
-        </div>
-    </div>
-
-    <div class="modifiersHealth">
-        <div class="modifiers">
-            <h2 class="IF">IF</h2>
-            <h2 class="BE">BE</h2>
-            <h2 class="DA">DA</h2>
-            <h2 class="GN">GN</h2>
-            <h2 class="FS">FS</h2>
-            <h2 class="NF">NF</h2>
-            <h2 class="NO">NO</h2>
-            <h2 class="NB">NB</h2>
-            <h2 class="SS">SS</h2>
-            <h2 class="NA">NA</h2>
-        </div>
-        <div class="healthContainer">
-            <div class="healthBackground">
-                <div class="health"></div>
-            </div>
-        </div>
-    </div>
-    <!--By kOF.Readie-->
 </body>
 </html>
