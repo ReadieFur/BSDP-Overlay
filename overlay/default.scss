@@ -26,6 +26,11 @@ body
 
     &.left
     {
+        .topLeftRadius { border-top-left-radius: 10px; }
+        .topRightRadius { border-top-right-radius: 10px; }
+        .bottomRightRadius { border-bottom-right-radius: 10px; }
+        .bottomLeftRadius { border-bottom-left-radius: 10px; }
+
         > #modifiersAndHealth
         {
             right: 0;
@@ -83,6 +88,11 @@ body
 
     &.right
     {
+        .topLeftRadius { border-top-right-radius: 10px; }
+        .topRightRadius { border-top-left-radius: 10px; }
+        .bottomRightRadius { border-bottom-left-radius: 10px; }
+        .bottomLeftRadius { border-bottom-right-radius: 10px; }
+
         > #modifiersAndHealth
         {
             .healthContainer, #modifiersColumn
@@ -141,11 +151,6 @@ body
     {
         > #mapDetails
         {
-            .topLeftRadius { border-top-left-radius: 10px; }
-            .topRightRadius { border-top-right-radius: 10px; }
-            .bottomRightRadius { border-bottom-right-radius: 10px; }
-            .bottomLeftRadius { border-bottom-left-radius: 10px; }
-
             #mapCoverContainer
             {
                 border-top-right-radius: 10px;
@@ -158,11 +163,6 @@ body
     {
         > #mapDetails
         {
-            .topLeftRadius { border-top-right-radius: 10px; }
-            .topRightRadius { border-top-left-radius: 10px; }
-            .bottomRightRadius { border-bottom-left-radius: 10px; }
-            .bottomLeftRadius { border-bottom-right-radius: 10px; }
-
             #mapCoverContainer
             {
                 border-top-left-radius: 10px;
@@ -175,11 +175,6 @@ body
     {
         > #mapDetails
         {
-            .topLeftRadius { border-bottom-left-radius: 10px; }
-            .topRightRadius { border-bottom-right-radius: 10px; }
-            .bottomRightRadius { border-top-right-radius: 10px; }
-            .bottomLeftRadius { border-top-left-radius: 10px; }
-
             #mapCoverContainer
             {
                 border-top-left-radius: 10px;
@@ -192,11 +187,6 @@ body
     {
         > #mapDetails
         {
-            .topLeftRadius { border-bottom-right-radius: 10px; }
-            .topRightRadius { border-bottom-left-radius: 10px; }
-            .bottomRightRadius { border-top-left-radius: 10px; }
-            .bottomLeftRadius { border-top-right-radius: 10px; }
-
             #mapCoverContainer
             {
                 border-top-right-radius: 10px;
