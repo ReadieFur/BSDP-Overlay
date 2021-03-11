@@ -3,11 +3,12 @@
  * Simple (Event)Dispatcher class
  * Inspiered by https://medium.com/@LeoAref/simple-event-dispatcher-implementation-using-javascript-36d0eadf5a11
  */
+
 export class EventDispatcher
 {
     private events: Events = {};
 
-    public addListener(event: string, callback: (data?: any) => any): boolean
+    public AddEventListener(event: string, callback: (data?: any) => any): boolean
     {
         if (this.events[event] !== undefined) { return false; }
         this.events[event] = { listeners: [] };
@@ -15,7 +16,7 @@ export class EventDispatcher
         return true;
     }
   
-    public removeListener(event: string, callback: (data?: any) => any): boolean
+    public RemoveEventListener(event: string, callback: (data?: any) => any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         for (let i = 0; i < this.events[event].listeners.length; i++) //Modified to what I understand
@@ -23,7 +24,7 @@ export class EventDispatcher
         return true;
     }
   
-    public dispatch(event: string, data?: any): boolean
+    public DispatchEvent(event: string, data?: any): boolean
     {
         if (this.events[event] === undefined) { return false; }
         this.events[event].listeners.forEach((listener: any) => { listener(data); });

@@ -5,13 +5,13 @@ export class Client
 {
     private protocol: "wss" | "ws";
     public IP: string;
-    public websocketData!: {[key: string]: EventWebsocket};
+    public connections: {[key: string]: CustomWebSocket};
 
     constructor(_IP?: string | null)
     {
         if (_IP === undefined || _IP === null)
         {
-            this.protocol = "wss";
+            //this.protocol = "wss";
             this.IP = "127.0.0.1";
         }
         else if (RegExp(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/).test(_IP))
@@ -22,7 +22,7 @@ export class Client
                 window.location.protocol = "http:";
                 window.location.reload();
             }*/
-            this.protocol = "ws";
+            //this.protocol = "ws";
             this.IP = _IP;
         }
         else
@@ -30,56 +30,75 @@ export class Client
             throw new SyntaxError("Invalid IP");
         }
 
-        //For now the protocol will be overriden and set to WS
-        this.protocol = "ws";
-
-        this.websocketData = {};
+        this.protocol = "ws"; //For now the protocol will be forced to 'WS'.
+        this.connections = {};
     }
 
-    public AddEndpoint(endpoint: string, reconnect?: boolean): void
+    public AddEndpoint(endpoint: string): void
     {
-        let socket: EventWebsocket = this.websocketData[endpoint] = new EventWebsocket(new WebSocket(`${this.protocol}://${this.IP}:2946/BSDataPuller/${endpoint}`));
-        socket.e = new EventDispatcher();
-
-        socket.ws.onerror = (e) => { socket.e.dispatch("error"); this.Reconnect(endpoint); };
-        socket.ws.onclose = (e) => { socket.e.dispatch("close"); this.Reconnect(endpoint); };
-        socket.ws.onopen = (e) => { socket.e.dispatch("open"); };
-        socket.ws.onmessage = (e) =>
-        {
-            let jsonData: MapData | LiveData = JSON.parse(e.data);
-            socket.e.dispatch("message", jsonData);
-            if (Main.urlParams.has("debug")) { console.log(jsonData); }
-        };
-
-        //This is blocked out for now because of the way functions are added to the event listener, this is fired before any function can be added so whats the point in having it for now.
-        /*if (Main.urlParams.has("debug") && reconnect !== true)
-        {
-            for (const [key, value] of Object.entries(sampleData))
-            {
-                if (key.toLowerCase() == endpoint.toLowerCase())
-                {
-                    socket.e.dispatch("message", value);
-                }
-            }
-        }*/
-    }
-
-    private Reconnect(endpoint: string): void
-    {
-        if (this.websocketData[endpoint] !== undefined)
-        {
-            this.websocketData[endpoint].e.dispatch("reconnect");
-            delete this.websocketData[endpoint];
-            setTimeout(() => { this.AddEndpoint(endpoint, true); }, 1000);
-        }
+        this.connections[endpoint] = new CustomWebSocket(this.protocol, this.IP, endpoint);
     }
 }
 
-class EventWebsocket
+class CustomWebSocket
 {
-    e: EventDispatcher = new EventDispatcher();
-    ws: WebSocket;
-    constructor(_ws: WebSocket) { this.ws = _ws; }
+    private protocol: string;
+    private ip: string;
+    private endpoint: string;
+    private eventDispatcher: EventDispatcher;
+    private websocket: WebSocket | null;
+
+    constructor(_protocol: string, _ip: string, _endpoint: string)
+    {
+        this.protocol = _protocol;
+        this.ip = _ip;
+        this.endpoint = _endpoint;
+        this.eventDispatcher = new EventDispatcher();
+        this.websocket = null;
+    }
+
+    public Connect(): void
+    {
+        this.websocket = new WebSocket(`${this.protocol}://${this.ip}:2946/BSDataPuller/${this.endpoint}`);
+        this.websocket.onopen = (ev: Event) => { this.OnOpen(ev); };
+        this.websocket.onclose = (ev: Event) => { this.OnClose(ev); };
+        this.websocket.onerror = (ev: Event) => { this.OnError(ev); };
+        this.websocket.onmessage = (ev: MessageEvent<any>) => { this.OnMessage(ev); };
+    }
+
+    public AddEventListener(event: "open" | "close" | "error" | "message", callback: (data?: any) => any): void
+    {
+        this.eventDispatcher.AddEventListener(event, callback);
+    }
+
+    public RemoveEventListener(event: "open" | "close" | "error" | "message", callback: (data?: any) => any): void
+    {
+        this.eventDispatcher.RemoveEventListener(event, callback);
+    }
+
+    private OnOpen(ev: Event): void
+    {
+        this.eventDispatcher.DispatchEvent("open", ev);
+    }
+
+    private OnClose(ev: Event): void
+    {
+        this.eventDispatcher.DispatchEvent("close", ev);
+        setTimeout(() => { this.Connect(); }, 5000);
+    }
+
+    private OnError(ev: Event): void
+    {
+        this.eventDispatcher.DispatchEvent("error", ev);
+        setTimeout(() => { this.Connect(); }, 5000);
+    }
+
+    private OnMessage(ev: MessageEvent<any>): void
+    {
+        var jsonData: MapData | LiveData = JSON.parse(ev.data);
+        this.eventDispatcher.DispatchEvent("message", jsonData);
+        if (Main.urlParams.has("debug")) { console.log(jsonData); }
+    }
 }
 
 //Get new data types for these (null)

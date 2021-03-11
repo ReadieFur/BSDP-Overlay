@@ -17,9 +17,11 @@ class View
 
         this.client = new Client(Main.urlParams.get("ip"));
         this.client.AddEndpoint("MapData");
-        this.client.websocketData["MapData"].e.addListener("message", (data) => { this.ui.UpdateMapData(data); });
+        this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
+        this.client.connections["MapData"].Connect();
         this.client.AddEndpoint("LiveData");
-        this.client.websocketData["LiveData"].e.addListener("message", (data) => { this.ui.UpdateLiveData(data); });
+        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
+        this.client.connections["LiveData"].Connect();
 
         await this.LoadOverlay();
 

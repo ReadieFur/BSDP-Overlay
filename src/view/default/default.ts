@@ -18,9 +18,11 @@ class Default
         this.client = new Client(Main.urlParams.get("ip")); //Generate a UI where prefrences are stored on the server and not in the URL/cookies
 
         this.client.AddEndpoint("MapData");
-        this.client.websocketData["MapData"].e.addListener("message", (data: MapData) => { this.ui.MapDataUpdate(data); });
+        this.client.connections["MapData"].AddEventListener("message", (data: MapData) => { this.ui.MapDataUpdate(data); });
+        this.client.connections["MapData"].Connect();
         this.client.AddEndpoint("LiveData");
-        this.client.websocketData["LiveData"].e.addListener("message", (data: LiveData) => { this.ui.LiveDataUpdate(data); });
+        this.client.connections["LiveData"].AddEventListener("message", (data: LiveData) => { this.ui.LiveDataUpdate(data); });
+        this.client.connections["LiveData"].Connect();
     }
 }
 new Default();
