@@ -6,11 +6,19 @@ This overlay is easy to use, just add the [Overlay](http://u-readie.global-gamin
 <img src="./previews/overlay.png" width="720">
 
 ## Options:
+Here is an example of how to use these parameters in the URL: `.../bsdp-overlay/default/?debug&flipHori&hideModifiersHealth&overlayForeground=255,120,0&ip=192.168.1.197&scale=0.9`  
+The first parameter must start with a queston mark `?` and every other parameter after that must start with an and symbol `&`. It dosen't matter which order you put them in.
+
 ### IP:
 - `ip=*`: Use this parameter if you have the mod setup to send the data over a different IP (Currently for LAN use only)
 
 ### UI Scale:
 - `scale=*`: changes the scale of the UI, the site was designed for 1080p.
+
+### Colours:
+`overlayForeground=R,G,B`: Changes the colour of the foreground elements such as text.  
+`overlayBackground=R,G,B`: Changes the colour of the background elements.  
+`overlayAlt=R,G,B`: Changes the colour of the third colour used for the background of the health and disabled modifiers.  
 
 ### Element Visibility:
 Changes the visibility of the three main elements on the overlay.
@@ -23,7 +31,7 @@ Changes the visibility of the three main elements on the overlay.
 
 ### Element Position:
 - `flipHori`: Moves the song information to the right and the modifiers/health to the left.
-- `flipVert`: Places the map information at the top.
+- `flipVerti`: Places the map information at the top.
 
 ### Hide when inactive:
 - `hideInactive`: Hides the UI when BeatSaber is closed.
