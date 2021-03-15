@@ -17,9 +17,13 @@ class Default
 
         this.client.AddEndpoint("MapData");
         this.client.connections["MapData"].AddEventListener("message", (data: MapData) => { this.ui.MapDataUpdate(data); });
+        this.client.connections["MapData"].AddEventListener("open", () => { this.ui.ClientConnected(); });
+        this.client.connections["MapData"].AddEventListener("close", () => { this.ui.ClientDisconnected(); });
         this.client.connections["MapData"].Connect();
         this.client.AddEndpoint("LiveData");
         this.client.connections["LiveData"].AddEventListener("message", (data: LiveData) => { this.ui.LiveDataUpdate(data); });
+        this.client.connections["LiveData"].AddEventListener("open", () => { this.ui.ClientConnected(); });
+        this.client.connections["LiveData"].AddEventListener("close", () => { this.ui.ClientDisconnected(); });
         this.client.connections["LiveData"].Connect();
     }
 }

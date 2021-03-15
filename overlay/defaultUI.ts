@@ -6,11 +6,13 @@ export class DefaultUI
     private overlay: HTMLDivElement;
     private overlayThemeColours: HTMLStyleElement;
 
+    private stats: HTMLTableElement;
     private time: HTMLTableDataCellElement;
     private score: HTMLTableDataCellElement;
     private accuracy: HTMLTableDataCellElement;
     private combo: HTMLTableDataCellElement;
 
+    private modifiersAndHealth: HTMLTableElement;
     private modifiersAndHealthTR: HTMLTableRowElement;
     private healthColumn: HTMLTableDataCellElement;
     private health: HTMLDivElement;
@@ -33,6 +35,7 @@ export class DefaultUI
         superFastSong: HTMLTableDataCellElement
     };
 
+    private mapDetails: HTMLTableElement;
     private mapDetailsTR: HTMLTableRowElement;
     private mapCoverTD: HTMLTableDataCellElement;
     private preBSR: HTMLParagraphElement;
@@ -53,11 +56,13 @@ export class DefaultUI
         this.overlay = Main.ThrowIfNullOrUndefined(document.querySelector("#overlay"));
         this.overlayThemeColours = Main.ThrowIfNullOrUndefined(document.querySelector("#overlayThemeColours"));
 
+        this.stats = Main.ThrowIfNullOrUndefined(document.querySelector("#stats"));
         this.time = Main.ThrowIfNullOrUndefined(document.querySelector("#time"));
         this.score = Main.ThrowIfNullOrUndefined(document.querySelector("#score"));
         this.accuracy = Main.ThrowIfNullOrUndefined(document.querySelector("#accuracy"));
         this.combo = Main.ThrowIfNullOrUndefined(document.querySelector("#combo"));
 
+        this.modifiersAndHealth = Main.ThrowIfNullOrUndefined(document.querySelector("#modifiersAndHealth"));
         this.modifiersAndHealthTR = Main.ThrowIfNullOrUndefined(document.querySelector("#modifiersAndHealthTR"));
         this.healthColumn = Main.ThrowIfNullOrUndefined(document.querySelector("#healthColumn"));
         this.health = Main.ThrowIfNullOrUndefined(document.querySelector("#health"));
@@ -80,6 +85,7 @@ export class DefaultUI
             superFastSong: Main.ThrowIfNullOrUndefined(document.querySelector("#SF"))
         };
 
+        this.mapDetails = Main.ThrowIfNullOrUndefined(document.querySelector("#mapDetails"));
         this.mapDetailsTR = Main.ThrowIfNullOrUndefined(document.querySelector("#mapDetailsTR"));
         this.mapCoverTD = Main.ThrowIfNullOrUndefined(document.querySelector("#mapCoverTD"));
         this.preBSR = Main.ThrowIfNullOrUndefined(document.querySelector("#preBSR"));
@@ -99,6 +105,13 @@ export class DefaultUI
                 --overlayAlt: ${Main.urlParams.has("overlayAlt") ? Main.urlParams.get("overlayAlt") : "80, 80, 80"};
             }
         `;
+
+        //Try to replace this in the client.ts event dispatcher.
+        if (Main.urlParams.has("debug"))
+        {
+            this.MapDataUpdate(SampleData.mapData);
+            this.LiveDataUpdate(SampleData.liveData);
+        }
 
         document.body.style.zoom = Main.urlParams.has("scale") ? Main.urlParams.get("scale")! : "1";
 
@@ -122,12 +135,22 @@ export class DefaultUI
         }
         else { this.overlay.classList.add("left"); }
 
-        //Try to replace this in the client.ts event dispatcher.
-        if (Main.urlParams.has("debug"))
-        {
-            this.MapDataUpdate(SampleData.mapData);
-            this.LiveDataUpdate(SampleData.liveData);
-        }
+        if (Main.urlParams.has("hideStats")) { this.stats.style.display = "none"; }
+        if (Main.urlParams.has("hideModifiersHealth")) { this.modifiersAndHealth.style.display = "none"; }
+        if (Main.urlParams.has("hideMapDetails")) { this.mapDetails.style.display = "none"; }
+
+        if (Main.urlParams.has("hideInactive")) { this.overlay.style.opacity = "0"; }
+    }
+
+    //These two functions will be called twice due to the multiple websocket connections but it should be fine.
+    public ClientConnected()
+    {
+        this.overlay.style.opacity = "1";
+    }
+
+    public ClientDisconnected()
+    {
+        if (Main.urlParams.has("hideInactive")) { this.overlay.style.opacity = "0"; }
     }
 
     public MapDataUpdate(data: MapData): void
