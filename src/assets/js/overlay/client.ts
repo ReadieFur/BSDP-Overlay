@@ -38,6 +38,11 @@ export class Client
     {
         this.connections[endpoint] = new CustomWebSocket(this.protocol, this.IP, endpoint);
     }
+
+    public RemoveEndpoint(endpoint: string): void
+    {
+        delete this.connections[endpoint];
+    }
 }
 
 class CustomWebSocket
@@ -90,7 +95,7 @@ class CustomWebSocket
     private OnError(ev: Event): void
     {
         this.eventDispatcher.DispatchEvent("error", ev);
-        setTimeout(() => { this.Connect(); }, 5000);
+        //setTimeout(() => { this.Connect(); }, 5000); //This is causing the websocket to fill up memory.
     }
 
     private OnMessage(ev: MessageEvent<any>): void
