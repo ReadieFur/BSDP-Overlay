@@ -242,7 +242,7 @@ export class DefaultUI
         //I should probably store the map length elsewhere so this calculation does not need to be made really frequently.
         this.time.innerHTML = `${this.SecondsToMins(data.TimeElapsed)}/${this.mapData !== undefined ? this.SecondsToMins(this.mapData.Length) : "00:00"}`;
         this.score.innerHTML = this.SeperateNumber(data.Score);
-        this.accuracy.innerHTML = `${Math.round(data.Accuracy)}%`;
+        this.accuracy.innerHTML = `${Math.round(data.Accuracy * 10) / 10}%`;
         this.combo.innerHTML = this.SeperateNumber(data.Combo);
         this.health.style.height = `${data.PlayerHealth}%`;
     }
