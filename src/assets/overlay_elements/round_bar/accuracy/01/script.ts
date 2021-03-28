@@ -76,7 +76,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var value = this.elements[key];
-            value.accuracy.innerHTML = `${Math.round(data.Accuracy)}%`;
+            value.accuracy.innerHTML = `${Math.round(data.Accuracy * 10) / 10}%`;
             this.SetProgress(key, data.Accuracy);
         }
     }
