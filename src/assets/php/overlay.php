@@ -66,7 +66,7 @@ class Overlay
             if ($account->data[$_COOKIE['READIE_UID']]->uid !== $result->data[0]->uid)
             { return new ReturnData("INVALID_CREDENTIALS", true); }
 
-            return $result;
+            return new ReturnData($result->data[0]);
         }
     }
 
@@ -109,33 +109,46 @@ class Overlay
         //This bit is really messy because I never though of this when making the 'where' builder, I patched it up so this would work but it's probably worse than if I just redid it. I can't be arsed to change it right now.
         $t1Where = array();
         $t2Where = array();
-        if ($_data['filter'] == 'name')
+        if ($_data['filter'] != 'none')
         {
-            //WHERE name LIKE search AND (isPrivate=0 OR uid=uid)
-            $t1Where = array(
-                array($_data['filter'], 'LIKE', $_data['search']),
-                'AND (',
-                'isPrivate'=>'0'
-            );
+            if ($_data['filter'] == 'name')
+            {
+                //WHERE name LIKE search AND (isPrivate=0 OR uid=uid)
+                $t1Where = array(
+                    array($_data['filter'], 'LIKE', $_data['search']),
+                    'AND (',
+                    'isPrivate'=>'0'
+                );
+            }
+            else if ($_data['filter'] == 'username')
+            {
+                //WHERE (isPrivate=0 OR uid=uid) AND username LIKE search
+                $t1Where = array(
+                    '(', '',
+                    'isPrivate'=>'0'
+                );
+                $t2Where = array(array($_data['filter'], 'LIKE', $_data['search']));
+            }
+            if ($user !== false)
+            {
+                $t1Where[] = 'OR';
+                $t1Where['uid'] = $user->uid;
+            }
+            $t1Where[] = ')';
         }
-        else if ($_data['filter'] == 'username')
+        else
         {
-            //WHERE (isPrivate=0 OR uid=uid) AND username LIKE search
-            $t1Where = array(
-                '(', '',
-                'isPrivate'=>'0'
-            );
-            $t2Where = array(array($_data['filter'], 'LIKE', $_data['search']));
+            $t1Where['isPrivate'] = '0';
+            if ($user !== false)
+            {
+                $t1Where[] = 'OR';
+                $t1Where['uid'] = $user->uid;
+            }
         }
-        if ($user !== false)
-        {
-            $t1Where[] = 'OR';
-            $t1Where['uid'] = $user->uid;
-        }
-        $t1Where[] = ')';
 
-        $dbi = new DatabaseInterface(new PDO("mysql:host=$dbServername:3306;dbname=$dbName", $dbUsername, $dbPassword));
-        $result = $dbi
+        $pdo = new PDO("mysql:host=$dbServername:3306;dbname=$dbName", $dbUsername, $dbPassword);
+        $dbi = new DatabaseInterface($pdo);
+        $overlays = $dbi
             ->Table1('bsdp_overlay')
             ->Table2('users')
             ->Select(array('*'), array('username'))
@@ -144,9 +157,23 @@ class Overlay
             ->Order('alteredDate')
             ->Limit($startIndex, $endIndex)
             ->Execute();
-        if ($result->error) { return $result; }
+        if ($overlays->error) { return $overlays; }
 
-        return $result;
+        $dbi = new DatabaseInterface($pdo);
+        $count = $dbi
+            ->Table1('bsdp_overlay')
+            ->SelectCount()
+            ->Where($t1Where, 'AND', $t2Where)
+            ->Execute();
+        if ($count->error) { return $count; }
+
+        $data = new stdClass();
+        $data->overlays = $overlays->data;
+        $data->overlaysFound = $count->data[0]->count;
+        $data->startIndex = $startIndex;
+
+        return new ReturnData($data);
     }
 }
-new Overlay($_GET);
+//new Overlay($_GET);
+new Overlay($_POST);
