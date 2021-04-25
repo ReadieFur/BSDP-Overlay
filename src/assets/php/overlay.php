@@ -1,358 +1,152 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'].'/../api/account/DBDetails.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/../api/account/accountFunctions.php';
+//Try and sort something out for intellisense when refrencing paths outside the project.
+require_once __DIR__ . '/../../../../api/account/accountFunctions.php';
+require_once __DIR__ . '/../../../../api/database/databaseHelper.php';
+require_once __DIR__ . '/../../../../api/returnData.php';
 
-global $pdoConn;
-global $conn; //TMP
-
-$response = new stdClass();
-$response->error = null;
-$response->data = new stdClass();
-
-if (isset($_POST['q']))
+class Overlay
 {
-    $query = json_decode($_POST['q'], true);
+    private static int $resultsPerPage = 15;
 
-    if (isset($query['method']))
+    public function __construct(array $_request)
     {
+        echo json_encode($this->ProcessRequest($_request));
+    }
+
+    private function ProcessRequest(array $_request)
+    {
+        if (!isset($_request['q'])) { return new ReturnData('NO_QUERY_FOUND', true); }
+
+        $query = json_decode($_request['q'], true);
+    
+        if (!isset($query['method'])) { return new ReturnData('NO_METHOD_FOUND', true); }
+        if (!isset($query['data'])) { return new ReturnData('NO_DATA_FOUND', true); }
+
         switch ($query['method'])
         {
-            case 'Create':
-                Create($query['data']);
-                break;
-            case 'Save':
-                Save($query['data']);
-                break;
-            case 'LoadIntoEditor':
-                LoadIntoEditor($query['data']);
-                break;
-            case 'GetByID':
-                GetByID($query['data']);
-                break;
-            /*case 'List':
-                _List($query['data']);
-                break;*/
+            case 'getOverlayByID':
+                return $this->GetOverlayByID($query['data']);
+            case 'getOverlaysBySearch':
+                return $this->GetOverlaysBySearch($query['data']);
             default:
-                $response->error = 'INVALID_METHOD';
-                break;
+                return new ReturnData('INVALID_METHOD', true);
         }
     }
-    else { $response->error = 'NO_METHOD_FOUND'; }
-}
-else { $response->error = 'NO_QUERY_FOUND'; }
 
-echo json_encode($response); //This is where the response is sent back to the client.
-
-function _LogIn($data): bool
-{
-    if (isset($data['unid']) && isset($data['pass']))
+    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlayByID","data":{"id":"123456789"}}
+    private function GetOverlayByID(array $_data)
     {
-        //This function does exist, intellisense just can't find it at the path specified above.
-        return LogIn($data['unid'], $data['pass']);
-    }
-    else { return false; }
-}
+        global $dbServername;
+        global $dbName;
+        global $dbUsername;
+        global $dbPassword;
 
-//Methods.
-//Lots of these checks are made on the client side but for extra saftey I will run the checks again on the server side.
-function Create($data): void
-{
-    global $pdoConn;
-    global $response;
-    
-    if (_LogIn($data))
-    {
-        $sql = $pdoConn->prepare('SELECT COUNT(id) FROM bsdp_overlay WHERE unid = :unid');
-        $sql->bindParam(':unid', $data['unid'], PDO::PARAM_STR);
-        $sql->execute();
+        if (!isset($_data['id'])) { return new ReturnData('INVALID_DATA', true); }
 
-        if ($sql->rowCount() > 0)
+        $dbi = new DatabaseInterface(new PDO("mysql:host=$dbServername:3306;dbname=$dbName", $dbUsername, $dbPassword));
+        $result = $dbi
+            ->Table1('bsdp_overlay')
+            ->Table2('users')
+            ->Select(array('*'), array('username'))
+            ->On('uid')
+            ->Where(array('id'=>$_data['id']))
+            ->Execute();
+        if ($result->error) { return $result; }
+        else if (count($result->data) <= 0) { return new ReturnData("NO_RESULTS", true); }
+
+        if ($result->data[0]->isPrivate == '1')
         {
-            $row = $sql->fetch();
-            if (intval($row["COUNT(id)"]) < 10)
-            {
-                $id = '';
-                $sql = $pdoConn->prepare('SELECT id FROM bsdp_overlay WHERE id = :id');
-                $sql->bindParam(':id', $id, PDO::PARAM_STR);
-                do
-                {
-                    $id = uniqid();
-                    $sql->execute();
-                }
-                while ($sql->rowCount() > 0);
+            $sessionValid = AccountFunctions::VerifySession();
+            if ($sessionValid->error) { return $sessionValid; }
+            else if (!$sessionValid->data) { return new ReturnData("SESSION_EXPIRED", true); }
 
-                $sql = $pdoConn->prepare('INSERT INTO bsdp_overlay(id, unid) VALUES(:id, :unid)');
-                $sql->bindParam(':id', $id, PDO::PARAM_STR);
-                $sql->bindParam(':unid', $data['unid'], PDO::PARAM_STR);
-                $response->data->success = $sql->execute();
-                $response->data->id = $id;
-            }
-            else { $response->error = 'QUOTA_EXCEEDED'; }
+            $account = AccountFunctions::GetUsersByID(array($_COOKIE['READIE_UID']));
+            if ($account->error) { return $result; }
+
+            if ($account->data[$_COOKIE['READIE_UID']]->uid !== $result->data[0]->uid)
+            { return new ReturnData("INVALID_CREDENTIALS", true); }
+
+            return $result;
         }
-        else { $response->error = 'INVALID_SQL_RESPONSE'; }
     }
-    else { $response->error = 'INVALID_CREDENTIALS'; }
-}
 
-//I was having problems with multiple type declerations here
-function Save($data): void
-{
-    global $pdoConn;
-    global $response;
-    
-    if (_LogIn($data))
+    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"none","search":"","page":1}}
+    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"name","search":"overlay","page":1}}
+    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"username","search":"kof.readie","page":1}}
+    //Tweak for 'my overlays' (private only)
+    private function GetOverlaysBySearch(array $_data)
     {
+        global $dbServername;
+        global $dbName;
+        global $dbUsername;
+        global $dbPassword;
+
         if (
-            isset($data['id']) &&
-            isset($data['title']) &&
-            isset($data['description']) &&
-            isset($data['isPrivate']) &&
-            isset($data['thumbnail']) &&
-            isset($data['elements'])
+            (
+                !isset($_data['filter']) ||
+                !(
+                    $_data['filter'] === 'none' ||
+                    $_data['filter'] === 'name' ||
+                    $_data['filter'] === 'username'
+                )
+            ) ||
+            !isset($_data['search']) ||
+            !isset($_data['page'])
         )
+        { return new ReturnData('INVALID_DATA', true); }
+
+        $startIndex = Overlay::$resultsPerPage * (intval($_data['page']) - 1);
+        $endIndex = $startIndex + Overlay::$resultsPerPage;
+        
+        $user = false;
+        $sessionValid = AccountFunctions::VerifySession();
+        if (!$sessionValid->error && $sessionValid->data)
         {
-            if (
-                strlen($data['id']) == 13 &&
-                (strlen($data['title']) >= 5 && strlen($data['title']) <= 25) &&
-                gettype($data['description']) == 'string' &&
-                ($data['isPrivate'] == 1 || $data['isPrivate'] == 0) &&
-                gettype($data['thumbnail']) == 'string' &&
-                count($data['elements']) != 0
-            )
-            {
-                $sql = $pdoConn->prepare('UPDATE bsdp_overlay
-                SET name = :name,
-                description = :description,
-                elements = :elements,
-                thumbnail = :thumbnail,
-                isPrivate = :isPrivate,
-                alteredDate = current_timestamp()
-                WHERE id = :id');
-                $sql->bindParam(':id', $data['id'], PDO::PARAM_STR);
-                $sql->bindParam(':name', $data['title'], PDO::PARAM_STR);
-                $sql->bindParam(':description', $data['description'], PDO::PARAM_STR);
-                $sql->bindParam(':isPrivate', $data['isPrivate'], PDO::PARAM_INT);
-                $sql->bindParam(':thumbnail', $data['thumbnail'], PDO::PARAM_STR);
-                $sql->bindValue(':elements', json_encode($data['elements']), PDO::PARAM_STR);
-                $response->data->success = $sql->execute();
-            }
-            else { $response->error = 'INVALID_DATA'; }
+            $account = AccountFunctions::GetUsersByID(array($_COOKIE['READIE_UID']));
+            if (!$account->error && isset($account->data[$_COOKIE['READIE_UID']])) { $user = $account->data[$_COOKIE['READIE_UID']]; }
         }
-        else { $response->error = 'MISSING_PARAMETERS'; }
+
+        //This bit is really messy because I never though of this when making the 'where' builder, I patched it up so this would work but it's probably worse than if I just redid it. I can't be arsed to change it right now.
+        $t1Where = array();
+        $t2Where = array();
+        if ($_data['filter'] == 'name')
+        {
+            //WHERE name LIKE search AND (isPrivate=0 OR uid=uid)
+            $t1Where = array(
+                array($_data['filter'], 'LIKE', $_data['search']),
+                'AND (',
+                'isPrivate'=>'0'
+            );
+        }
+        else if ($_data['filter'] == 'username')
+        {
+            //WHERE (isPrivate=0 OR uid=uid) AND username LIKE search
+            $t1Where = array(
+                '(', '',
+                'isPrivate'=>'0'
+            );
+            $t2Where = array(array($_data['filter'], 'LIKE', $_data['search']));
+        }
+        if ($user !== false)
+        {
+            $t1Where[] = 'OR';
+            $t1Where['uid'] = $user->uid;
+        }
+        $t1Where[] = ')';
+
+        $dbi = new DatabaseInterface(new PDO("mysql:host=$dbServername:3306;dbname=$dbName", $dbUsername, $dbPassword));
+        $result = $dbi
+            ->Table1('bsdp_overlay')
+            ->Table2('users')
+            ->Select(array('*'), array('username'))
+            ->On('uid')
+            ->Where($t1Where, 'AND', $t2Where)
+            ->Order('alteredDate')
+            ->Limit($startIndex, $endIndex)
+            ->Execute();
+        if ($result->error) { return $result; }
+
+        return $result;
     }
-    else { $response->error = 'INVALID_CREDENTIALS'; }
 }
-
-function Delete($data): void
-{
-    global $pdoConn;
-    global $response;
-
-    if (_LogIn($data))
-    {
-        if (isset($data['id']))
-        {
-            $sql = $pdoConn->prepare('DELETE FROM bsdp_overlay WHERE id = :id');
-            $sql->bindParam(':id', $data['id'], PDO::PARAM_STR);
-            $response->data->success = $sql->execute();
-        }
-        else { $response->error = 'MISSING_PARAMETERS'; }
-    }
-    else { $response->error = 'INVALID_CREDENTIALS'; }
-}
-
-//Work on this one and the function below (in terms of security).
-function LoadIntoEditor($data): void
-{
-    global $pdoConn;
-    global $response;
-
-    if (_LogIn($data))
-    {
-        if (isset($data['id']))
-        {
-            $sql = $pdoConn->prepare('SELECT
-            overlay.unid,
-            overlay.name,
-            users.username,
-            overlay.description,
-            overlay.elements,
-            overlay.thumbnail,
-            overlay.isPrivate,
-            overlay.alteredDate
-            FROM users users
-            LEFT JOIN bsdp_overlay overlay
-            ON overlay.unid = users.unid
-            WHERE overlay.id = :id');
-            $sql->bindParam(':id', $data['id'], PDO::PARAM_STR);
-            $sql->execute();
-    
-            if ($sql->rowCount() > 0)
-            {
-                $row = $sql->fetch();
-
-                if ($data['unid'] === $row['unid'])
-                {
-                    $response->data->id = $data['id'];
-                    $response->data->unid = $row['unid'];
-                    $response->data->name = $row['name'];
-                    $response->data->username = $row['username'];
-                    $response->data->description = $row['description'];
-                    $response->data->elements = json_decode($row['elements']);
-                    $response->data->thumbnail = $row['thumbnail'];
-                    $response->data->isPrivate = $row['isPrivate'];
-                    $response->data->alteredDate = $row['alteredDate'];
-                }
-                else { $response->error = 'INVALID_PERMISSIONS'; }
-            }
-            else { $response->error = 'INVALID_SQL_RESPONSE'; }
-        }
-        else { $response->error = 'MISSING_PARAMETERS'; }
-    }
-    else { $response->error = 'INVALID_CREDENTIALS'; }
-}
-
-function GetByID($data): void
-{
-    global $pdoConn;
-    global $response;
-
-    if (isset($data['id']))
-    {
-        $sql = $pdoConn->prepare('SELECT
-        overlay.unid,
-        overlay.name,
-        users.username,
-        overlay.description,
-        overlay.elements,
-        overlay.thumbnail,
-        overlay.isPrivate,
-        overlay.alteredDate
-        FROM users users
-        LEFT JOIN bsdp_overlay overlay
-        ON overlay.unid = users.unid
-        WHERE overlay.id = :id');
-        $sql->bindParam(':id', $data['id'], PDO::PARAM_STR);
-        $sql->execute();
-
-        if ($sql->rowCount() > 0)
-        {
-            $row = $sql->fetch();
-            $response->data->id = $data['id'];
-            $response->data->unid = $row['unid'];
-            $response->data->name = $row['name'];
-            $response->data->username = $row['username'];
-            $response->data->description = $row['description'];
-            $response->data->elements = json_decode($row['elements']);
-            $response->data->thumbnail = $row['thumbnail'];
-            $response->data->isPrivate = $row['isPrivate'];
-            $response->data->alteredDate = $row['alteredDate'];
-        }
-        else { $response->error = 'INVALID_SQL_RESPONSE'; }
-    }
-    else { $response->error = 'MISSING_PARAMETERS'; }
-}
-
-//Rewrite this (piggybacking off of my old code).
-/*function _List($data): void
-{
-    global $conn;
-    global $response;
-
-    $resultsPerPage = 15;
-    $nameSort = null;
-
-    if (isset($data["page"])) //Query has page count ? get query type : return null
-    {
-        $startIndex = $resultsPerPage * $data["page"] - $resultsPerPage;
-        $endIndex = $startIndex + $resultsPerPage;
-        //Most queries will be have the same structure aside from the 'where'.
-        $sqlBefore = "SELECT overlay.id, overlay.unid, overlay.oname, user.username, overlay.b64
-        FROM users user
-        LEFT JOIN bsdp_overlay overlay
-        ON overlay.unid = user.unid
-        WHERE overlay.public = 1";
-        $sqlAfter = " ORDER BY overlay.alteredDate
-        DESC LIMIT $startIndex, $endIndex";
-
-        //Get searches to sort by relevance then date
-        if (isset($data["oname"])) //Query type name
-        {
-            $nameSort = $data["oname"];
-            //$oname = $data["oname"];
-            $sql = $sqlBefore . "AND overlay.oname LIKE '%$nameSort%'" . $sqlAfter;
-            $csql = "FROM bsdp_overlay WHERE public = 1 AND oname LIKE '%$nameSort%'";
-        }
-        else if (isset($data["username"])) //Query type username
-        {
-            $nameSort = $data["username"];
-            //$username = $data["username"];
-            $sql = $sqlBefore . "AND user.username LIKE '%$nameSort%'" . $sqlAfter;
-            $csql = "FROM users user LEFT JOIN bsdp_overlay overlay ON overlay.unid = user.unid WHERE overlay.public = 1 AND user.username LIKE '%$nameSort%'";
-        }
-        else if (isset($data["all"]))
-        {
-            $dataAll = $data["all"];
-            $sql = $sqlBefore . "AND overlay.oname LIKE '%$dataAll%' OR user.username LIKE '%$dataAll%'" . $sqlAfter;
-            $csql = "FROM users user LEFT JOIN bsdp_overlay overlay ON overlay.unid = user.unid WHERE overlay.public = 1 AND overlay.oname LIKE '%$dataAll%' OR user.username LIKE '%$dataAll%'";
-        }
-        else //Query type undefined (return all results for the page)
-        {
-            $sql = $sqlBefore . $sqlAfter;
-            $csql = "FROM bsdp_overlay WHERE public = 1";
-        }
-
-        $result = mysqli_query($conn, $sql);
-        $response->data->showingResults = $startIndex . "-" . ($startIndex + mysqli_num_rows($result));
-        $response->data->totalResults = countEntries($csql);
-        if (mysqli_num_rows($result) > 0)
-        {
-            $i = 0;
-            $sqlResults;
-            while($row = mysqli_fetch_assoc($result))
-            {
-                $cellData = new stdClass();
-                $cellData->id = $row["id"];
-                $cellData->oname = $row["oname"];
-                $cellData->username = $row["username"];
-                $cellData->unid = $row["unid"];
-                $b64 = explode(",", $row["b64"]);
-                $b64Parsed = [];
-                for($i = 0; $i < count($b64); $i++) { $b64Parsed[$i] = intval($b64[$i]); }
-                $cellData->b64 = $b64Parsed;
-
-                if ($nameSort != null)
-                {
-                    similar_text($nameSort, $row["oname"], $similarity); //Fix for usernames, currently only sorts by username regargless
-                    $similarity = strval($similarity);
-                    if (isset($sqlResults[$similarity])) { $similarity -= ($i++); }
-                    $sqlResults[$similarity] = $cellData;
-                }
-                else { $sqlResults[] = $cellData; }
-            }
-
-            if ($nameSort != null)
-            {
-                krsort($sqlResults);
-                $similarityRemoved;
-                foreach($sqlResults as $result) { $similarityRemoved[] = $result; }
-                $sqlResults = $similarityRemoved;
-                $response->data->sortedBy = "similarity";
-            }
-            else { $response->data->sortedBy = "dateModified"; }
-
-            $response->data->results = $sqlResults;
-        }
-        else { $response->error = 'NO_OVERLAYS_FOUND'; }
-    }
-    else { $response->error = 'NO_METHOD_FOUND'; }
-}
-
-function countEntries(&$sql)
-{
-    global $conn;
-    $sql = "SELECT COUNT(*) " . $sql;
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) { return array_values(mysqli_fetch_assoc($result))[0]; }
-    else { return null; }
-}*/
+new Overlay($_GET);
