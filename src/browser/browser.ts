@@ -1,9 +1,11 @@
-import { Main } from "../assets/js/main";
+import { Main, ReturnData } from "../assets/js/main";
+import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper";
 
 class Browser
 {
     private overlays: HTMLTableElement;
     private pages: HTMLDivElement;
+    private resultsText: HTMLParagraphElement;
     private search: HTMLFormElement;
 
     constructor()
@@ -11,116 +13,110 @@ class Browser
         new Main();
         this.overlays = Main.ThrowIfNullOrUndefined(document.querySelector("#overlays"));
         this.pages = Main.ThrowIfNullOrUndefined(document.querySelector("#pages"));
+        this.resultsText = Main.ThrowIfNullOrUndefined(document.querySelector("#resultsText"));
         this.search = Main.ThrowIfNullOrUndefined(document.querySelector("#search"));
 
-        this.search.addEventListener("submit", (ev: Event) => { this.CustomSearch(ev); });
-        this.GetOverlays(Main.urlParams.has("q") ? JSON.parse(decodeURIComponent(Main.urlParams.get("q")!)) : {page: 1});
-    }
+        window.addEventListener("message", (ev) => { this.WindowMessageEvent(ev); });
 
-    //Rewrite this (piggybacking off of my old code).
-    //Update this query type.
-    private GetOverlays(query: { [key: string]: string | number })
-    {
-        var queryKey: string = Object.keys(query)[1];
-        var pageOnly: boolean = queryKey == null || queryKey == "undefined";
-        if (pageOnly) { delete query[queryKey]; }
-        var queryString = JSON.stringify(query);
-
-        jQuery.ajax(
+        OverlayHelper.OverlayPHP(
         {
-            url: `${Main.WEB_ROOT}/assets/php/overlay.php`,
+            method: "getOverlaysBySearch",
             data:
             {
-                "q": JSON.stringify(
-                {
-                    method: "List",
-                    data: query
-                })
+                filter: "none",
+                search: "",
+                page: 1
             },
-            type: "POST",
-            dataType: "json",
-            error: Main.ThrowAJAXJsonError,
-            //Rewrite this object so it is type safe.
-            success: (response: any) =>
-            {
-                if (response.error === null)
-                {
-                    var firstPush: boolean = true;
-
-                    while (this.overlays.childElementCount > 1) { this.overlays.removeChild(this.overlays.lastChild!); }
-                    while (this.pages.childElementCount > 0) { this.pages.removeChild(this.pages.lastChild!); }
-
-                    //Add a short description, ending with elipsis after X characters?
-                    response.data.forEach((result: any) =>
-                    {
-                        var tr: HTMLTableRowElement = document.createElement("tr");
-                        var td1: HTMLTableDataCellElement = document.createElement("td");
-                        var td2: HTMLTableDataCellElement = document.createElement("td");
-                        var td3: HTMLTableDataCellElement = document.createElement("td");
-                        var thumbnail: HTMLImageElement = document.createElement("img");
-                        var name: HTMLAnchorElement = document.createElement("a");
-                        var creator: HTMLAnchorElement = document.createElement("a");
-
-                        thumbnail.src = result.data.data.thumbnail;
-                        name.innerHTML = result.data.oname;
-                        creator.innerHTML = result.data.username;
-                        tr.onclick = () => { window.location.pathname = `${Main.WEB_ROOT}/preview/${result.data.id}`; };
-                        
-                        td1.appendChild(thumbnail);
-                        td2.appendChild(name);
-                        td3.appendChild(creator);
-                        tr.appendChild(td1);
-                        tr.appendChild(td2);
-                        tr.appendChild(td3);
-                        this.overlays.appendChild(tr);
-                    });
-                
-                    var bc: number = 1;
-                    var pages: number = Math.ceil(response.totalResults / 15);
-                    while (bc <= pages)
-                    {
-                        var pageBtn: HTMLButtonElement = document.createElement("button");
-                        pageBtn.innerHTML = bc.toString();
-                        pageBtn.className = "hollowButton";
-                        if (bc == query.page) { pageBtn.classList.add("hover"); }
-                        pageBtn.style.marginLeft = "10px";
-                        pageBtn.onclick = () =>
-                        {
-                            if (pageOnly)
-                            { this.GetOverlays({page: bc}); }
-                            else
-                            { this.GetOverlays({page: bc, queryKey: query[queryKey]}); }
-                        };
-                        this.pages.appendChild(pageBtn);
-                        bc++;
-                    }
-
-                    if(!firstPush)
-                    {
-                        Main.urlParams.set("q", queryString);
-                        window.history.pushState(queryString, `Browser | BSDP Overlay`, "?" + Main.urlParams.toString());
-                    }
-                    else { firstPush = false; }
-                }
-                else
-                {
-                    //Error.
-                }
-            }
+            success: (response) => { this.GotOverlays(response); }
         });
     }
 
-    private CustomSearch(ev: Event)
+    private WindowMessageEvent(ev: MessageEvent<any>)
     {
-        ev.preventDefault();
-        var searchQuery: string = (<HTMLInputElement>this.search.firstElementChild!).value; //Get if page is defined
-        if (searchQuery.includes(":"))
+        var host = window.location.host.split('.');
+        if (ev.origin.split('/')[2] == `api-readie.global-gaming.${host[host.length - 1]}`)
         {
-            var searchQuerySplit = searchQuery.split(":");
-            this.GetOverlays({page: 1, [searchQuerySplit[0]]: searchQuerySplit[1]});
+            if (Main.TypeOfReturnData(ev.data))
+            {
+                if (ev.data.error)
+                {
+                    //Alert error.
+                    Main.AccountMenuToggle(false);
+                }
+                else if (typeof(ev.data.data) === "string")
+                {
+                    switch (ev.data.data)
+                    {
+                        case "LOGGED_IN":
+                            OverlayHelper.OverlayPHP(
+                            {
+                                method: "getOverlaysBySearch",
+                                data:
+                                {
+                                    filter: "none",
+                                    search: "",
+                                    page: 1
+                                },
+                                success: (response) => { this.GotOverlays(response); }
+                            });
+                            break;
+                        default:
+                            //Not implemented.
+                            break;
+                    }
+                }
+                else
+                {
+                    //Alert unknown error/response.
+                    console.log("Unknown response: ", ev);
+                    Main.AccountMenuToggle(false);
+                }
+            }
+            else
+            {
+                //Alert unknown error/response.
+                console.log("Unknown response: ", ev);
+                Main.AccountMenuToggle(false);
+            }
         }
-        else if (searchQuery == "") { this.GetOverlays({page: 1}); }
-        else { this.GetOverlays({page: 1, all: searchQuery}); }
+    }
+
+    private GotOverlays(response: ReturnData)
+    {
+        if (response.error)
+        {
+            //Alert error.
+            console.error(response);
+        }
+        else
+        {
+            var start: number = response.data.overlays.length === 0 ? 0 : response.data.startIndex + 1;
+            var end: number = response.data.startIndex + response.data.overlays.length;
+            this.resultsText.innerText = `Showing results: ${start} - ${end} of ${response.data.overlaysFound}`;
+
+            this.overlays.tBodies[1]!.innerHTML = '';
+            (<IOverlayData[]>response.data.overlays).forEach((overlay: IOverlayData) =>
+            {
+                var tableRow = document.createElement("tr");
+                var previewContainer = document.createElement("td");
+                var preview = document.createElement("img");
+                var nameContainer = document.createElement("td");
+                var usernameContainer = document.createElement("td");
+
+                preview.src = overlay.thumbnail == null ? '' : overlay.thumbnail;
+                previewContainer.appendChild(preview);
+                nameContainer.innerText = overlay.name;
+                usernameContainer.innerText = overlay.username;
+
+                tableRow.classList.add("listItem");
+                tableRow.onclick = () => { window.location.href = `//${window.location.host}${Main.WEB_ROOT}/preview/${overlay.id}/`; }
+                tableRow.appendChild(previewContainer);
+                tableRow.appendChild(nameContainer);
+                tableRow.appendChild(usernameContainer);
+
+                this.overlays.tBodies[1]!.appendChild(tableRow);
+            });
+        }
     }
 }
 new Browser();
