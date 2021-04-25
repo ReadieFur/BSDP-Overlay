@@ -23,12 +23,22 @@
         </div>
         <hr>
         <table id="overlays">
-            <tr>
-                <th>Preview</th>
-                <th>Overlay Name</th>
-                <th>Creator</th>
-            </tr>
+            <tbody>
+                <tr>
+                    <th>Preview</th>
+                    <th>Overlay Name</th>
+                    <th>Creator</th>
+                </tr>
+            </tbody>
+            <tbody>
+                <!--<tr>
+                    <td><img src="https://cdn.global-gaming.co/images/team/members/readiecircle.png"></td>
+                    <td>Overlay Name</td>
+                    <td>kOF.Readie</td>
+                </tr>-->
+            </tbody>
         </table>
+        <p id="resultsText">Showing results: 0-0 of 0</p>
         <div id="pages">
         </div>
     </section>

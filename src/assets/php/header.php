@@ -1,4 +1,7 @@
-<?php global $WEB_ROOT; ?>
+<?php
+    global $WEB_ROOT;
+    global $DOMAIN;
+?>
 <link rel="stylesheet" type="text/css" href="<?php echo $WEB_ROOT ?>/assets/css/header.css"/>
 <section>
     <span class="bottomStripThin"></span>
@@ -18,10 +21,11 @@
                 <div></div>
                 <div class="bottomStrip">
                     <a href="<?php echo $WEB_ROOT ?>/my_overlays/">My Overlays</a>
-                    <a href="https://api-readie.global-gaming.co/account/">Managment</a>
+                    <a id="accountButton">Managment</a>
                     <a id="darkMode">Dark Mode</a>
                 </div>                
             </div>
         </div>
     </div>
 </section>
+<iframe id="accountContainer" src="//api-readie.global-gaming.<?php echo $DOMAIN[count($DOMAIN) - 1]; ?>/account/"></iframe>

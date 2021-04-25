@@ -8,4 +8,4 @@ template.*
 *.css
 node_modules/
 pnpm-lock.yaml
-overlay/
+/overlay/

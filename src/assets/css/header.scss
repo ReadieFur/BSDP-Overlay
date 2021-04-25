@@ -21,7 +21,7 @@ header
     > section
     {
         position: relative;
-        z-index: 9999;
+        z-index: 999;
     }
 
     .titleContainer
@@ -140,4 +140,18 @@ header
 #darkMode
 {
     cursor: pointer;
+}
+
+#accountContainer
+{
+    display: none;
+    z-index: inherit;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
 }
