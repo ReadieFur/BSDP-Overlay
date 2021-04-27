@@ -1,8 +1,9 @@
-import { Main } from "../assets/js/main";
+import { Main, ReturnData } from "../assets/js/main";
 import { HeaderSlide } from "../assets/js/headerSlide";
 import { ElementsJSON, OverlayPOSTResponse, SavedElements, UI } from "../assets/js/overlay/ui";
 import { Client, SampleData } from "../assets/js/overlay/client";
 import { DragElement } from "../assets/js/dragElement";
+import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper";
 
 //The script I am using is named as 'domtoimage' not 'DomToImage'.
 declare const domtoimage: DomToImage.DomToImage;
@@ -73,7 +74,7 @@ class Editor
         //Hide splash screen.
         let splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
         splashScreen.classList.add("fadeOut");
-        setTimeout(() => { splashScreen!.style.display = "none"; }, 399);
+        setTimeout(() => { splashScreen.style.display = "none"; }, 399);
 
         return this;
     }
@@ -90,121 +91,96 @@ class Editor
     //Create a new overlay if allowed/none is specified in the URL.
     private async CheckForOverlay(): Promise<void>
     {
-        var path: string[] = window.location.pathname.split("/");
-        var pathID: string = path[path.length - 1] === "" ? path[path.length - 2] : path[path.length - 1];
-        if (pathID.length != 13)
+        var path = window.location.pathname.split('/').filter((part) => { return part != ""; });
+        if (path[path.length - 1].length != 13 && path[path.length - 1] === "edit")
         {
             //Create a new overlay.
-            var response: OverlayPOSTResponse = await jQuery.ajax(
-            {
-                type: "POST",
-                url: `${Main.WEB_ROOT}/assets/php/overlay.php`,
-                dataType: "json",
-                error: Main.ThrowAJAXJsonError,
-                data:
-                {
-                    "q": JSON.stringify(
-                    {
-                        method: "Create",
-                        data:
-                        {
-                            unid: Main.RetreiveCache("READIE-UI"),
-                            pass: Main.RetreiveCache("READIE-UP")
-                        }
-                    })
-                }
-            });
+            var response: ReturnData = await OverlayHelper.OverlayPHP({ method: "createOverlay" });
 
-            if (response.error === null)
+            if (response.error || response.data.toString().length !== 13)
             {
-                history.replaceState({id: response.data.id}, "Editor | BSDP Overlay", `${Main.WEB_ROOT}/edit/${response.data.id}/`);
-                this.id = response.data.id;
+                Main.Alert(response.data === 'QUOTA_EXCEEDED' ? 'Quota exceeded.' : Main.GetPHPErrorMessage(response.data));
+                await Main.Sleep(1000);
+                window.location.href = `${Main.WEB_ROOT}/browser/`;
             }
             else
             {
-                //INVALID_SQL_RESPONSE || INVALID_CREDENTIALS.
-                //OR:
-                //Alert user that their overlay creation quota has been exceeded.
-                //Redirect back the the browser after 5 seconds.
-                window.location.pathname = `${Main.WEB_ROOT}/browser/`;
+                history.replaceState({id: response.data}, "Editor | BSDP Overlay", `${Main.WEB_ROOT}/edit/${response.data}/`);
+                this.id = response.data;
             }
         }
+        else if (path[path.length - 1].length === 13 && path[path.length - 2] === "edit") { this.id = path[path.length - 1]; }
         else
-        { this.id = pathID; }
+        {
+            Main.Alert("Invalid path.");
+            await Main.Sleep(1000);
+            window.location.href = `${Main.WEB_ROOT}/browser/`;
+        }
     }
 
+    //It is possible for public overlays to be ripped here if the user can interperate this script before the ownership check.
     private async LoadOverlay(): Promise<void>
     {
-        var response: OverlayPOSTResponse = await jQuery.ajax(
+        var response: ReturnData = await OverlayHelper.OverlayPHP(
         {
-            type: "POST",
-            url: `${Main.WEB_ROOT}/assets/php/overlay.php`,
-            dataType: "json",
-            error: Main.ThrowAJAXJsonError,
+            method: "getOverlayByID",
             data:
             {
-                "q": JSON.stringify(
-                {
-                    method: "LoadIntoEditor",
-                    data:
-                    {
-                        unid: Main.RetreiveCache("READIE-UI"),
-                        pass: Main.RetreiveCache("READIE-UP"),
-                        id: this.id
-                    }
-                })
+                id: this.id,
+                edit: true
             }
         });
 
-        if (response.error === null)
+        if (response.error)
         {
-            this.title.value = response.data.name;
-            this.description.value = response.data.description;
-            this.overlayPrivateCheckbox.checked = response.data.isPrivate == 1 ? true : false;
+            Main.Alert(Main.GetPHPErrorMessage(response.data));
+            await Main.Sleep(1000);
+            window.location.href = `${Main.WEB_ROOT}/browser/`;
+        }
+        
+        var overlay: IOverlayData = response.data;
 
-            var elements: SavedElements = response.data.elements;
-            for (const category of Object.keys(elements))
+        this.title.value = overlay.name;
+        this.description.value = overlay.description === null ? '' : overlay.description;
+        this.overlayPrivateCheckbox.checked = overlay.isPrivate == '1' ? true : false;
+
+        var elements: SavedElements = JSON.parse(overlay.elements);
+        for (const category of Object.keys(elements))
+        {
+            for (const type of Object.keys(elements[category]))
             {
-                for (const type of Object.keys(elements[category]))
+                for (const id of Object.keys(elements[category][type]))
                 {
-                    for (const id of Object.keys(elements[category][type]))
+                    for (let i = 0; i < elements[category][type][id].length; i++)
                     {
-                        for (let i = 0; i < elements[category][type][id].length; i++)
+                        const elementProperties = elements[category][type][id][i];
+                        var container: HTMLDivElement = this.CreateElement(category, type, id);
+                        //Things were being really weird here so I've had to load the properties in certain orders depending on their position.
+                        if (elementProperties.position.top !== undefined)
                         {
-                            const elementProperties = elements[category][type][id][i];
-                            var container: HTMLDivElement = this.CreateElement(category, type, id);
-                            //Things were being really weird here so I've had to load the properties in certain orders depending on their position.
-                            if (elementProperties.position.top !== undefined)
-                            {
-                                container.style.top = elementProperties.position.top;
-                                container.style.height = `${elementProperties.height}px`;
-                            }
-                            else
-                            {
-                                container.style.height = `${elementProperties.height}px`;
-                                container.style.bottom = elementProperties.position.bottom!;
-                            }
-                            if (elementProperties.position.left !== undefined)
-                            {
-                                container.style.left = elementProperties.position.left;
-                                container.style.width = `${elementProperties.width}px`;
-                            }
-                            else
-                            {
-                                container.style.width = `${elementProperties.width}px`;
-                                container.style.right = elementProperties.position.right!;
-                            }
-                            this.ui.overlay.appendChild(container);
-                            this.UpdateElementProperties(container);
+                            container.style.top = elementProperties.position.top;
+                            container.style.height = `${elementProperties.height}px`;
                         }
+                        else
+                        {
+                            container.style.height = `${elementProperties.height}px`;
+                            container.style.bottom = elementProperties.position.bottom!;
+                        }
+                        if (elementProperties.position.left !== undefined)
+                        {
+                            container.style.left = elementProperties.position.left;
+                            container.style.width = `${elementProperties.width}px`;
+                        }
+                        else
+                        {
+                            container.style.width = `${elementProperties.width}px`;
+                            container.style.right = elementProperties.position.right!;
+                        }
+                        this.ui.overlay.appendChild(container);
+                        this.UpdateElementProperties(container);
                     }
                 }
             }
-        }
-        else
-        {
-            //INVALID_SQL_RESPONSE || MISSING_PARAMETERS || INVALID_PERMISSIONS || INVALID_CREDENTIALS.
-            window.location.pathname = `${Main.WEB_ROOT}/browser/`;
         }
     }
 
@@ -390,6 +366,8 @@ class Editor
     //Add checks and overlay creation limits.
     private async PublishOverlay(): Promise<void>
     {
+        Main.Alert("Please wait...");
+
         //I figured it would be easier to just get all of the elements when the overlay is going to be saved, instead of storing the elements as I go along. Im not using the createelements object as it has data I don't need.
         var savedElements: SavedElements = {};
         for (const key of Object.keys(this.ui.createdElements.locations))
@@ -413,44 +391,35 @@ class Editor
             });
         }
 
-        var response: OverlayPOSTResponse = await jQuery.ajax(
-        {
-            type: "POST",
-            url: `${Main.WEB_ROOT}/assets/php/overlay.php`,
-            dataType: "json",
-            error: Main.ThrowAJAXJsonError,
-            data:
-            {
-                "q": JSON.stringify(
-                {
-                    method: "Save",
-                    data:
-                    {
-                        unid: Main.RetreiveCache("READIE-UI"),
-                        pass: Main.RetreiveCache("READIE-UP"),
-                        id: this.id,
-                        title: this.title.value,
-                        description: this.description.value,
-                        isPrivate: this.overlayPrivateCheckbox.checked ? 1 : 0,
-                        //Check if the client is connected to the game here, if they are not then use the sample data for the thumbnail.
-                        thumbnail: await this.RenderImage(this.ui.overlay, { width: 480, height: 270, scale: 480 / this.ui.overlay.clientHeight }), //I may do a manual scale as scaling like below makes the preview very hard to see.
-                        elements: savedElements
-                    }
-                })
-            }
-        });
-
-        if (response.error === null)
-        {
-            //Saved.
-            this.MinimiseSaveMenu();
-        }
+        if (Object.keys(savedElements).length < 1) { Main.Alert("This overlay does not have enough elements to be saved."); }
         else
         {
-            //INVALID_DATA || MISSING_PARAMETERS || INVALID_CREDENTIALS.
+            var response: ReturnData = await OverlayHelper.OverlayPHP(
+            {
+                method: "saveOverlay",
+                data:
+                {
+                    id: this.id,
+                    name: this.title.value,
+                    description: this.description.value,
+                    isPrivate: this.overlayPrivateCheckbox.checked ? 1 : 0,
+                    //Check if the client is connected to the game here, if they are not then use the sample data for the thumbnail.
+                    thumbnail: await this.RenderImage(this.ui.overlay, { width: 480, height: 270, scale: 480 / this.ui.overlay.clientHeight }), //I may do a manual scale as scaling like below makes the preview very hard to see.
+                    elements: savedElements
+                }
+            });
+    
+            if (response.error)
+            {
+                Main.Alert(Main.GetPHPErrorMessage(response.data));
+            }
+            else
+            {
+                Main.Alert("Saved!");
+                //this.MinimiseSaveMenu();
+                this.allowUnload = true;
+            }
         }
-
-        this.allowUnload = true;
     }
 
     private MinimiseSaveMenu(): void
