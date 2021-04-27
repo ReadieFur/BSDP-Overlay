@@ -38,9 +38,9 @@ class Browser
         {
             if (Main.TypeOfReturnData(ev.data))
             {
-                if (ev.data.error)
+                /*if (ev.data.error)
                 {
-                    //Alert error.
+                    console.error(ev);
                     Main.AccountMenuToggle(false);
                 }
                 else if (typeof(ev.data.data) === "string")
@@ -70,6 +70,26 @@ class Browser
                     //Alert unknown error/response.
                     console.log("Unknown response: ", ev);
                     Main.AccountMenuToggle(false);
+                }*/
+
+                switch (ev.data.data)
+                {
+                    case "LOGGED_IN":
+                        OverlayHelper.OverlayPHP(
+                        {
+                            method: "getOverlaysBySearch",
+                            data:
+                            {
+                                filter: "none",
+                                search: "",
+                                page: 1
+                            },
+                            success: (response) => { this.GotOverlays(response); }
+                        });
+                        break;
+                    default:
+                        //Not implemented.
+                        break;
                 }
             }
             else
@@ -85,8 +105,8 @@ class Browser
     {
         if (response.error)
         {
-            //Alert error.
             console.error(response);
+            Main.Alert(Main.GetPHPErrorMessage(response.data));
         }
         else
         {
