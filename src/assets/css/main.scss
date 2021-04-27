@@ -1,4 +1,13 @@
 //Some variables get changed at runtime so I will not be using SCSS variables for some things.
+.xdebug-error, .xdebug-var-dump
+{
+    color: white !important;
+
+    td, th
+    {
+        background-color: black !important;
+    }
+}
 
 @media screen and (max-width: 1280px)
 {
@@ -111,6 +120,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
         color: rgba(var(--accentColour), 1);
     }
 }
+
+.light
+{
+    font-weight: normal;
+}
 //#endregion
 
 button, .asButton
@@ -134,9 +148,51 @@ button, .asButton
         cursor: pointer;
     }
 
+    &.containsLink
+    {
+        padding: 0;
+
+        > a
+        {
+            padding: 10px 15px;
+        }
+    }
+
     .fill
     {
         background-color: rgba(var(--backgroundColourAlt), 1);
+    }
+}
+
+.joinButtons
+{
+    display: flex;
+
+    > button, .asButton
+    {
+        &:not(.ignore)
+        {
+            &:not(:first-of-type):not(:last-of-type)
+            {
+                border-left: none;
+                border-right: none;
+                border-radius: 0;
+            }
+
+            &:first-of-type
+            {
+                border-right: none;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            &:last-of-type
+            {
+                border-left: none;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
     }
 }
 
@@ -280,10 +336,35 @@ hr
 
 .center
 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    &:not(.x):not(.y)
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &.x
+    {
+        &.text
+        {
+            text-align: center;
+        }
+
+        &:not(.text)
+        {
+            position: relative;
+            width: max-content;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    &.y
+    {
+        position: absolute;
+        transform: translateY(-50%);
+    }
 }
 
 .bottomStrip
