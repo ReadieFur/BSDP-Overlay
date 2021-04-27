@@ -178,7 +178,7 @@ class Overlay
         if ($result->error) { return $result; }
         else if (count($result->data) <= 0) { return new ReturnData("NO_RESULTS", true); }
 
-        if ($result->data[0]->isPrivate == '1' || isset($_data['edit']))
+        if ($result->data[0]->isPrivate == '1')
         {
             $sessionValid = AccountFunctions::VerifySession();
             if ($sessionValid->error) { return $sessionValid; }

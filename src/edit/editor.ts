@@ -11,6 +11,8 @@ declare const domtoimage: DomToImage.DomToImage;
 //Create alerts for all (most) errors.
 class Editor
 {
+    private hideSplashscreen = true;
+
     private id!: string;
     private allowUnload!: boolean;
     private elementsTable!: HTMLTableElement;
@@ -71,10 +73,13 @@ class Editor
 
         this.allowUnload = true;
 
-        //Hide splash screen.
-        let splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
-        splashScreen.classList.add("fadeOut");
-        setTimeout(() => { splashScreen.style.display = "none"; }, 399);
+        //Hide splash screen if the user is allowed to use the editor or if the editor is ready for use.
+        if (this.hideSplashscreen)
+        {
+            let splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
+            splashScreen.classList.add("fadeOut");
+            setTimeout(() => { splashScreen.style.display = "none"; }, 399);
+        }
 
         return this;
     }
@@ -91,6 +96,14 @@ class Editor
     //Create a new overlay if allowed/none is specified in the URL.
     private async CheckForOverlay(): Promise<void>
     {
+        if (Main.RetreiveCache("READIE_UID").length != 22 || Main.RetreiveCache("READIE_SID") === '')
+        {
+            this.hideSplashscreen = false;
+            Main.Alert(Main.GetPHPErrorMessage("NOT_LOGGED_IN"));
+            await Main.Sleep(1000);
+            window.location.href = `${Main.WEB_ROOT}/browser/`;
+        }
+
         var path = window.location.pathname.split('/').filter((part) => { return part != ""; });
         if (path[path.length - 1].length != 13 && path[path.length - 1] === "edit")
         {
@@ -99,6 +112,7 @@ class Editor
 
             if (response.error || response.data.toString().length !== 13)
             {
+                this.hideSplashscreen = false;
                 Main.Alert(response.data === 'QUOTA_EXCEEDED' ? 'Quota exceeded.' : Main.GetPHPErrorMessage(response.data));
                 await Main.Sleep(1000);
                 window.location.href = `${Main.WEB_ROOT}/browser/`;
@@ -112,6 +126,7 @@ class Editor
         else if (path[path.length - 1].length === 13 && path[path.length - 2] === "edit") { this.id = path[path.length - 1]; }
         else
         {
+            this.hideSplashscreen = false;
             Main.Alert("Invalid path.");
             await Main.Sleep(1000);
             window.location.href = `${Main.WEB_ROOT}/browser/`;
@@ -126,14 +141,21 @@ class Editor
             method: "getOverlayByID",
             data:
             {
-                id: this.id,
-                edit: true
+                id: this.id
             }
         });
 
         if (response.error)
         {
+            this.hideSplashscreen = false;
             Main.Alert(Main.GetPHPErrorMessage(response.data));
+            await Main.Sleep(1000);
+            window.location.href = `${Main.WEB_ROOT}/browser/`;
+        }
+        else if ((<IOverlayData>response.data).uid !== Main.RetreiveCache("READIE_UID"))
+        {
+            this.hideSplashscreen = false;
+            Main.Alert(Main.GetPHPErrorMessage("INVALID_CREDENTIALS"));
             await Main.Sleep(1000);
             window.location.href = `${Main.WEB_ROOT}/browser/`;
         }

@@ -6,4 +6,7 @@ Try to figure out how to link files in here.
 ☐ add browser page buttons
 ✔ fix preview details alignment @done(21-04-27 01:06)
 ☐ fix active page highlights
+☐ fix preview button size
 ☐ create thumbnail at the editor resolution and then resize the image to 480p
+✔ change where editor ownership checks are made @done(21-04-27 12:53)
+☐ change otp token to json
