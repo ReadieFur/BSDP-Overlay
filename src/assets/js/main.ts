@@ -9,6 +9,10 @@ export class Main
     public static zoom: number;
     public static accountContainer: HTMLIFrameElement;
 
+    private static alertBoxContainer: HTMLDivElement;
+    private static alertBoxText: HTMLParagraphElement;
+    private static alertBoxTextBox: HTMLInputElement;
+
     constructor()
     {
         Main.WEB_ROOT = WEB_ROOT;
@@ -16,6 +20,11 @@ export class Main
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));
         Main.footer = Main.ThrowIfNullOrUndefined(document.querySelector("#footer"));
         Main.accountContainer = Main.ThrowIfNullOrUndefined(Main.header.querySelector("#accountContainer"));
+
+        Main.alertBoxContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#alertBoxContainer"));
+        Main.alertBoxText = Main.ThrowIfNullOrUndefined(document.querySelector("#alerBoxText"));
+        Main.alertBoxTextBox = Main.ThrowIfNullOrUndefined(document.querySelector("#alertBoxTextBox"));
+        Main.alertBoxContainer.addEventListener("click", () => { Main.alertBoxContainer.style.display = "none"; });
         
         window.addEventListener("message", (ev) => { this.WindowMessageEvent(ev); });
         window.addEventListener("resize", () => { this.WindowResizeEvent(); });
@@ -80,9 +89,9 @@ export class Main
         {
             if (Main.TypeOfReturnData(ev.data))
             {
-                if (ev.data.error)
+                /*if (ev.data.error)
                 {
-                    //Alert error.
+                    console.error(ev);
                     Main.AccountMenuToggle(false);
                 }
                 else if (typeof(ev.data.data) === "string")
@@ -111,6 +120,25 @@ export class Main
                     //Alert unknown error/response.
                     console.log("Unknown response: ", ev);
                     Main.AccountMenuToggle(false);
+                }*/
+
+                switch (ev.data.data)
+                {
+                    case "BACKGROUND_CLICK":
+                        Main.AccountMenuToggle(false);
+                        break;
+                    case "LOGGED_IN":
+                        Main.AccountMenuToggle(false);
+                        break;
+                    case "LOGGED_OUT":
+                        window.location.reload();
+                        break;
+                    case "ACCOUNT_DELETED":
+                        window.location.reload();
+                        break;
+                    default:
+                        //Not implemented.
+                        break;
                 }
             }
             else
@@ -185,11 +213,76 @@ export class Main
 
     public static ThrowAJAXJsonError(data: any) { throw new TypeError(`${data} could not be steralised`); }
 
-    public static Alert(message: string): void
+    //This is asyncronous as I will check if the user has dismissed the alert box in the future.
+    public static async Alert(message: string): Promise<void>
     {
-        //Alert box popup.
-        //Make a UI for this
-        window.alert(message);
+        if (Main.alertBoxTextBox != null && Main.alertBoxText != null && Main.alertBoxContainer != null)
+        {
+            console.log("Alert:", message);
+            Main.alertBoxTextBox.focus();
+            Main.alertBoxText.innerHTML = message;
+            Main.alertBoxContainer.style.display = "block";
+        }
+    }
+
+    public static Sleep(milliseconds: number): Promise<unknown>
+    {
+        return new Promise(r => setTimeout(r, milliseconds));
+    }
+
+    public static GetPHPErrorMessage(error: any): string
+    {
+        switch (error)
+        {
+            case "NO_QUERY_FOUND":
+                return "No query found.";
+            case "NO_METHOD_FOUND":
+                return "No method found.";
+            case "NO_DATA_FOUND":
+                return "No data found.";
+            case "INVALID_METHOD":
+                return "Invalid method.";
+            case "INVALID_DATA":
+                return "Invalid data.";
+            case "ACCOUNT_NOT_FOUND":
+                return "Account not found.";
+            case "ACCOUNT_NOT_VERIFIED":
+                return "Account not verified.";
+            case "ACCOUNT_ALREADY_EXISTS":
+                return "Account already exists.";
+            case "ENCRYPTION_ERROR":
+                return "Encryption error.";
+            case "SET_COOKIE_ERROR":
+                return "Set cookie error.";
+            case "GET_COOKIE_ERROR":
+                return "Get cookie error.";
+            case "COOKIE_NOT_FOUND":
+                return "Cookie not found.";
+            case "SESSION_INVALID":
+                return "Session invalid.";
+            case "INVALID_CREDENTIALS":
+                return "Invalid credentials.";
+            case "INVALID_UID":
+                return "Invalid user ID.";
+            case "INVALID_EMAIL":
+                return "Invalid email.";
+            case "INVALID_USERNAME":
+                return "Invalid username.";
+            case "INVALID_PASSWORD":
+                return "Invalid password.";
+            case "INVALID_OTP":
+                return "Invalid OTP.";
+            case "VERIFICATION_FAILED":
+                return "Verification failed.";
+            case "MAIL_ERROR":
+                return "Mail error."
+            case "NO_RESULTS":
+                return "No results found.";
+            case "NOT_LOGGED_IN":
+                return "Not logged in.";
+            default:
+                return `Unknown error.<br><small>${String(error)}</small>`;
+        }
     }
 }
 

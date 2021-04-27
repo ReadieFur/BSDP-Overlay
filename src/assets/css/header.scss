@@ -155,3 +155,63 @@ header
     width: 100%;
     height: 100%;
 }
+
+#alertBoxContainer
+{
+    display: none;
+    z-index: inherit;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: none;
+    width: 100%;
+    height: 100%;
+
+    > .background
+    {
+        z-index: 10;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        backdrop-filter: blur(2px);
+    }
+
+    > #alertBox
+    {
+        z-index: 20;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        border: 1px solid rgba(var(--foregroundColour), 1);
+        background-color: rgba(var(--backgroundColour), 1);
+        padding: 5px 20px;
+        width: max-content;
+        height: max-content;
+        max-width: 90%;
+        max-height: 90%;
+
+        > #alertBoxTextBox
+        {
+            display: none;
+        }
+
+        > p
+        {
+            text-align: center;
+
+            &.dismissText
+            {
+                > small
+                {
+                    font-weight: normal;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

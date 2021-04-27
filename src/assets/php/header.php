@@ -29,3 +29,11 @@
     </div>
 </section>
 <iframe id="accountContainer" src="//api-readie.global-gaming.<?php echo $DOMAIN[count($DOMAIN) - 1]; ?>/account/"></iframe>
+<div id="alertBoxContainer">
+    <div class="background"></div>
+    <div id="alertBox">
+        <input id="alertBoxTextBox" type="text">
+        <p id="alerBoxText"></p>
+        <p class="dismissText"><small>Click to dismiss this messaege.</small></p>
+    </div>
+</div>
