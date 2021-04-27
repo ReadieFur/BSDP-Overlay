@@ -1,0 +1,9 @@
+Todo logs:
+I should've made this file sooner, I guess that is why Github is there to track changes.
+Try to figure out how to link files in here.
+✔ add overlay minimum requirements for save @done(21-04-27 00:58)
+☐ add search filters into browser.ts
+☐ add browser page buttons
+✔ fix preview details alignment @done(21-04-27 01:06)
+☐ fix active page highlights
+☐ create thumbnail at the editor resolution and then resize the image to 480p
