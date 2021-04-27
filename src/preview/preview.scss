@@ -47,10 +47,18 @@
         span
         {
             padding-left: 10px;
+        }
 
-            > a
+        #editLinkContainer, #deleteButton
+        {
+            display: none;
+        }
+
+        #deleteButton
+        {
+            &:hover
             {
-                font-weight: normal;
+                background-color: red;
             }
         }
     }
