@@ -1,7 +1,11 @@
 <?php
 //Try and sort something out for intellisense when refrencing paths outside the project.
 require_once __DIR__ . '/../../../../api/account/accountFunctions.php';
+//These database files are very messy and WILL be changed in the future, but for now as I cant be arsed to rewrite it AGAIN, I will be using patched version of them for now.
+//THis databaseHelper file is currently only capiable of selecting from one or two tables.
 require_once __DIR__ . '/../../../../api/database/databaseHelper.php';
+//This file will use the BasicDatabaseHelper class which can select, update, insert and delete from one table.
+require_once __DIR__ . '/../../../../api/database/readie/bsdp_overlay.php';
 require_once __DIR__ . '/../../../../api/returnData.php';
 
 class Overlay
@@ -28,9 +32,129 @@ class Overlay
                 return $this->GetOverlayByID($query['data']);
             case 'getOverlaysBySearch':
                 return $this->GetOverlaysBySearch($query['data']);
+            case 'createOverlay':
+                return $this->CreateOverlay();
+            case 'saveOverlay':
+                return $this->SaveOverlay($query['data']);
+            case 'deleteOverlay':
+                return $this->DeleteOverlay($query['data']);
             default:
                 return new ReturnData('INVALID_METHOD', true);
         }
+    }
+
+    private function DeleteOverlay(array $_data)
+    {
+        if (!isset($_data['id'])) { return new ReturnData('INVALID_DATA', true); }
+
+        $bsdp_overlay = new bsdp_overlay(true);
+
+        $sessionValid = AccountFunctions::VerifySession();
+        if ($sessionValid->error) { return $sessionValid; }
+        else if (!$sessionValid->data) { return new ReturnData("SESSION_EXPIRED", true); }
+
+        $currentOverlay = $bsdp_overlay->Select(array('id'=>$_data['id']));
+        if ($currentOverlay->error) { return $currentOverlay; }
+        else if (count($currentOverlay->data) <= 0) { return new ReturnData("NO_RESULTS", true); }
+
+        if ($_COOKIE['READIE_UID'] !== $currentOverlay->data[0]->uid)
+        { return new ReturnData("INVALID_CREDENTIALS", true); }
+
+        $response = $bsdp_overlay->Delete(
+            array('id'=>$currentOverlay->data[0]->id),
+            true
+        );
+        if ($response->error) { return $response; }
+        else if ($response->data !== true) { return new ReturnData(false, true); }
+        else { return $response; }
+    }
+
+    private function SaveOverlay(array $_data)
+    {
+        if (
+            !isset($_data['id']) ||
+            !isset($_data['name']) ||
+            !isset($_data['description']) ||
+            !isset($_data['isPrivate']) ||
+            !isset($_data['thumbnail']) ||
+            !isset($_data['elements'])
+        ) { return new ReturnData('INVALID_DATA', true); }
+
+        if (count($_data['elements']) < 1) { return new ReturnData("NOT_ENOUGH_ELEMENTS", true); }
+
+        $bsdp_overlay = new bsdp_overlay(true);
+
+        $sessionValid = AccountFunctions::VerifySession();
+        if ($sessionValid->error) { return $sessionValid; }
+        else if (!$sessionValid->data) { return new ReturnData("SESSION_EXPIRED", true); }
+
+        $currentOverlay = $bsdp_overlay->Select(array('id'=>$_data['id']));
+        if ($currentOverlay->error) { return $currentOverlay; }
+        else if (count($currentOverlay->data) <= 0) { return new ReturnData("NO_RESULTS", true); }
+
+        if ($_COOKIE['READIE_UID'] !== $currentOverlay->data[0]->uid)
+        { return new ReturnData("INVALID_CREDENTIALS", true); }
+
+        $updatedOverlay = $bsdp_overlay->Update(
+            array(
+                'name'=>$_data['name'],
+                'description'=>$_data['description'],
+                'isPrivate'=>$_data['isPrivate'],
+                'thumbnail'=>$_data['thumbnail'],
+                'elements'=>json_encode($_data['elements']),
+            ),
+            array(
+                'id'=>$currentOverlay->data[0]->id
+            )
+        );
+        if ($updatedOverlay->error) { return $updatedOverlay; }
+        else if ($updatedOverlay->data !== true) { return new ReturnData(false, true); }
+        else { return $updatedOverlay; }
+    }
+
+    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"createOverlay","data":{}}
+    private function CreateOverlay()
+    {
+        global $dbServername;
+        global $dbName;
+        global $dbUsername;
+        global $dbPassword;
+
+        $sessionValid = AccountFunctions::VerifySession();
+        if ($sessionValid->error) { return $sessionValid; }
+        else if (!$sessionValid->data) { return new ReturnData("SESSION_EXPIRED", true); }
+
+        $dbi = new DatabaseInterface(new PDO("mysql:host=$dbServername:3306;dbname=$dbName", $dbUsername, $dbPassword));
+        $count = $dbi
+            ->Table1('bsdp_overlay')
+            ->SelectCount()
+            ->Where(array('uid'=>$_COOKIE['READIE_UID']))
+            ->Execute();
+        if ($count->error) { return $count; }
+        else if (intval($count->data[0]->count) >= 10) { return new ReturnData("QUOTA_EXCEEDED", true); }
+
+        $bsdp_overlay = new bsdp_overlay(true);
+
+        $id = '';
+        do
+        {
+            $id = uniqid();
+            $existingIDs = $bsdp_overlay->Select(array('id'=>$id));
+            if ($existingIDs->error) { return $existingIDs; }
+        }
+        while (count($existingIDs->data) > 0);
+
+        $response = $bsdp_overlay->Insert(
+            array(
+                'id'=>$id,
+                'uid'=>$_COOKIE['READIE_UID'],
+                'name'=>'Untitled Overlay',
+                'dateAltered'=>Time()
+            )
+        );
+        if ($response->error) { return $response; }
+        else if ($response->data !== true) { return new ReturnData(true, true); }
+        else { return new ReturnData($id); }
     }
 
     //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlayByID","data":{"id":"123456789"}}
@@ -54,20 +178,21 @@ class Overlay
         if ($result->error) { return $result; }
         else if (count($result->data) <= 0) { return new ReturnData("NO_RESULTS", true); }
 
-        if ($result->data[0]->isPrivate == '1')
+        if ($result->data[0]->isPrivate == '1' || isset($_data['edit']))
         {
             $sessionValid = AccountFunctions::VerifySession();
             if ($sessionValid->error) { return $sessionValid; }
             else if (!$sessionValid->data) { return new ReturnData("SESSION_EXPIRED", true); }
 
             $account = AccountFunctions::GetUsersByID(array($_COOKIE['READIE_UID']));
-            if ($account->error) { return $result; }
+            if ($account->error) { return $account; }
 
             if ($account->data[$_COOKIE['READIE_UID']]->uid !== $result->data[0]->uid)
             { return new ReturnData("INVALID_CREDENTIALS", true); }
 
             return new ReturnData($result->data[0]);
         }
+        else { return new ReturnData($result->data[0]); }
     }
 
     //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"none","search":"","page":1}}
@@ -154,7 +279,7 @@ class Overlay
             ->Select(array('*'), array('username'))
             ->On('uid')
             ->Where($t1Where, 'AND', $t2Where)
-            ->Order('alteredDate')
+            ->Order('dateAltered')
             ->Limit($startIndex, $endIndex)
             ->Execute();
         if ($overlays->error) { return $overlays; }

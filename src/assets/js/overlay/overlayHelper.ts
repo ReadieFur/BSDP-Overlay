@@ -1,12 +1,13 @@
 import { Main, ReturnData } from "../main";
+import { SavedElements } from "./ui";
 
 export class OverlayHelper
 {
     public static OverlayPHP(params:
     {
-        method: "getOverlayByID" | "getOverlaysBySearch",
-        data: object
-        success: (response: ReturnData) => any
+        method: "getOverlayByID" | "getOverlaysBySearch" | "createOverlay" | "saveOverlay" | "deleteOverlay",
+        data?: object
+        success?: (response: ReturnData) => any
         error?: (ex: any) => any
         async?: boolean
     })
@@ -22,7 +23,7 @@ export class OverlayHelper
                 "q": JSON.stringify(
                 {
                     method: params.method,
-                    data: params.data
+                    data: params.data??{}
                 })
             },
             error: params.error??Main.ThrowAJAXJsonError,
@@ -37,9 +38,9 @@ export interface IOverlayData
     uid: string,
     name: string,
     description: string | null,
-    elements: object,
+    elements: string,
     thumbnail: string | null,
     isPrivate: '0' | '1',
-    alteredDate: number,
+    dateAltered: number,
     username: string
 }
