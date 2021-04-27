@@ -21,6 +21,27 @@ body
         background-color: rgba(var(--backgroundColour), 1);
         transition: opacity 400ms ease 0s;
 
+        #ssDetails
+        {
+            display: none;
+
+            > span
+            {
+                &:first-of-type, &:last-of-type
+                {
+                    text-transform: none;
+                    font-weight: normal;
+                }
+            }
+        }
+
+        #ssThumbnail
+        {
+            border-radius: 8px;
+            min-height: 250px;
+            max-height: 250px;
+        }
+
         > div
         {
             text-align: center;
