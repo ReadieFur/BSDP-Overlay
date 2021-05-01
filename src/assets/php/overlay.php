@@ -221,7 +221,6 @@ class Overlay
         { return new ReturnData('INVALID_DATA', true); }
 
         $startIndex = Overlay::$resultsPerPage * (intval($_data['page']) - 1);
-        $endIndex = $startIndex + Overlay::$resultsPerPage;
         
         $user = false;
         $sessionValid = AccountFunctions::VerifySession();
@@ -280,22 +279,25 @@ class Overlay
             ->On('uid')
             ->Where($t1Where, 'AND', $t2Where)
             ->Order('dateAltered')
-            ->Limit($startIndex, $endIndex)
+            ->Limit(Overlay::$resultsPerPage, $startIndex)
             ->Execute();
         if ($overlays->error) { return $overlays; }
 
         $dbi = new DatabaseInterface($pdo);
         $count = $dbi
             ->Table1('bsdp_overlay')
+            ->Table2('users')
             ->SelectCount()
+            ->On('uid')
             ->Where($t1Where, 'AND', $t2Where)
             ->Execute();
         if ($count->error) { return $count; }
 
         $data = new stdClass();
         $data->overlays = $overlays->data;
-        $data->overlaysFound = $count->data[0]->count;
+        $data->overlaysFound = intval($count->data[0]->count);
         $data->startIndex = $startIndex;
+        $data->resultsPerPage = Overlay::$resultsPerPage;
 
         return new ReturnData($data);
     }
