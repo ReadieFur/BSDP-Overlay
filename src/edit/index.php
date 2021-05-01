@@ -79,7 +79,7 @@
             </table>
         </div>
     </div>
-    <table>
+    <table id="editorRootContainer">
         <tbody>
             <tr>
                 <td class="menuContainer">

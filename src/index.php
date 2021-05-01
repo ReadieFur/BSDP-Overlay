@@ -16,17 +16,6 @@
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
-    <div class="fullFrontPage">
-        <!--Make this page with parallax scrolling-->
-        <video src="" autoplay muted loop></video>
-        <section>
-            <div></div>
-            <div class="center text bottomStrip">
-                <h3>BSDP Overlay</h3>
-                <p>The only overlay tool you will need for BeatSaber</p> <!--This won't be the final quote XD-->
-            </div>
-        </section>
-    </div>
 </body>
 <footer id="footer"><?php echo execAndRead("{$SITE_ROOT}/assets/php/footer.php"); ?></footer>
 </html>

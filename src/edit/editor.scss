@@ -19,6 +19,7 @@ $gradient-fBf: linear-gradient(
 body
 {
     background: transparent;
+    overflow: hidden;
 
     > #splashScreen
     {
@@ -172,9 +173,10 @@ body
         }
     }
 
-    > table
+    > #editorRootContainer
     {
         border-spacing: 0;
+        position: fixed;
         width: 100%;
         height: 100%;
 
