@@ -1,12 +1,18 @@
-Todo logs:
 I should've made this file sooner, I guess that is why Github is there to track changes.
 Try to figure out how to link files in here.
-✔ add overlay minimum requirements for save @done(21-04-27 00:58)
-☐ add search filters into browser.ts
-☐ add browser page buttons
-✔ fix preview details alignment @done(21-04-27 01:06)
-☐ fix active page highlights
-☐ fix preview button size
-☐ create thumbnail at the editor resolution and then resize the image to 480p
-✔ change where editor ownership checks are made @done(21-04-27 12:53)
-☐ change otp token to json
+
+Todo:
+    ☐ create thumbnail at the editor resolution and then resize the image to 480p
+
+Done:
+    ✔ add overlay minimum requirements for save @done(21-04-27 00:58)
+    ✔ fix preview button size @done(21-04-30 18:07)
+    ✔ fix preview details alignment @done(21-04-27 01:06)
+    ✔ change where editor ownership checks are made @done(21-04-27 12:53)
+    ✔ fix page scrolling @done(21-04-30 20:12)
+    ✔ add search filters into browser.ts @done(21-04-30 20:12)
+    ✔ customise scrollbar @done(21-04-30 20:19)
+    ✔ fix overlay fetching (more results than expected) @done(21-05-01 13:04)
+    ✔ add browser page buttons @done(21-05-01 14:02)
+    ✔ put the search query into the url header on the browser page @done(21-05-01 14:34)
+    ✔ fix active page highlights @done(21-05-01 14:39)
