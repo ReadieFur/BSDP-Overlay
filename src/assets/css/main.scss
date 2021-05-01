@@ -35,11 +35,8 @@ body
     background: rgba(var(--backgroundColour), 1); //For other properties, should I be using 'background' and not 'background-color'?
     margin: 0;
     overflow-x: hidden;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
+    min-height: 100vh;
+    position: relative;
 }
 
 //#region Containers
@@ -121,6 +118,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
     }
 }
 
+.accent
+{
+    color: rgba(var(--accentColour), 1) !important;
+}
+
 .light
 {
     font-weight: normal;
@@ -150,12 +152,19 @@ button, .asButton
 
     &.containsLink
     {
-        padding: 0;
+        padding: 10px 0;
 
         > a
         {
             padding: 10px 15px;
         }
+    }
+
+    &.active
+    {
+        color: rgba(var(--backgroundColour), 1);
+        background-color: rgba(var(--foregroundColour), 1);
+        cursor: default !important;
     }
 
     .fill
@@ -379,5 +388,25 @@ hr
     z-index: 998;
     height: 100px;*/
     cursor: pointer;
+}
+
+::-webkit-scrollbar
+{
+    width: 15px;
+}
+
+::-webkit-scrollbar-track
+{
+    background: rgba(var(--backgroundColour), 1);
+}
+   
+::-webkit-scrollbar-thumb
+{
+    background: rgba(var(--backgroundAltColour), 1);
+
+    &:hover
+    {
+        background: rgba(var(--foregroundColour), 1);
+    }
 }
 //#endregion
