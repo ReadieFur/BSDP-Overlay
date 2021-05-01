@@ -18,7 +18,8 @@
         <div class="top">
             <h4>Browser</h4>
             <form id="search">
-                <input type="text" placeholder="Search"><input class="asButton" type="submit" value="Search">
+                <!--Can't have the space between these two elements here, I could make a workaround for this but I can't be arsed.-->
+                <input id="searchText" type="text" placeholder="Search"><input class="asButton" type="submit" value="Search">
             </form>
         </div>
         <hr>
@@ -38,9 +39,14 @@
                 </tr>-->
             </tbody>
         </table>
-        <p id="resultsText">Showing results: 0-0 of 0</p>
-        <div id="pages">
+        <div id="pages" class="joinButtons">
+            <!--<button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>-->
         </div>
+        <br>
+        <p id="resultsText">Showing results: 0-0 of 0</p>
     </section>
 </body>
 <footer id="footer"><?php echo execAndRead("{$SITE_ROOT}/assets/php/footer.php"); ?></footer>
