@@ -39,7 +39,8 @@ export class Main
             if (cachedValue == undefined || cachedValue == "false") { Main.DarkTheme(true); }
             else { Main.DarkTheme(false); }
             //CBA to do the dynamic url thing I normally do, nothing sensitive is being sent over anyway.
-            if (Main.accountContainer.contentWindow != null) { Main.accountContainer.contentWindow.postMessage("UPDATE_THEME", "*" /*Main.accountContainer.contentWindow?.location.href*/ /*Main.accountContainer.src*/); }
+            if (Main.accountContainer.contentWindow != null)
+            { Main.accountContainer.contentWindow.postMessage("UPDATE_THEME", "*" /*Main.accountContainer.contentWindow?.location.href*/ /*Main.accountContainer.src*/); }
         });
 
         this.HighlightActivePage();
@@ -70,13 +71,13 @@ export class Main
         
         Main.ThrowIfNullOrUndefined(document.querySelector("#header")).querySelectorAll("a").forEach((element: HTMLLinkElement) =>
         {
-            if (element.href == window.location.href)
+            if (element.href == window.location.origin + window.location.pathname)
             {
-                element.classList.add("accentText");
+                element.classList.add("accent");
                 let whyIsThisSoFarBack = element.parentElement?.parentElement?.parentElement;
                 if (whyIsThisSoFarBack !== null || whyIsThisSoFarBack !== undefined)
                 {
-                    if (whyIsThisSoFarBack!.classList.contains("naviDropdown")) { whyIsThisSoFarBack!.firstElementChild!.classList.add("accentText"); }
+                    if (whyIsThisSoFarBack!.classList.contains("naviDropdown")) { whyIsThisSoFarBack!.firstElementChild!.classList.add("accent"); }
                 }
             }
         });
@@ -152,7 +153,11 @@ export class Main
 
     public static AccountMenuToggle(show: boolean)
     {
-        if (show) { if (Main.accountContainer.contentWindow != null) { Main.accountContainer.contentWindow.postMessage("UPDATE_THEME", "*"); } Main.accountContainer.style.display = "block"; }
+        if (show)
+        {
+            if (Main.accountContainer.contentWindow != null) { Main.accountContainer.contentWindow.postMessage("UPDATE_THEME", "*"); }
+            Main.accountContainer.style.display = "block";
+        }
         Main.accountContainer.classList.remove(show ? "fadeOut" : "fadeIn");
         Main.accountContainer.classList.add(show ? "fadeIn" : "fadeOut");
         if (!show) { setTimeout(() => { Main.accountContainer.style.display = "none"; }, 399); }
@@ -174,8 +179,8 @@ export class Main
         Main.SetCache("READIE_DARK", dark ? "true" : "false", 365);
         var darkButton: HTMLInputElement = Main.ThrowIfNullOrUndefined(document.querySelector("#darkMode"));
         var themeColours: HTMLStyleElement = Main.ThrowIfNullOrUndefined(document.querySelector("#themeColours"));
-        if (dark) { darkButton.classList.add("accentText"); }
-        else { darkButton.classList.remove("accentText"); }
+        if (dark) { darkButton.classList.add("accent"); }
+        else { darkButton.classList.remove("accent"); }
         themeColours!.innerHTML = `
             :root
             {
@@ -214,7 +219,7 @@ export class Main
     public static ThrowAJAXJsonError(data: any) { throw new TypeError(`${data} could not be steralised`); }
 
     //This is asyncronous as I will check if the user has dismissed the alert box in the future.
-    public static async Alert(message: string): Promise<void>
+    public static async Alert(message: string/*, solidBackground = false*/): Promise<void>
     {
         if (Main.alertBoxTextBox != null && Main.alertBoxText != null && Main.alertBoxContainer != null)
         {
