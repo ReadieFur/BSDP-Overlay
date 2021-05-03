@@ -111,9 +111,100 @@
                                     </table>
                                 </td>
                             </tr>
+                            <!--So many tables, I don't rembember how to get these to position properly so im just going to use lots of tables.-->
                             <tr id="optionsRow">
                                 <td>
                                     <hr>
+                                    <div id="optionTabs">
+                                        <div class="joinButtons">
+                                            <button id="optionPositionButton">Position</button>
+                                            <button id="optionSizeButton">Size</button>
+                                            <button id="optionColourButton">Colour</button>
+                                        </div>
+                                    </div>
+                                    <form id="optionsForm">
+                                        <table>
+                                            <tbody id="optionsPosition">
+                                                <tr>
+                                                    <td>
+                                                        <p>Top:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsTop" type="number">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Left:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsLeft" type="number">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Bottom:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsBottom" type="number">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Right:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsRight" type="number">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody id="optionsSize">
+                                                <tr>
+                                                    <td>
+                                                        <p>Width:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsWidth" type="number">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p>Height:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsHeight" type="number">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody id="optionsColour">
+                                                <tr id="optionsForegroundColourGroup">
+                                                    <td class="onePercent">
+                                                        <p>Foreground:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsForegroundColour" type="color">
+                                                    </td>
+                                                </tr>
+                                                <tr id="optionsBackgroundColourGroup">
+                                                    <td class="onePercent">
+                                                        <p>Background:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsBackgroundColour" type="color">
+                                                    </td>
+                                                </tr>
+                                                <tr id="optionsAccentColourGroup">
+                                                    <td class="onePercent">
+                                                        <p>Accent:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsAccentColour" type="color">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <!--<small class="center x text">'ctrl' + 'alt' + 'click' to delete.</small>-->
                                 </td>
                             </tr>
                             <tr id="ssc">
@@ -131,6 +222,7 @@
         </tbody>
     </table>
     <div id="imageRendererContainer"></div>
+    <canvas id="resizeCanvas"></canvas>
 </body>
 <footer id="footer"></footer>
 </html>

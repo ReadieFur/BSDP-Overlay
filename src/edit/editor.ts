@@ -1,9 +1,9 @@
 import { Main, ReturnData } from "../assets/js/main";
 import { HeaderSlide } from "../assets/js/headerSlide";
-import { ElementsJSON, OverlayPOSTResponse, SavedElements, UI } from "../assets/js/overlay/ui";
+import { ElementsJSON, SavedElements, UI } from "../assets/js/overlay/ui";
 import { Client, SampleData } from "../assets/js/overlay/client";
 import { DragElement } from "../assets/js/dragElement";
-import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper";
+import { IOverlayData, IRGB, OverlayHelper, TCustomStyles } from "../assets/js/overlay/overlayHelper";
 
 //The script I am using is named as 'domtoimage' not 'DomToImage'.
 declare const domtoimage: DomToImage.DomToImage;
@@ -25,8 +25,44 @@ class Editor
     private overlayPrivateCheckbox!: HTMLInputElement;
     private publishButton!: HTMLButtonElement;
     private imageRendererContainer!: HTMLDivElement;
+    private resizeCanvas!: HTMLCanvasElement;
+    private resizeCanvas2D!: CanvasRenderingContext2D;
     private ui!: UI;
     private client!: Client;
+
+    private activeElement?: HTMLDivElement;
+    private editorPropertiesTab!:
+    {
+        optionsRow: HTMLTableRowElement,
+        tabs: HTMLDivElement,
+        position:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            top: HTMLInputElement,
+            left: HTMLInputElement,
+            bottom: HTMLInputElement,
+            right: HTMLInputElement
+        },
+        size:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            width: HTMLInputElement,
+            height: HTMLInputElement
+        },
+        colour:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            foregroundColourGroup: HTMLTableRowElement,
+            foregroundColour: HTMLInputElement
+            backgroundColourGroup: HTMLTableRowElement,
+            backgroundColour: HTMLInputElement
+            accentColourGroup: HTMLTableRowElement,
+            accentColour: HTMLInputElement
+        }
+    };
 
     public async Init(): Promise<Editor>
     {
@@ -47,8 +83,44 @@ class Editor
         this.overlayPrivateCheckbox = Main.ThrowIfNullOrUndefined(this.overlayPrivate.querySelector("input[type=checkbox]"));
         this.publishButton = Main.ThrowIfNullOrUndefined(document.querySelector("#publishButton"));
         this.imageRendererContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#imageRendererContainer"));
+        this.resizeCanvas = Main.ThrowIfNullOrUndefined(document.querySelector("#resizeCanvas"));
+        this.resizeCanvas2D = Main.ThrowIfNullOrUndefined(this.resizeCanvas.getContext("2d"));
         this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
 
+        this.editorPropertiesTab = 
+        {
+            optionsRow: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsRow")),
+            tabs: Main.ThrowIfNullOrUndefined(document.querySelector("#optionTabs")),
+            position:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionPositionButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsPosition")),
+                top: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsTop")),
+                left: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsLeft")),
+                bottom: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBottom")),
+                right: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsRight")),
+            },
+            size:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionSizeButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsSize")),
+                width: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsWidth")),
+                height: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsHeight")),
+            },
+            colour:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionColourButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsColour")),
+                foregroundColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsForegroundColourGroup")),
+                foregroundColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsForegroundColour")),
+                backgroundColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBackgroundColourGroup")),
+                backgroundColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBackgroundColour")),
+                accentColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColourGroup")),
+                accentColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColour"))
+            }
+        }
+
+        this.ConfigureEditorWindow();
         this.LoadElementsIntoEditor(this.ui.importedElements);
 
         //Load sample data.
@@ -67,7 +139,27 @@ class Editor
         this.saveMenuBackground.addEventListener("click", () => { this.MinimiseSaveMenu(); });
         this.overlayPrivate.addEventListener("click", () => { this.overlayPrivateCheckbox.checked = !this.overlayPrivateCheckbox.checked; });
         this.publishButton.addEventListener("click", () => { this.PublishOverlay(); });
+        this.ui.overlay.addEventListener("click", (ev) =>
+        {
+            if (ev.target === this.ui.overlay)
+            { 
+                this.activeElement = undefined;
+                this.editorPropertiesTab.optionsRow.style.display = "none";
+            }
+        });
         Main.ThrowIfNullOrUndefined(document.querySelector("#showSaveContainer")).addEventListener("click", () => { this.ShowSaveContainerClickEvent(); });
+        this.editorPropertiesTab.position.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("position"); });
+        this.editorPropertiesTab.position.top.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.position.left.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.position.bottom.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.position.right.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.size.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("size"); });
+        this.editorPropertiesTab.size.width.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.size.height.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.colour.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("colour"); });
+        this.editorPropertiesTab.colour.foregroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.colour.backgroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.colour.accentColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         
         await this.LoadOverlay();
 
@@ -76,12 +168,18 @@ class Editor
         //Hide splash screen if the user is allowed to use the editor or if the editor is ready for use.
         if (this.hideSplashscreen)
         {
+            //await Main.Sleep(500);
             let splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
             splashScreen.classList.add("fadeOut");
             setTimeout(() => { splashScreen.style.display = "none"; }, 399);
         }
 
         return this;
+    }
+
+    private ConfigureEditorWindow(): void
+    {
+        //Use this as the long term solution for making sure the overlays display properly on all display sizes, have the editor be one size and scale to the appropriate size.
     }
 
     private WindowBeforeUnloadEvent(ev: BeforeUnloadEvent): void
@@ -198,8 +296,15 @@ class Editor
                             container.style.width = `${elementProperties.width}px`;
                             container.style.right = elementProperties.position.right!;
                         }
+
+                        if (elementProperties.customStyles.foregroundColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.foregroundColour.id, this.RGBToHex(elementProperties.customStyles.foregroundColour)); }
+                        if (elementProperties.customStyles.backgroundColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.backgroundColour.id, this.RGBToHex(elementProperties.customStyles.backgroundColour)); }
+                        if (elementProperties.customStyles.accentColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.accentColour.id, this.RGBToHex(elementProperties.customStyles.accentColour)); }
+
+                        this.ui.createdElements.elements[category][type][id].script.UpdateStyles(container, elementProperties.customStyles);
+
                         this.ui.overlay.appendChild(container);
-                        this.UpdateElementProperties(container);
+                        this.UpdateSavedElementProperties(container);
                     }
                 }
             }
@@ -208,6 +313,16 @@ class Editor
 
     private LoadElementsIntoEditor(importedElements: ElementsJSON): void
     {
+        var editorElementStyles = document.createElement("style");
+        editorElementStyles.id = "editorElementStyles";
+        editorElementStyles.innerHTML = `
+            #elementsRow *
+            {
+                --overlayForegroundColour: var(--foregroundColour);
+            }
+        `;
+        document.head.appendChild(editorElementStyles);
+
         for (const category of Object.keys(importedElements))
         {
             var hasOneElement: boolean = false;
@@ -223,7 +338,12 @@ class Editor
                         hasOneElement = true;
                         var td: HTMLTableDataCellElement = document.createElement("td");
                         var element: HTMLDivElement = this.ui.CreateElement(category, type, name);
-                        element.addEventListener("dblclick", (ev: MouseEvent) => { this.ui.overlay.appendChild(this.CreateElement(category, type, name)); });
+                        element.addEventListener("dblclick", () =>
+                        {
+                            var _element = this.CreateElement(category, type, name);
+                            this.ui.overlay.appendChild(_element);
+                            this.SetActiveElement(_element);
+                        });
                         td.appendChild(element);
                         tr.appendChild(td);
                     }
@@ -282,9 +402,20 @@ class Editor
     {
         var container: HTMLDivElement = this.ui.CreateElement(category, type, id);
 
+        if (this.ui.createdElements.elements[category][type][id].script.resizeMode !== 0) { container.style.resize = "both"; }
+
         //Press 'ctrl' + 'alt' + 'click' to delete the element.
-        container.addEventListener("mousedown", (ev: MouseEvent) => { if (ev.ctrlKey && ev.altKey) { this.DeleteElement(container); } });
-        container.addEventListener("mouseup", () => { this.UpdateElementProperties(container); });
+        container.addEventListener("mousedown", (ev: MouseEvent) =>
+        {
+            if (ev.ctrlKey && ev.altKey) { this.DeleteElement(container); }
+            else { this.SetActiveElement(container); }
+        });
+        /*container.addEventListener("mousemove", (ev) =>
+        {
+            if (ev.ctrlKey && ev.altKey) { container.style.boxShadow = "0 0 0 1px rgba(255, 0, 0, 1)"; }
+            else { container.style.removeProperty("boxShadow"); }
+        });*/
+        container.addEventListener("mouseup", () => { this.UpdateSavedElementProperties(container); });
         /*this.ui.createdElements.elements[category][type][id].elements[container.id].mutationObserver = new MutationObserver((ev: MutationRecord[]) => { this.UpdateElementProperties(container); });
         this.ui.createdElements.elements[category][type][id].elements[container.id].mutationObserver!.observe(container, { attributes: true });*/
         this.ui.createdElements.elements[category][type][id].elements[container.id].dragElement = new DragElement(container, this.ui.overlay);
@@ -293,26 +424,350 @@ class Editor
         return container;
     }
 
+
+    private SetActiveElement(element: HTMLDivElement)
+    {
+        if (element !== this.activeElement)
+        {
+            this.activeElement = element;
+            var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
+
+            //#region Reset tabs to default styles
+            this.editorPropertiesTab.position.tabButton.style.display = "inline-block";
+            this.editorPropertiesTab.position.tabButton.classList.remove("ignore");
+            this.editorPropertiesTab.size.tabButton.style.display = "none";
+            this.editorPropertiesTab.colour.tabButton.style.display = "none";
+            this.editorPropertiesTab.colour.foregroundColourGroup.style.display = "none";
+            this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "none";
+            this.editorPropertiesTab.colour.accentColourGroup.style.display = "none";
+
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour !== undefined)
+            {
+                this.editorPropertiesTab.colour.foregroundColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour!);
+            }
+            else
+            { this.editorPropertiesTab.colour.foregroundColour.value = this.RGBToHex(UI.defaultStyles.foregroundColour!); }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.backgroundColour !== undefined)
+            {
+                this.editorPropertiesTab.colour.backgroundColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.backgroundColour!);
+            }
+            else
+            { this.editorPropertiesTab.colour.backgroundColour.value = this.RGBToHex(UI.defaultStyles.backgroundColour!); }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour !== undefined)
+            {
+                this.editorPropertiesTab.colour.accentColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour!);
+            }
+            else
+            { this.editorPropertiesTab.colour.accentColour.value = this.RGBToHex(UI.defaultStyles.accentColour!); }
+            //#endregion
+
+            //#region Position tab
+            if (
+                Object.keys(this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles).length == 0 &&
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.resizeMode == 0
+            )
+            { this.editorPropertiesTab.position.tabButton.classList.add("ignore"); }
+            //#endregion
+
+            //#region Size tab
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.resizeMode != 0)
+            {
+                this.editorPropertiesTab.size.tabButton.style.display = "inline-block";
+            }
+            //#endregion
+            
+            //#region Colour tab
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.foregroundColour === true)
+            {
+                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.foregroundColourGroup.style.display = "table-row";
+            }
+    
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.backgroundColour === true)
+            {
+                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "table-row";
+            }
+    
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.accentColour === true)
+            {
+                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.accentColourGroup.style.display = "table-row";
+            }
+            //#endregion
+    
+            //#region Font size tab
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
+            {
+                
+            }
+            //#endregion
+
+            this.SetActivePropertiesTab("position");
+            this.editorPropertiesTab.optionsRow.style.display = "table-row";
+        }
+    }
+
+    private SetActivePropertiesTab(tab: "position" | "size" | "colour")
+    {
+        this.editorPropertiesTab.position.tabButton.classList.remove("active");
+        this.editorPropertiesTab.position.tbody.style.display = "none";
+        this.editorPropertiesTab.size.tabButton.classList.remove("active");
+        this.editorPropertiesTab.size.tbody.style.display = "none";
+        this.editorPropertiesTab.colour.tabButton.classList.remove("active");
+        this.editorPropertiesTab.colour.tbody.style.display = "none";
+
+        var activeTab;
+        switch (tab)
+        {
+            case "position":
+                activeTab = this.editorPropertiesTab.position;
+                break;
+            case "size":
+                activeTab = this.editorPropertiesTab.size;
+                break;
+            case "colour":
+                activeTab = this.editorPropertiesTab.colour;
+                break;
+        }
+
+        activeTab.tabButton.classList.add("active");
+        activeTab.tbody.style.display = "table-row-group";
+    }
+
+    private UpdateElementPropertiesFromTab(ev: Event)
+    {
+        if (this.activeElement !== undefined)
+        {
+            var location: [string, string, string, string] = this.ui.createdElements.locations[this.activeElement.id];
+            var inputTarget = <HTMLInputElement>ev.target;
+
+            //I don't know whats better, having two if statments means I'll have to type things out twice very similarly
+            //whereas having ?: (forgot what its called) means I type less but more checks are done resulting in higher resource usage.
+            //I think I will stick to ?: as the peformance gain from multiple if statments in this case is minor.
+            if (inputTarget.id === "optionsTop" || inputTarget.id === "optionsBottom")
+            {
+                var inputElement = inputTarget.id === "optionsTop" ? this.editorPropertiesTab.position.top : this.editorPropertiesTab.position.bottom;
+                var inputValue = parseInt(inputElement.value);
+
+                if (isNaN(inputValue)) { ev.preventDefault(); return; }
+                else if (inputValue + this.activeElement.clientHeight / 2 > this.ui.overlay.clientHeight / 2 - 1) //-1 is a fix for when UpdateElementProperties flips the side the element is on when in the middle, the consequence of this is that 1px is list either side of the center.
+                { inputElement.value = (this.ui.overlay.clientHeight / 2 - this.activeElement.clientHeight / 2 - 1).toString(); }
+                else if (inputValue < 0)
+                { inputElement.value = "0"; }
+
+                (inputTarget.id === "optionsTop" ? this.editorPropertiesTab.position.bottom : this.editorPropertiesTab.position.top).value = "";
+                this.activeElement.style[inputTarget.id === "optionsTop" ? "top" : "bottom"] = `${inputElement.value}px`;
+                this.activeElement.style[inputTarget.id === "optionsTop" ? "bottom" : "top"] = "unset";
+            }
+            else if (inputTarget.id === "optionsLeft" || inputTarget.id === "optionsRight")
+            {
+                var inputElement = inputTarget.id === "optionsLeft" ? this.editorPropertiesTab.position.left : this.editorPropertiesTab.position.right;
+                var inputValue = parseInt(inputElement.value);
+
+                if (isNaN(inputValue)) { ev.preventDefault(); return; }
+                else if (inputValue + this.activeElement.clientWidth / 2 > this.ui.overlay.clientWidth / 2 - 1)
+                { inputElement.value = (this.ui.overlay.clientWidth / 2 - this.activeElement.clientWidth / 2 - 1).toString() }
+                else if (inputValue < 0)
+                { inputElement.value = "0"; }
+
+                (inputTarget.id === "optionsLeft" ? this.editorPropertiesTab.position.right : this.editorPropertiesTab.position.left).value = "";
+                this.activeElement.style[inputTarget.id === "optionsLeft" ? "left" : "right"] = `${inputElement.value}px`;
+                this.activeElement.style[inputTarget.id === "optionsLeft" ? "right" : "left"] = "unset";
+            }
+            else if (inputTarget.id === "optionsWidth" || inputTarget.id === "optionsHeight")
+            {
+                var inputElement = inputTarget.id === "optionsWidth" ? this.editorPropertiesTab.size.width : this.editorPropertiesTab.size.height;
+                var inputValue = parseInt((inputTarget.id === "optionsWidth" ? this.editorPropertiesTab.size.width : this.editorPropertiesTab.size.height).value);
+                if (isNaN(inputValue)) { ev.preventDefault(); return; }
+                else if (inputValue < parseInt(this.activeElement.style.minWidth.substr(0, this.activeElement.style.minWidth.length - 2)))
+                { inputElement.value = this.activeElement.style.minWidth.substr(0, this.activeElement.style.minWidth.length - 2); }
+                else if (inputValue < parseInt(this.activeElement.style.minWidth.substr(0, this.activeElement.style.maxWidth.length - 2)))
+                { inputElement.value = this.activeElement.style.minWidth.substr(0, this.activeElement.style.maxWidth.length - 2); }
+
+                this.activeElement.style[inputTarget.id === "optionsWidth" ? "width" : "height"] = `${inputElement.value}px`;
+            }
+            else if (inputTarget.id === "optionsForegroundColour" || inputTarget.id === "optionsBackgroundColour" || inputTarget.id === "optionsAccentColour")
+            {
+                //This is all quite messy as I never indended for this when orignally creating it.
+                var styles: TCustomStyles = {};
+                //I don't want to edit the orignal object here, that should be done by 'UpdateSavedElementProperties'.
+                Object.assign(styles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
+
+                var defaultStyle: IRGB;
+                switch (inputTarget.id)
+                {
+                    case "optionsForegroundColour":
+                        defaultStyle = UI.defaultStyles.foregroundColour!;
+                        break;
+                    case "optionsBackgroundColour":
+                        defaultStyle = UI.defaultStyles.backgroundColour!;
+                        break;
+                    case "optionsAccentColour":
+                        defaultStyle = UI.defaultStyles.accentColour!;
+                        break;
+                }
+
+                var colour: IRGB | undefined;
+
+                var RGB = this.HexToRGB(inputTarget.value);
+                if (RGB === false) { ev.preventDefault(); return; }
+                else if (RGB.R == defaultStyle.R && RGB.G == defaultStyle.G && RGB.B == defaultStyle.B)
+                {
+                    this.activeElement.removeAttribute(inputTarget.id);
+                    colour = undefined;
+                }
+                else
+                {
+                    this.activeElement.setAttribute(inputTarget.id, inputTarget.value);
+                    colour = RGB;
+                }
+
+                switch (inputTarget.id)
+                {
+                    case "optionsForegroundColour":
+                        styles.foregroundColour = colour;
+                        break;
+                    case "optionsBackgroundColour":
+                        styles.backgroundColour = colour;
+                        break;
+                    case "optionsAccentColour":
+                        styles.accentColour = colour;
+                        break;
+                }
+
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
+            }
+            else { return; }
+
+            this.UpdateSavedElementProperties(this.activeElement);
+        }
+    }
+
     //I should tidy this up a bit as im doing the same thng in multiple places.
-    private UpdateElementProperties(element: HTMLDivElement): void
+    private UpdateSavedElementProperties(element: HTMLDivElement): void
     {
         var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
-        var _position: { top?: string; left?: string; bottom?: string;  right?: string; } = {};
+        var _position: { top?: string; left?: string; bottom?: string; right?: string; } = {};
 
-        if (element.offsetLeft + element.clientWidth / 2 > this.ui.overlay.clientWidth / 2) { _position.right = `${this.ui.overlay.clientWidth - element.offsetLeft - element.clientWidth}px`; }
-        else { _position.left = `${element.offsetLeft}px`; }
-        if (element.offsetTop + element.clientHeight / 2 > this.ui.overlay.clientHeight / 2) { _position.bottom = `${this.ui.overlay.clientHeight - element.offsetTop - element.clientHeight}px`; }
-        else { _position.top = `${element.offsetTop}px`; }
+        if (element.offsetLeft + element.clientWidth / 2 > this.ui.overlay.clientWidth / 2)
+        {
+            var right = this.ui.overlay.clientWidth - element.offsetLeft - element.clientWidth
+            this.editorPropertiesTab.position.left.value = "";
+            this.editorPropertiesTab.position.right.value = right.toString();
+            _position.right = `${right}px`;
+        }
+        else
+        {
+            this.editorPropertiesTab.position.left.value = element.offsetLeft.toString();
+            this.editorPropertiesTab.position.right.value = "";
+            _position.left = `${element.offsetLeft}px`;
+        }
+        if (element.offsetTop + element.clientHeight / 2 > this.ui.overlay.clientHeight / 2)
+        {
+            var bottom = this.ui.overlay.clientHeight - element.offsetTop - element.clientHeight
+            this.editorPropertiesTab.position.top.value = "";
+            this.editorPropertiesTab.position.bottom.value = bottom.toString();
+            _position.bottom = `${bottom}px`;
+        }
+        else
+        {
+            this.editorPropertiesTab.position.top.value = element.offsetTop.toString();
+            this.editorPropertiesTab.position.bottom.value = "";
+            _position.top = `${element.offsetTop}px`;
+        }
 
         this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].position = _position;
         this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].width = element.clientWidth.toString();
         this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height = element.clientHeight.toString();
+        this.editorPropertiesTab.size.width.value = element.clientWidth.toString();
+        this.editorPropertiesTab.size.height.value = element.clientHeight.toString();
+
+        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.foregroundColour === true)
+        {
+            var colour: IRGB | undefined;
+            
+            var hex = element.getAttribute(this.editorPropertiesTab.colour.foregroundColour.id);
+            if (hex !== null)
+            {
+                var RGB = this.HexToRGB(hex);
+                if (RGB !== false)
+                { colour = RGB; }
+            }
+            else
+            { colour = undefined; }
+
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour = colour;
+        }
+        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.backgroundColour === true)
+        {
+            var colour: IRGB | undefined;
+            
+            var hex = element.getAttribute(this.editorPropertiesTab.colour.backgroundColour.id);
+            if (hex !== null)
+            {
+                var RGB = this.HexToRGB(hex);
+                if (RGB !== false)
+                { colour = RGB; }
+            }
+            else
+            { colour = undefined; }
+
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.backgroundColour = colour;
+        }
+        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.accentColour === true)
+        {
+            var colour: IRGB | undefined;
+            
+            var hex = element.getAttribute(this.editorPropertiesTab.colour.accentColour.id);
+            if (hex !== null)
+            {
+                var RGB = this.HexToRGB(hex);
+                if (RGB !== false)
+                { colour = RGB; }
+            }
+            else
+            { colour = undefined; }
+
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour = colour;
+        }
 
         this.allowUnload = false;
     }
 
+    //https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    private HexToRGB(hex: string): false | IRGB
+    {
+        var HexSplit = new RegExp(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).exec(hex);
+        
+        if (HexSplit === null) { return false; }
+
+        var RGB: IRGB =
+        {
+            R: parseInt(HexSplit[1], 16),
+            G: parseInt(HexSplit[2], 16),
+            B: parseInt(HexSplit[3], 16)
+        }
+
+        if (isNaN(RGB.R) || isNaN(RGB.G) || isNaN(RGB.B)) { return false; }
+
+        return RGB;
+    }
+
+    private RGBToHex(RGB: IRGB): string
+    {
+        return "#" + this.ComponentToHex(RGB.R) + this.ComponentToHex(RGB.G) + this.ComponentToHex(RGB.B);
+    }
+
+    private ComponentToHex(component: any): string
+    {
+        var hex: string = component.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
     private DeleteElement(element: HTMLDivElement): void
     {
+        this.editorPropertiesTab.optionsRow.style.display = "none";
         var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
         this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.RemoveElement(element);
         /*if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].mutationObserver !== undefined)
@@ -370,6 +825,28 @@ class Editor
         return result;
     }
 
+    //Needs tweaking, look at: https://stackoverflow.com/questions/19262141/resize-image-with-javascript-canvas-smoothly.
+    private ResizeImage(source: string, width: number, height: number): string
+    {
+        this.resizeCanvas.style.display = "block";
+
+        var image = new Image();
+        image.src = source;
+
+        this.resizeCanvas.style.width = `${width}px`;
+        this.resizeCanvas.style.height = `${height}px`;
+        this.resizeCanvas.width = width;
+        this.resizeCanvas.height = height;
+
+        this.resizeCanvas2D.drawImage(image, 0, 0, width, height);
+
+        var resizedImage = this.resizeCanvas.toDataURL("image/png");
+
+        this.resizeCanvas.style.display = "none";
+
+        return resizedImage;
+    }
+
     //I'm not going to await for the image to render here, when saving the overlay I will render the overlay again and await for that one.
     private ShowSaveContainerClickEvent(): void
     {
@@ -379,7 +856,12 @@ class Editor
             height: 720,
             scale: 720 / this.ui.overlay.clientHeight,
             background: `${Main.WEB_ROOT}/assets/images/beat-saber.jpg`
-        }).then((dataURL: string) => { this.thumbnail.src = dataURL; });
+        })
+        .then((dataURL: string) =>
+        {
+            this.thumbnail.src = dataURL;
+            //console.log(this.ResizeImage(dataURL, 480, 270));
+        });
         this.saveMenuContainer.style.display = "block";
         this.saveMenuContainer.classList.remove("fadeOut");
         this.saveMenuContainer.classList.add("fadeIn");
@@ -409,11 +891,12 @@ class Editor
             {
                 position: _position,
                 width: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].width,
-                height: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height
+                height: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height,
+                customStyles: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles
             });
         }
 
-        if (Object.keys(savedElements).length < 1) { Main.Alert("This overlay does not have enough elements to be saved."); }
+        if (Object.keys(savedElements).length < 1) { Main.Alert("This overlay does not have enough elements to be saved.<br>You must have at least 1 element."); }
         else
         {
             var response: ReturnData = await OverlayHelper.OverlayPHP(

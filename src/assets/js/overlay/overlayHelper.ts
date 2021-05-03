@@ -44,3 +44,27 @@ export interface IOverlayData
     dateAltered: number,
     username: string
 }
+
+export type TEditableStyles =
+{
+    foregroundColour?: true,
+    backgroundColour?: true,
+    accentColour?: true,
+    fontSize?: true;
+}
+
+export type TCustomStyles =
+{
+    foregroundColour?: IRGB,
+    backgroundColour?: IRGB,
+    accentColour?: IRGB,
+    fontSize?: number
+}
+
+//RGBA, 'A' will probably not be used but it would be easy to add if it is needed in the future.
+export interface IRGB
+{
+    R: number,
+    G: number,
+    B: number
+}

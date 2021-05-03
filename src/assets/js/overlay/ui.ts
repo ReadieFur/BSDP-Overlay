@@ -1,12 +1,37 @@
 import { DragElement } from "../dragElement";
 import { Main } from "../main";
 import { MapData, LiveData } from "./client";
+import { TCustomStyles, TEditableStyles } from "./overlayHelper";
 
 export class UI
 {
     public overlay!: HTMLDivElement;
     public importedElements!: ElementsJSON;
     public createdElements!: CreatedElements;
+
+    //This isn't ideal using :TCustomStyles as the peoperties can be undefined but for when im checking this they should all be defined (at least the ones im looking for). 
+    //Store this information on the element instead so different elements can have different defaults.
+    public static readonly defaultStyles: TCustomStyles =
+    {
+        foregroundColour:
+        {
+            R: 255,
+            G: 255,
+            B: 255
+        },
+        backgroundColour:
+        {
+            R: 255,
+            G: 255,
+            B: 255
+        },
+        accentColour:
+        {
+            R: 100,
+            G: 0,
+            B: 255
+        }
+    }
 
     public async Init(): Promise<UI>
     {
@@ -18,6 +43,17 @@ export class UI
             locations: {},
             elements: {}
         };
+
+        var defaultStyles = document.createElement("style");
+        defaultStyles.id = "overlayDefaultStyles";
+        defaultStyles.innerHTML = `
+            #overlay *
+            {
+                --overlayForegroundColour: ${UI.defaultStyles.foregroundColour!.R}, ${UI.defaultStyles.foregroundColour!.B}, ${UI.defaultStyles.foregroundColour!.B};
+            }
+        `;
+        document.head.appendChild(defaultStyles);
+
         return this;
     }
 
@@ -83,6 +119,7 @@ export class UI
         container.innerHTML = this.importedElements[category][type][id].html;
         
         this.createdElements.elements[category][type][id].script.AddElement(container);
+        //It would be better if I stored all hte properties in the element script and then asked for them when I needed it.
         //I cannot use computed styles or client/offset values here because the element does not exist on the DOM yet.
         this.createdElements.elements[category][type][id].elements[container.id] =
         {
@@ -92,7 +129,8 @@ export class UI
                 left: "0px"
             },
             width: container.style.height,
-            height: container.style.height
+            height: container.style.height,
+            customStyles: {}
         };
 
         return container;
@@ -144,21 +182,6 @@ export class UI
     }
 }
 
-export interface OverlayPOSTResponse
-{
-    /*data:
-        "NO_QUERY_FOUND" |
-        "NO_METHOD_FOUND" |
-        "INVALID_METHOD" |
-        "INVALID_CREDENTIALS" |
-        "INVALID_DATA" |
-        "MISSING_PARAMETERS" |
-        object*/
-    //data: string | { [key: string]: any }
-    error: any,
-    data: any
-}
-
 export type ElementsJSON =
 {
     [category: string]:
@@ -193,7 +216,7 @@ export type SavedElements =
                 }
                 width: string,
                 height: string,
-                customValues?: string
+                customStyles: TCustomStyles
             }[];
         }
     }
@@ -226,6 +249,7 @@ type CreatedElements =
                             }
                             width: string,
                             height: string,
+                            customStyles: TCustomStyles,
                             //mutationObserver?: MutationObserver,
                             dragElement?: DragElement
                         }
@@ -238,8 +262,11 @@ type CreatedElements =
 
 interface ElementScript
 {
-    new(): ElementScript,
+    readonly resizeMode: 0 | 1 | 2 | 3, //0 = No resize, 1 = Both, 2 = Width, 3 = Height
+    readonly editableStyles: TEditableStyles;
+    new(): ElementScript;
     AddElement(element: HTMLDivElement): void;
+    UpdateStyles(element: HTMLDivElement, styles: TCustomStyles): void;
     RemoveElement(element: HTMLDivElement): void;
     UpdateMapData(data: MapData): void;
     UpdateLiveData(data: LiveData): void;
