@@ -28,5 +28,6 @@ Done:
     ✔ add element property controls @done(21-05-03 21:52)
 
 Cancelled:
-    ✘ fix @use on element stylesheets @cancelled(21-05-02 18:46) replaced with variables set in ui.ts
+
 Archive:
+    ☐ fix @use on element stylesheets @cancelled(21-05-02 18:46) replaced with variables set in ui.ts
