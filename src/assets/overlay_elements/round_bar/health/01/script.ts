@@ -1,8 +1,16 @@
 import { Main } from "../../../../js/main";
 import { MapData, LiveData } from "../../../../js/overlay/client";
+import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper";
 
 export class Script
 {
+    public readonly resizeMode = 1;
+    public readonly editableStyles: TEditableStyles =
+    {
+        foregroundColour: true,
+        backgroundColour: true
+    }
+
     private size: number;
     private position: number;
     private strokeWidth: number;
@@ -28,11 +36,12 @@ export class Script
         this.elements[element.id] =
         {
             container: element,
-            element: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.health._01`)),
-            roundBar: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.health._01 .roundBar`)),
-            health: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.health._01 .health`)),
-            background: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.health._01 .background`)),
-            progress: Main.ThrowIfNullOrUndefined(element.querySelector(`.circle_bar.health._01 .progress`)),
+            element: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01`)),
+            roundBar: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01 .roundBar`)),
+            healthText: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01 .healthText`)),
+            health: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01 .health`)),
+            background: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01 .background`)),
+            progress: Main.ThrowIfNullOrUndefined(element.querySelector(`.round_bar.health._01 .progress`)),
             percentage: 0,
             mutationObserver: new MutationObserver((ev: MutationRecord[]) => { this.MutationEvent(element.id, ev); })
         };
@@ -58,6 +67,33 @@ export class Script
         this.elements[element.id].progress.style.strokeDashoffset = (this.circumference - this.elements[element.id].percentage / 100 * this.circumference).toString();
 
         this.elements[element.id].mutationObserver.observe(this.elements[element.id].container, { attributes: true });
+    }
+
+    public UpdateStyles(element: HTMLDivElement, styles: TCustomStyles): void
+    {
+        if (this.elements[element.id] === undefined) { return; }
+
+        if (styles.foregroundColour !== undefined)
+        {
+            this.elements[element.id].progress.style.stroke = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+            this.elements[element.id].healthText.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+            this.elements[element.id].health.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+        }
+        else
+        {
+            this.elements[element.id].progress.style.removeProperty("stroke");
+            this.elements[element.id].healthText.style.removeProperty("color");
+            this.elements[element.id].health.style.removeProperty("color");
+        }
+
+        if (styles.backgroundColour !== undefined)
+        {
+            this.elements[element.id].background.style.stroke = `rgba(${styles.backgroundColour.R}, ${styles.backgroundColour.G}, ${styles.backgroundColour.B}, 0.5)`;
+        }
+        else
+        {
+            this.elements[element.id].background.style.removeProperty("stroke");
+        }
     }
 
     public RemoveElement(element: HTMLDivElement): void
@@ -107,6 +143,7 @@ type Elements =
         container: HTMLDivElement,
         roundBar: SVGElement,
         element: HTMLDivElement,
+        healthText: HTMLParagraphElement,
         health: HTMLParagraphElement,
         background: SVGAElement,
         progress: SVGAElement,

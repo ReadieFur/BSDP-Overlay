@@ -1,4 +1,4 @@
-.circle_bar.health._01
+.round_bar.health._01
 {
     transform-origin: 0 0;
     position: relative;
@@ -13,6 +13,7 @@
 
         > p
         {
+            color: rgba(var(--overlayForegroundColour), 1);
             margin: 5px;
         }
     }
@@ -28,12 +29,12 @@
 
         > .background
         {
-            stroke: rgba(var(--foregroundColour), 0.5);
+            stroke: rgba(var(--overlayForegroundColour), 0.5);
         }
 
         > .progress
         {
-            stroke: rgba(var(--foregroundColour), 1);
+            stroke: rgba(var(--overlayForegroundColour), 1);
             transition: stroke-dashoffset 0.35s;
         }
     }
