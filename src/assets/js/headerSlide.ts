@@ -1,4 +1,4 @@
-import { Main } from "./main";
+import { Main } from "./main.js";
 
 export class HeaderSlide
 {

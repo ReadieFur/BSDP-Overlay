@@ -1,5 +1,5 @@
-import { Main, ReturnData } from "../assets/js/main";
-import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper";
+import { Main, ReturnData } from "../assets/js/main.js";
+import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper.js";
 
 class Browser
 {

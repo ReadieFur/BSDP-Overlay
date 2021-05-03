@@ -1,4 +1,4 @@
-import { Main } from "../assets/js/main";
+import { Main } from "../assets/js/main.js";
 
 class MyOverlays
 {

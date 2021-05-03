@@ -1,5 +1,5 @@
-import { Main, ReturnData } from "../main";
-import { SavedElements } from "./ui";
+import { Main, ReturnData } from "../main.js";
+import { SavedElements } from "./ui.js";
 
 export class OverlayHelper
 {

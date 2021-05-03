@@ -1,6 +1,6 @@
-import { Main } from "../../../../js/main";
-import { MapData, LiveData } from "../../../../js/overlay/client";
-import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper";
+import { Main } from "../../../../js/main.js";
+import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
 
 export class Script
 {

@@ -1,5 +1,5 @@
-import { Main } from "../../assets/js/main";
-import { LiveData, MapData, SampleData } from "../../assets/js/overlay/client";
+import { Main } from "../../assets/js/main.js";
+import { LiveData, MapData, SampleData } from "../../assets/js/overlay/client.js";
 
 export class DefaultUI
 {

@@ -1,5 +1,5 @@
-import { Main } from "../main"
-import { EventDispatcher } from "../eventDispatcher";
+import { Main } from "../main.js";
+import { EventDispatcher } from "../eventDispatcher.js";
 
 export class Client
 {

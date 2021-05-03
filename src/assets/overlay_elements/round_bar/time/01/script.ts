@@ -1,7 +1,7 @@
-import { Main } from "../../../../js/main";
-import { MapData, LiveData } from "../../../../js/overlay/client";
-import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper";
-import { UI } from "../../../../js/overlay/ui";
+import { Main } from "../../../../js/main.js";
+import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
+import { UI } from "../../../../js/overlay/ui.js";
 
 //Consider making a style for each category/type so ts is not duplicated.
 export class Script

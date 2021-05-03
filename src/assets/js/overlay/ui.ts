@@ -1,7 +1,7 @@
-import { DragElement } from "../dragElement";
-import { Main } from "../main";
-import { MapData, LiveData } from "./client";
-import { TCustomStyles, TEditableStyles } from "./overlayHelper";
+import { DragElement } from "../dragElement.js";
+import { Main } from "../main.js";
+import { MapData, LiveData } from "./client.js";
+import { TCustomStyles, TEditableStyles } from "./overlayHelper.js";
 
 export class UI
 {

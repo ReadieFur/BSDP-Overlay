@@ -1,6 +1,6 @@
-import { Main } from "../js/main";
-import { HeaderSlide } from "../js/headerSlide";
-import { Client, LiveData, MapData, SampleData } from "../js/overlay/client";
+import { Main } from "../js/main.js";
+import { HeaderSlide } from "../js/headerSlide.js";
+import { Client, LiveData, MapData, SampleData } from "../js/overlay/client.js";
 
 class OverlayElements
 {
