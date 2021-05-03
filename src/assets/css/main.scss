@@ -208,7 +208,7 @@ button, .asButton
 //#region Forms
 form
 {
-    h3
+    h3, h4
     {
         margin: 5px 0 2.5px 0;
     }
@@ -226,7 +226,7 @@ form
             border-bottom: 1px solid rgba(var(--foregroundColour), 0.5) !important;
         }
 
-        &[type=text]
+        &[type=text], &[type=email], &[type=password], &[type=number], &[type=color]
         {
             outline-width: 0;
             margin-bottom: 15px;
@@ -241,6 +241,11 @@ form
             {
                 font-size: larger;
             }
+        }
+
+        &[type=color]
+        {
+            border-bottom: none;
         }
     }
 

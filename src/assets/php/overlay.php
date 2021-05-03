@@ -275,7 +275,9 @@ class Overlay
         $overlays = $dbi
             ->Table1('bsdp_overlay')
             ->Table2('users')
-            ->Select(array('*'), array('username'))
+            //I don't need to get everything here.
+            //->Select(array('*'), array('username'))
+            ->Select(array('id', 'uid', 'name', 'description', 'thumbnail', 'isPrivate', 'dateAltered'), array('username'))
             ->On('uid')
             ->Where($t1Where, 'AND', $t2Where)
             ->Order('dateAltered')

@@ -1,7 +1,6 @@
 .vscode/
 testing/
 tmp/
-template.*
 .exclude/
 *.js
 *.map

@@ -1,6 +1,6 @@
 import { Main, ReturnData } from "../assets/js/main";
 import { HeaderSlide } from "../assets/js/headerSlide";
-import { OverlayPOSTResponse, SavedElements, UI } from "../assets/js/overlay/ui";
+import { SavedElements, UI } from "../assets/js/overlay/ui";
 import { Client } from "../assets/js/overlay/client";
 import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper";
 
@@ -100,6 +100,7 @@ class View
                             container.style.width = `${elementProperties.width}px`;
                             container.style.right = elementProperties.position.right!;
                         }
+                        this.ui.createdElements.elements[category][type][id].script.UpdateStyles(container, elementProperties.customStyles);
                         this.ui.overlay.appendChild(container);
                     }
                 }

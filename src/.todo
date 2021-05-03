@@ -2,7 +2,14 @@ I should've made this file sooner, I guess that is why Github is there to track 
 Try to figure out how to link files in here.
 
 Todo:
-    ☐ create thumbnail at the editor resolution and then resize the image to 480p
+    ☐ prevent elements from being scaled outside the UI
+    ☐ fix text property editor updates being delayed by 1 change
+    ☐ make element border red when 'control' and 'alt' are pressed
+    ☐ add more elements
+    ☐ fix thumbnail scaling:
+        ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
+        ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
+    ☐ add block like scripting
 
 Done:
     ✔ add overlay minimum requirements for save @done(21-04-27 00:58)
@@ -16,3 +23,10 @@ Done:
     ✔ add browser page buttons @done(21-05-01 14:02)
     ✔ put the search query into the url header on the browser page @done(21-05-01 14:34)
     ✔ fix active page highlights @done(21-05-01 14:39)
+    ✔ detect when no element is selected and hide the properties controls of the previously selected element @done(21-05-02 15:59)
+    ✔ make elements not be affected by dark/light mode @done(21-05-02 21:38)
+    ✔ add element property controls @done(21-05-03 21:52)
+
+Cancelled:
+    ✘ fix @use on element stylesheets @cancelled(21-05-02 18:46) replaced with variables set in ui.ts
+Archive:
