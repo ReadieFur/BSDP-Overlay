@@ -1,9 +1,18 @@
 .text.time._01
 {
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    
     > .textContainer
     {
         text-align: center;
         margin: 5px;
         color: rgba(var(--overlayForegroundColour), 1);
+        
+        > span
+        {
+            color: rgba(var(--overlayForegroundColour), 1);
+        }
     }
 }
