@@ -1,0 +1,11 @@
+.image.cover._01
+{
+    transform-origin: 0 0;
+    position: relative;
+
+    > img
+    {
+        border-radius: 8px;
+        font-size: 0;
+    }
+}

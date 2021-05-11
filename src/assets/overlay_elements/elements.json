@@ -180,5 +180,15 @@
                 "showInEditor": true
             }
         }
+    },
+    "image":
+    {
+        "cover":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
     }
 }
