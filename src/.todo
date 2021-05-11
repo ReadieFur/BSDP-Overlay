@@ -6,13 +6,19 @@ Todo:
     ☐ prevent elements from being scaled outside the UI
     ☐ fix text property editor updates being delayed by 1 change
     ☐ make element border red when 'control' and 'alt' are pressed
-    ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
     ☐ add sample data/game data toggle.
+    ☐ add text alignment.
+    ☐ add custom text.
+    ☐ add element background colours.
+    ☐ add element info.
     ☐ fix thumbnail scaling:
         ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
         ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
     Optional:
         ☐ add block like scripting
+        ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
+        ☐ add an element expand menu to view more at once.
+        ☐ add custom text.
 
 Done:
     ✔ add overlay minimum requirements for save @done(21-04-27 00:58)

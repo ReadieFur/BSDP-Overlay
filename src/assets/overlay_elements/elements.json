@@ -25,7 +25,155 @@
     },
     "text":
     {
+        "accuracy":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "author":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "bpm":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "bsr":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "combo":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "custom_difficulty":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "difficulty":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "health":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "mapper":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "max_raw_score":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "max_score":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "misses":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "njs":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "pp":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "previous_bsr":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "rank":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "raw_score":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "score":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+
         "song_name":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "star":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "sub_name":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "time":
         {
             "01":
             {

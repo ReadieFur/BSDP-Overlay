@@ -47,11 +47,12 @@ export class UI
         var defaultStyles = document.createElement("style");
         defaultStyles.id = "overlayDefaultStyles";
         defaultStyles.innerHTML = `
-            #overlay *
+            .container *
             {
                 --overlayForegroundColour: ${UI.defaultStyles.foregroundColour!.R}, ${UI.defaultStyles.foregroundColour!.B}, ${UI.defaultStyles.foregroundColour!.B};
             }
         `;
+        //Append to the overlay?
         document.head.appendChild(defaultStyles);
 
         return this;
@@ -62,6 +63,11 @@ export class UI
         let mins: string = Math.floor(_seconds / 60).toString().padStart(2, "0");
         let seconds: string = (_seconds - (Math.floor(_seconds / 60) * 60)).toString().padStart(2, "0");
         return `${mins}:${seconds}`;
+    }
+
+    public static SeperateNumber(number: number | string, seperator?: string): string
+    {
+        return number.toString().replace(/(?!^)(?=(?:\d{3})+(?:\.|$))/gm, seperator !== undefined ? seperator : ",");
     }
 
     public UpdateMapData(data: MapData): void

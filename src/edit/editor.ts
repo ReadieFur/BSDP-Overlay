@@ -79,6 +79,7 @@ class Editor
 
         //Set varables.
         this.allowUnload = true;
+        this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
         this.elementsTable = Main.ThrowIfNullOrUndefined(document.querySelector("#elementsTable"));
         this.saveMenuContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuContainer"));
         this.saveMenuBackground = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuBackground"));
@@ -91,7 +92,6 @@ class Editor
         this.imageRendererContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#imageRendererContainer"));
         this.resizeCanvas = Main.ThrowIfNullOrUndefined(document.querySelector("#resizeCanvas"));
         this.resizeCanvas2D = Main.ThrowIfNullOrUndefined(this.resizeCanvas.getContext("2d"));
-        this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
 
         this.editorPropertiesTab = 
         {
