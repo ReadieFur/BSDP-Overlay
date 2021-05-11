@@ -6,6 +6,7 @@ Todo:
     ☐ prevent elements from being scaled outside the UI
     ☐ fix text property editor updates being delayed by 1 change
     ☐ make element border red when 'control' and 'alt' are pressed
+    ☐ add a rotation option.
     ☐ add sample data/game data toggle.
     ☐ add text alignment.
     ☐ add custom text.
