@@ -207,13 +207,25 @@ button, .asButton
 
     > button, .asButton
     {
+        //The elements in the middle do not curve off their corners when it is the last visible element.
         &:not(.ignore)
         {
+            //So to fix the previously mentioned issue I have TS(JS) check for the visible elements and mark which should be curved, if it should be curved then don't apply the following styles.
             &:not(:first-of-type):not(:last-of-type)
             {
-                border-left: none;
-                border-right: none;
-                border-radius: 0;
+                &:not(.curveLeft)
+                {
+                    border-left: none;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+
+                &:not(.curveRight)
+                {
+                    border-right: none;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
             }
 
             &:first-of-type

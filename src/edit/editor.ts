@@ -136,8 +136,8 @@ class Editor
         this.LoadElementsIntoEditor(this.ui.importedElements);
 
         //Load sample data.
-        this.ui.UpdateMapData(SampleData.mapData);
-        this.ui.UpdateLiveData(SampleData.liveData);
+        //this.ui.UpdateMapData(SampleData.mapData);
+        //this.ui.UpdateLiveData(SampleData.liveData);
 
         //Setup the client.
         /*this.client = new Client(Main.urlParams.get("ip"));
@@ -454,11 +454,23 @@ class Editor
             //#region Reset tabs to default styles
             this.editorPropertiesTab.position.tabButton.style.display = buttonDisplayStyle;
             this.editorPropertiesTab.position.tabButton.classList.remove("ignore");
+            this.editorPropertiesTab.position.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.position.tabButton.classList.remove("curveRight");
+
             this.editorPropertiesTab.size.tabButton.style.display = "none";
+            this.editorPropertiesTab.size.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.size.tabButton.classList.remove("curveRight");
+
             this.editorPropertiesTab.colour.tabButton.style.display = "none";
+            this.editorPropertiesTab.colour.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.colour.tabButton.classList.remove("curveRight");
             this.editorPropertiesTab.colour.foregroundColourGroup.style.display = "none";
             this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "none";
             this.editorPropertiesTab.colour.accentColourGroup.style.display = "none";
+
+            this.editorPropertiesTab.font.tabButton.style.display = "none";
+            this.editorPropertiesTab.font.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.font.tabButton.classList.remove("curveRight");
 
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour !== undefined)
             {
@@ -530,6 +542,19 @@ class Editor
             }
             //#endregion
 
+            var firstButton: HTMLButtonElement | null = null;
+            var lastButton: HTMLButtonElement | null = null;
+            for (const iterator of this.editorPropertiesTab.tabs.querySelectorAll("button"))
+            {
+                if (iterator.style.display === "inline-block")
+                {
+                    if (firstButton === null) { firstButton = iterator; }
+                    lastButton = iterator;
+                }
+            }
+            if (firstButton !== null) { firstButton.classList.add("curveLeft"); }
+            if (lastButton !== null) { lastButton.classList.add("curveRight"); }
+
             this.SetActivePropertiesTab("position");
             this.editorPropertiesTab.optionsRow.style.display = "table-row";
         }
@@ -539,10 +564,13 @@ class Editor
     {
         this.editorPropertiesTab.position.tabButton.classList.remove("active");
         this.editorPropertiesTab.position.tbody.style.display = "none";
+
         this.editorPropertiesTab.size.tabButton.classList.remove("active");
         this.editorPropertiesTab.size.tbody.style.display = "none";
+
         this.editorPropertiesTab.colour.tabButton.classList.remove("active");
         this.editorPropertiesTab.colour.tbody.style.display = "none";
+        
         this.editorPropertiesTab.font.tabButton.classList.remove("active");
         this.editorPropertiesTab.font.tbody.style.display = "none";
 
