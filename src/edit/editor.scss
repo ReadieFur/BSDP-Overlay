@@ -250,6 +250,8 @@ body
                                 text-align: center;
                                 display: none;
                                 cursor: pointer;
+                                //min-height: 30px;
+                                padding-bottom: 10px;
 
                                 //> &:not(:first-child):not(:last-child)
                                 &.visible
