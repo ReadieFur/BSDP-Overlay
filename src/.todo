@@ -11,6 +11,8 @@ Todo:
     ☐ add custom text.
     ☐ add element background colours.
     ☐ add element info.
+    ☐ sort out the protocol to load (http/https) when an external IP is specified.
+    ☐ disable the editor elements listing from being affected by the game data
     ☐ fix thumbnail scaling:
         ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
         ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
@@ -19,6 +21,8 @@ Todo:
         ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
         ☐ add an element expand menu to view more at once.
         ☐ add custom text.
+        ☐ nest elements.
+        ☐ add the beatsaber background to the browesr previews?
 
 Done:
     ✔ add overlay minimum requirements for save @done(21-04-27 00:58)
