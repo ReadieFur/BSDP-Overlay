@@ -61,6 +61,12 @@ class Editor
             backgroundColour: HTMLInputElement
             accentColourGroup: HTMLTableRowElement,
             accentColour: HTMLInputElement
+        },
+        font:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            fontSize: HTMLInputElement
         }
     };
 
@@ -117,6 +123,12 @@ class Editor
                 backgroundColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBackgroundColour")),
                 accentColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColourGroup")),
                 accentColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColour"))
+            },
+            font:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionFontButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsFont")),
+                fontSize: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsFontSize"))
             }
         }
 
@@ -160,6 +172,8 @@ class Editor
         this.editorPropertiesTab.colour.foregroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.colour.backgroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.colour.accentColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.font.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("font"); });
+        this.editorPropertiesTab.font.fontSize.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         
         await this.LoadOverlay();
 
@@ -325,7 +339,6 @@ class Editor
 
         for (const category of Object.keys(importedElements))
         {
-            var hasOneElement: boolean = false;
             //Work on a way to keep the height of the row the same for each element data cell (get the tallest element from when it is created).
             var tr: HTMLTableRowElement = document.createElement("tr");
 
@@ -335,7 +348,6 @@ class Editor
                 {
                     if (importedElements[category][type][name].showInEditor)
                     {
-                        hasOneElement = true;
                         var td: HTMLTableDataCellElement = document.createElement("td");
                         var element: HTMLDivElement = this.ui.CreateElement(category, type, name);
                         element.addEventListener("dblclick", () =>
@@ -350,42 +362,47 @@ class Editor
                 }
             }
 
-            if (hasOneElement)
+            (<HTMLTableDataCellElement>tr.firstChild!).classList.add("visible");
+
+            var backward: HTMLTableDataCellElement = document.createElement("td");
+            var forward: HTMLTableDataCellElement = document.createElement("td");
+            if (tr.childNodes.length > 1)
             {
-                (<HTMLTableDataCellElement>tr.firstChild!).classList.add("visible");
+                var backwardText: HTMLHeadingElement = document.createElement("h3");
+                var forwardText: HTMLHeadingElement = document.createElement("h3");
 
-                if (tr.childNodes.length > 1)
-                {
-                    var backward: HTMLTableDataCellElement = document.createElement("td");
-                    var backwardText: HTMLHeadingElement = document.createElement("h3");
-                    var forward: HTMLTableDataCellElement = document.createElement("td");
-                    var forwardText: HTMLHeadingElement = document.createElement("h3");
-    
-                    backwardText.innerText = "<";
-                    backward.appendChild(backwardText);
-                    forwardText.innerText = ">";
-                    forward.appendChild(forwardText);
-    
-                    backward.addEventListener("click", (ev: Event) => { this.ChangeElementPage(ev, tr, false); });
-                    forward.addEventListener("click", (ev: Event) => { this.ChangeElementPage(ev, tr, true); });
-    
-                    tr.prepend(backward);
-                    tr.appendChild(forward);
-                }
+                backwardText.innerText = "<";
+                backward.appendChild(backwardText);
+                forwardText.innerText = ">";
+                forward.appendChild(forwardText);
 
-                this.elementsTable.tBodies[0].appendChild(tr);
+                backward.addEventListener("click", (ev: Event) => { this.ChangeElementPage(ev, false); });
+                forward.addEventListener("click", (ev: Event) => { this.ChangeElementPage(ev, true); });
             }
+            else
+            {
+                backward.style.cursor = "default";
+                forward.style.cursor = "default";
+            }
+            tr.prepend(backward);
+            tr.appendChild(forward);
+
+            this.elementsTable.tBodies[0].appendChild(tr);
         }
     }
 
-    private ChangeElementPage(ev: Event, container: HTMLTableRowElement, forward: boolean): void
+    private ChangeElementPage(ev: Event, forward: boolean): void
     {
         var index: number = 1;
+        var container: HTMLTableRowElement =
+            (<HTMLTableDataCellElement>ev.target).nodeName === "TD" ?
+            (<HTMLTableDataCellElement>ev.target).parentElement as HTMLTableRowElement : //User clicked on the TD
+            (<HTMLTableDataCellElement>ev.target).parentElement!.parentElement as HTMLTableRowElement; //User clicked on the H3
 
         for (let i = 0; i < container.childNodes.length; i++)
         {
             var element: HTMLTableDataCellElement = <HTMLTableDataCellElement>container.childNodes[i];
-            if (element.className.includes("visible"))
+            if (element.classList.contains("visible"))
             { index = forward ? i + 1 : i - 1; }
             element.classList.remove("visible");
         }
@@ -429,11 +446,13 @@ class Editor
     {
         if (element !== this.activeElement)
         {
+            var buttonDisplayStyle = "inline-block";
+
             this.activeElement = element;
             var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
 
             //#region Reset tabs to default styles
-            this.editorPropertiesTab.position.tabButton.style.display = "inline-block";
+            this.editorPropertiesTab.position.tabButton.style.display = buttonDisplayStyle;
             this.editorPropertiesTab.position.tabButton.classList.remove("ignore");
             this.editorPropertiesTab.size.tabButton.style.display = "none";
             this.editorPropertiesTab.colour.tabButton.style.display = "none";
@@ -459,6 +478,13 @@ class Editor
             }
             else
             { this.editorPropertiesTab.colour.accentColour.value = this.RGBToHex(UI.defaultStyles.accentColour!); }
+
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize !== undefined)
+            {
+                this.editorPropertiesTab.font.fontSize.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize!.toString();
+            }
+            else
+            { this.editorPropertiesTab.font.fontSize.value = "16"; }
             //#endregion
 
             //#region Position tab
@@ -472,26 +498,27 @@ class Editor
             //#region Size tab
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.resizeMode != 0)
             {
-                this.editorPropertiesTab.size.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.size.tabButton.style.display = buttonDisplayStyle;
             }
             //#endregion
             
+
             //#region Colour tab
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.foregroundColour === true)
             {
-                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.tabButton.style.display = buttonDisplayStyle;
                 this.editorPropertiesTab.colour.foregroundColourGroup.style.display = "table-row";
             }
     
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.backgroundColour === true)
             {
-                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.tabButton.style.display = buttonDisplayStyle;
                 this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "table-row";
             }
     
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.accentColour === true)
             {
-                this.editorPropertiesTab.colour.tabButton.style.display = "inline-block";
+                this.editorPropertiesTab.colour.tabButton.style.display = buttonDisplayStyle;
                 this.editorPropertiesTab.colour.accentColourGroup.style.display = "table-row";
             }
             //#endregion
@@ -499,7 +526,7 @@ class Editor
             //#region Font size tab
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
             {
-                
+                this.editorPropertiesTab.font.tabButton.style.display = buttonDisplayStyle;
             }
             //#endregion
 
@@ -508,7 +535,7 @@ class Editor
         }
     }
 
-    private SetActivePropertiesTab(tab: "position" | "size" | "colour")
+    private SetActivePropertiesTab(tab: "position" | "size" | "colour" | "font")
     {
         this.editorPropertiesTab.position.tabButton.classList.remove("active");
         this.editorPropertiesTab.position.tbody.style.display = "none";
@@ -516,6 +543,8 @@ class Editor
         this.editorPropertiesTab.size.tbody.style.display = "none";
         this.editorPropertiesTab.colour.tabButton.classList.remove("active");
         this.editorPropertiesTab.colour.tbody.style.display = "none";
+        this.editorPropertiesTab.font.tabButton.classList.remove("active");
+        this.editorPropertiesTab.font.tbody.style.display = "none";
 
         var activeTab;
         switch (tab)
@@ -529,6 +558,8 @@ class Editor
             case "colour":
                 activeTab = this.editorPropertiesTab.colour;
                 break;
+            case "font":
+                activeTab = this.editorPropertiesTab.font;
         }
 
         activeTab.tabButton.classList.add("active");
@@ -638,6 +669,33 @@ class Editor
 
                 this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
             }
+            else if (inputTarget.id === "optionsFontSize")
+            {
+                var styles: TCustomStyles = {};
+                Object.assign(styles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
+
+                var inputElement = this.editorPropertiesTab.font.fontSize;
+                var inputValue = parseInt(inputElement.value);
+
+                if (isNaN(inputValue)) { ev.preventDefault(); return; }
+                else if (inputValue > 100)
+                {
+                    inputElement.value = "100";
+                    this.activeElement.setAttribute(inputTarget.id, inputElement.value);
+                }
+                else if (inputValue < 16)
+                {
+                    inputElement.value = "16";
+                    this.activeElement.removeAttribute(inputTarget.id);
+                }
+                else
+                {
+                    this.activeElement.setAttribute(inputTarget.id, inputElement.value);
+                }
+
+                styles.fontSize = parseInt(inputElement.value);
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
+            }
             else { return; }
 
             this.UpdateSavedElementProperties(this.activeElement);
@@ -645,6 +703,7 @@ class Editor
     }
 
     //I should tidy this up a bit as im doing the same thng in multiple places.
+    //Run checks here on the values?
     private UpdateSavedElementProperties(element: HTMLDivElement): void
     {
         var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
@@ -730,6 +789,13 @@ class Editor
             { colour = undefined; }
 
             this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour = colour;
+        }
+
+        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
+        {
+            var fontSizeAttribute = element.getAttribute(this.editorPropertiesTab.font.fontSize.id);
+            var fontSize = fontSizeAttribute !== null && !isNaN(parseInt(fontSizeAttribute)) ? parseInt(fontSizeAttribute) : undefined;
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize = fontSize;
         }
 
         this.allowUnload = false;

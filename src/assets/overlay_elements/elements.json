@@ -22,5 +22,15 @@
                 "showInEditor": true
             }
         }
+    },
+    "text":
+    {
+        "song_name":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
     }
 }

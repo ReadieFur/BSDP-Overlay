@@ -120,6 +120,7 @@
                                             <button id="optionPositionButton">Position</button>
                                             <button id="optionSizeButton">Size</button>
                                             <button id="optionColourButton">Colour</button>
+                                            <button id="optionFontButton">Font</button>
                                         </div>
                                     </div>
                                     <form id="optionsForm">
@@ -199,6 +200,16 @@
                                                     </td>
                                                     <td>
                                                         <input id="optionsAccentColour" type="color">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody id="optionsFont">
+                                                <tr>
+                                                    <td>
+                                                        <p>Font Size:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsFontSize" type="number" min="16" max="100">
                                                     </td>
                                                 </tr>
                                             </tbody>
