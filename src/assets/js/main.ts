@@ -13,18 +13,24 @@ export class Main
     private static alertBoxText: HTMLParagraphElement;
     private static alertBoxTextBox: HTMLInputElement;
 
+    private static tooltipContainer: HTMLDivElement;
+    private static tooltipText: HTMLParagraphElement;
+
     constructor()
     {
         Main.WEB_ROOT = WEB_ROOT;
         Main.urlParams = new URLSearchParams(location.search);
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));
         Main.footer = Main.ThrowIfNullOrUndefined(document.querySelector("#footer"));
-        Main.accountContainer = Main.ThrowIfNullOrUndefined(Main.header.querySelector("#accountContainer"));
+        Main.accountContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#accountContainer"));
 
         Main.alertBoxContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#alertBoxContainer"));
         Main.alertBoxText = Main.ThrowIfNullOrUndefined(document.querySelector("#alerBoxText"));
         Main.alertBoxTextBox = Main.ThrowIfNullOrUndefined(document.querySelector("#alertBoxTextBox"));
         Main.alertBoxContainer.addEventListener("click", () => { Main.alertBoxContainer.style.display = "none"; });
+
+        Main.tooltipContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#tooltipContainer"));
+        Main.tooltipText = Main.ThrowIfNullOrUndefined(document.querySelector("#tooltipText"));
         
         window.addEventListener("message", (ev) => { this.WindowMessageEvent(ev); });
         window.addEventListener("resize", () => { this.WindowResizeEvent(); });
@@ -217,6 +223,70 @@ export class Main
     }
 
     public static ThrowAJAXJsonError(data: any) { throw new TypeError(`${data} could not be steralised`); }
+
+    //Consider using the mouse over event and then using a timer in here to display the tooltip after x seconds.
+    public static Tooltip(message: string, ev: MouseEvent, side: "top" | "left" | "bottom" | "right")
+    {
+        if (ev.currentTarget !== undefined)
+        {
+            (<HTMLElement>ev.currentTarget).addEventListener("mousemove", (_ev) =>
+            {
+                this.tooltipContainer.style.display = "block";
+                this.tooltipText.innerHTML = message;
+                
+                this.tooltipContainer.style.removeProperty("top");
+                this.tooltipContainer.style.removeProperty("left");
+                this.tooltipContainer.style.removeProperty("bottom");
+                this.tooltipContainer.style.removeProperty("right");
+                switch (side)
+                {
+                    case "top":
+                        this.tooltipContainer.style.top = `${_ev.clientY - this.tooltipContainer.clientHeight - 10}px`;
+                        this.tooltipContainer.style.left = `${_ev.clientX - (this.tooltipContainer.clientWidth / 2)}px`;
+                        break;
+                    case "left":
+                        this.tooltipContainer.style.top = `${_ev.clientY - (this.tooltipContainer.clientHeight / 2)}px`;
+                        this.tooltipContainer.style.left = `${_ev.clientX - (this.tooltipContainer.clientWidth + 10)}px`;
+                        break;
+                    case "bottom":
+                        this.tooltipContainer.style.top = `${_ev.clientY + this.tooltipContainer.clientHeight + 10}px`;
+                        this.tooltipContainer.style.left = `${_ev.clientX - (this.tooltipContainer.clientWidth / 2)}px`;
+                        break;
+                    case "right":
+                        this.tooltipContainer.style.top = `${_ev.clientY - (this.tooltipContainer.clientHeight / 2)}px`;
+                        this.tooltipContainer.style.left = `${_ev.clientX + 10}px`;
+                        break;
+                    default:
+                        //WIP auto positioning.
+                        var yPosition: "top" | "middle" | "bottom";
+                        var xPosition: "left" | "middle" | "right";
+
+                        if (_ev.clientY - this.tooltipContainer.clientHeight - 10 > 0 && _ev.clientY + this.tooltipContainer.clientHeight + 10 < document.body.clientHeight)
+                        { yPosition = "middle"; }
+                        else if (_ev.clientY - this.tooltipContainer.clientHeight - 10 < 0)
+                        { yPosition = "bottom"; }
+                        else
+                        { yPosition = "top"; }
+
+                        if (_ev.clientY - (this.tooltipContainer.clientHeight / 2) > 0 && _ev.clientY - (this.tooltipContainer.clientHeight / 2) < document.body.clientWidth)
+                        { xPosition = "middle" }
+                        else if (_ev.clientY - (this.tooltipContainer.clientHeight / 2) < 0)
+                        { xPosition = "right" }
+                        else
+                        { xPosition = "left"; }
+
+                        console.log(xPosition, yPosition);
+
+                        /*this.tooltipContainer.style.top = `${top}px`;
+                        this.tooltipContainer.style.left = `${left}px`;*/
+                        break;
+                }
+            });
+
+            //I'd like to clear this event listener but I cant pass 'this' into the remove event listener function and I dont want to store the small function externally.
+            (<HTMLElement>ev.currentTarget).addEventListener("mouseleave", () => { this.tooltipContainer.style.removeProperty("display"); });
+        }
+    }
 
     //This is asyncronous as I will check if the user has dismissed the alert box in the future.
     public static async Alert(message: string/*, solidBackground = false*/): Promise<void>

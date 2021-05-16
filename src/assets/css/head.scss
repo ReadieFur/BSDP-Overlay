@@ -1,0 +1,18 @@
+#tooltipContainer
+{
+    z-index: 30;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    background-color: rgba(var(--backgroundAltColour), 1);
+    border: 1px solid rgba(var(--foregroundColour), 1);
+    border-radius: 4px;
+    padding: 1.25px 5px 2.5px 5px;
+    display: none;
+
+    > small
+    {
+        margin: 0;
+        font-weight: normal;
+    }
+}
