@@ -121,6 +121,7 @@
                                             <button id="optionSizeButton">Size</button>
                                             <button id="optionColourButton">Colour</button>
                                             <button id="optionFontButton">Font</button>
+                                            <button id="optionAlignmentButton">Alignment</button>
                                         </div>
                                     </div>
                                     <form id="optionsForm">
@@ -194,12 +195,12 @@
                                                         <input id="optionsBackgroundColour" type="color">
                                                     </td>
                                                 </tr>
-                                                <tr id="optionsAccentColourGroup">
+                                                <tr id="optionsAltColourGroup">
                                                     <td class="onePercent">
-                                                        <p>Accent:</p>
+                                                        <p>Extra:</p>
                                                     </td>
                                                     <td>
-                                                        <input id="optionsAccentColour" type="color">
+                                                        <input id="optionsAltColour" type="color">
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -210,6 +211,44 @@
                                                     </td>
                                                     <td>
                                                         <input id="optionsFontSize" type="number" min="16" max="100">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody id="optionsAlignment">
+                                                <tr id="optionsHorizontalAlignmentGroup">
+                                                    <td class="onePercent">
+                                                        <p>Horizontal Alignment:</p>
+                                                    </td>
+                                                    <td>
+                                                        <select id="optionsHorizontalAlignment">
+                                                            <option value="left">Left</option>
+                                                            <option value="right">Right</option>
+                                                            <option value="center">Center</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr id="optionsVerticalAlignmentGroup">
+                                                    <td class="onePercent">
+                                                        <p>Vertical Alignment:</p>
+                                                    </td>
+                                                    <td>
+                                                        <select id="optionsVerticalAlignment">
+                                                            <option value="top">Top</option>
+                                                            <option value="bottom">Bottom</option>
+                                                            <option value="center">Center</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr id="optionsBothAlignmentGroup">
+                                                    <td class="onePercent">
+                                                        <p>Alignment:</p>
+                                                    </td>
+                                                    <td>
+                                                        <select id="optionsBothAlignment" type="color">
+                                                            <option value="topLeft">Top Left</option>
+                                                            <option value="bottomRight">Bottom Right</option>
+                                                            <option value="center">Center</option>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             </tbody>

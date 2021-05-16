@@ -59,14 +59,25 @@ class Editor
             foregroundColour: HTMLInputElement
             backgroundColourGroup: HTMLTableRowElement,
             backgroundColour: HTMLInputElement
-            accentColourGroup: HTMLTableRowElement,
-            accentColour: HTMLInputElement
+            altColourGroup: HTMLTableRowElement,
+            altColour: HTMLInputElement
         },
         font:
         {
             tabButton: HTMLButtonElement,
             tbody: HTMLTableSectionElement,
             fontSize: HTMLInputElement
+        },
+        alignment:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            horizontalGroup: HTMLTableRowElement,
+            horizontal: HTMLSelectElement,
+            verticalGroup: HTMLTableRowElement,
+            vertical: HTMLSelectElement,
+            bothGroup: HTMLTableRowElement,
+            both: HTMLSelectElement
         }
     };
 
@@ -121,19 +132,30 @@ class Editor
                 foregroundColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsForegroundColour")),
                 backgroundColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBackgroundColourGroup")),
                 backgroundColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBackgroundColour")),
-                accentColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColourGroup")),
-                accentColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAccentColour"))
+                altColourGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAltColourGroup")),
+                altColour: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAltColour"))
             },
             font:
             {
                 tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionFontButton")),
                 tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsFont")),
                 fontSize: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsFontSize"))
+            },
+            alignment:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionAlignmentButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsAlignment")),
+                horizontalGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsHorizontalAlignmentGroup")),
+                horizontal: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsHorizontalAlignment")),
+                verticalGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsVerticalAlignmentGroup")),
+                vertical: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsVerticalAlignment")),
+                bothGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBothAlignmentGroup")),
+                both: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBothAlignment"))
             }
         }
 
         this.ConfigureEditorWindow();
-        this.LoadElementsIntoEditor(this.ui.importedElements);
+        await this.LoadElementsIntoEditor(this.ui.importedElements);
 
         //Load sample data.
         //this.ui.UpdateMapData(SampleData.mapData);
@@ -153,27 +175,36 @@ class Editor
         this.publishButton.addEventListener("click", () => { this.PublishOverlay(); });
         this.ui.overlay.addEventListener("click", (ev) =>
         {
-            if (ev.target === this.ui.overlay)
+            if (ev.target === ev.currentTarget)
             { 
                 this.activeElement = undefined;
                 this.editorPropertiesTab.optionsRow.style.display = "none";
             }
         });
         Main.ThrowIfNullOrUndefined(document.querySelector("#showSaveContainer")).addEventListener("click", () => { this.ShowSaveContainerClickEvent(); });
+
         this.editorPropertiesTab.position.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("position"); });
         this.editorPropertiesTab.position.top.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.position.left.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.position.bottom.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.position.right.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+
         this.editorPropertiesTab.size.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("size"); });
         this.editorPropertiesTab.size.width.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.size.height.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+
         this.editorPropertiesTab.colour.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("colour"); });
         this.editorPropertiesTab.colour.foregroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.colour.backgroundColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
-        this.editorPropertiesTab.colour.accentColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.colour.altColour.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        
         this.editorPropertiesTab.font.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("font"); });
         this.editorPropertiesTab.font.fontSize.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+
+        this.editorPropertiesTab.alignment.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("alignment"); });
+        this.editorPropertiesTab.alignment.both.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.alignment.horizontal.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.editorPropertiesTab.alignment.vertical.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         
         await this.LoadOverlay();
 
@@ -187,6 +218,10 @@ class Editor
             splashScreen.classList.add("fadeOut");
             setTimeout(() => { splashScreen.style.display = "none"; }, 399);
         }
+
+        //Load sample data globally, DON'T KEEP THIS IN FOR RELEASE.
+        this.ui.UpdateMapData(SampleData.mapData);
+        this.ui.UpdateLiveData(SampleData.liveData);
 
         return this;
     }
@@ -231,7 +266,7 @@ class Editor
             }
             else
             {
-                history.replaceState({id: response.data}, "Editor | BSDP Overlay", `${Main.WEB_ROOT}/edit/${response.data}/`);
+                history.replaceState({id: response.data}, document.title, `${Main.WEB_ROOT}/edit/${response.data}/`);
                 this.id = response.data;
             }
         }
@@ -285,37 +320,33 @@ class Editor
             {
                 for (const id of Object.keys(elements[category][type]))
                 {
-                    for (let i = 0; i < elements[category][type][id].length; i++)
+                    for (const element of elements[category][type][id])
                     {
-                        const elementProperties = elements[category][type][id][i];
                         var container: HTMLDivElement = this.CreateElement(category, type, id);
                         //Things were being really weird here so I've had to load the properties in certain orders depending on their position.
-                        if (elementProperties.position.top !== undefined)
+                        if (element.position.top !== undefined)
                         {
-                            container.style.top = elementProperties.position.top;
-                            container.style.height = `${elementProperties.height}px`;
+                            container.style.top = element.position.top;
+                            container.style.height = `${element.height}px`;
                         }
                         else
                         {
-                            container.style.height = `${elementProperties.height}px`;
-                            container.style.bottom = elementProperties.position.bottom!;
+                            container.style.height = `${element.height}px`;
+                            container.style.bottom = element.position.bottom!;
                         }
-                        if (elementProperties.position.left !== undefined)
+                        if (element.position.left !== undefined)
                         {
-                            container.style.left = elementProperties.position.left;
-                            container.style.width = `${elementProperties.width}px`;
+                            container.style.left = element.position.left;
+                            container.style.width = `${element.width}px`;
                         }
                         else
                         {
-                            container.style.width = `${elementProperties.width}px`;
-                            container.style.right = elementProperties.position.right!;
+                            container.style.width = `${element.width}px`;
+                            container.style.right = element.position.right!;
                         }
 
-                        if (elementProperties.customStyles.foregroundColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.foregroundColour.id, this.RGBToHex(elementProperties.customStyles.foregroundColour)); }
-                        if (elementProperties.customStyles.backgroundColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.backgroundColour.id, this.RGBToHex(elementProperties.customStyles.backgroundColour)); }
-                        if (elementProperties.customStyles.accentColour !== undefined) { container.setAttribute(this.editorPropertiesTab.colour.accentColour.id, this.RGBToHex(elementProperties.customStyles.accentColour)); }
-
-                        this.ui.createdElements.elements[category][type][id].script.UpdateStyles(container, elementProperties.customStyles);
+                        this.ui.createdElements.elements[category][type][id].elements[container.id].customStyles = element.customStyles;
+                        this.ui.createdElements.elements[category][type][id].script.UpdateStyles(container, element.customStyles);
 
                         this.ui.overlay.appendChild(container);
                         this.UpdateSavedElementProperties(container);
@@ -325,17 +356,24 @@ class Editor
         }
     }
 
-    private LoadElementsIntoEditor(importedElements: ElementsJSON): void
+    private async LoadElementsIntoEditor(importedElements: ElementsJSON)
     {
-        var editorElementStyles = document.createElement("style");
-        editorElementStyles.id = "editorElementStyles";
-        editorElementStyles.innerHTML = `
-            #elementsRow *
+        //All this extra mess JUST so I could set the size of elements when they are hidden/shown.
+        var editorElements:
+        {
+            [category: string]:
             {
-                --overlayForegroundColour: var(--foregroundColour);
+                [type: string]:
+                {
+                    [id: string]:
+                    {
+                        td: HTMLTableDataCellElement,
+                        container: HTMLDivElement,
+                        mutationObserver?: MutationObserver
+                    }
+                }
             }
-        `;
-        document.head.appendChild(editorElementStyles);
+        } = {};
 
         for (const category of Object.keys(importedElements))
         {
@@ -344,25 +382,50 @@ class Editor
 
             for (const type of Object.keys(importedElements[category]))
             {
-                for (const name of Object.keys(importedElements[category][type]))
+                for (const id of Object.keys(importedElements[category][type]))
                 {
-                    if (importedElements[category][type][name].showInEditor)
+                    if (importedElements[category][type][id].showInEditor)
                     {
-                        var td: HTMLTableDataCellElement = document.createElement("td");
-                        var element: HTMLDivElement = this.ui.CreateElement(category, type, name);
-                        element.addEventListener("dblclick", () =>
+                        if (editorElements[category] === undefined) { editorElements[category] = {}; }
+                        if (editorElements[category][type] === undefined) { editorElements[category][type] = {}; }
+
+                        editorElements[category][type][id] =
                         {
-                            var _element = this.CreateElement(category, type, name);
+                            td: document.createElement("td"),
+                            container: this.ui.CreateElement(category, type, id)
+                        };
+
+                        //There was a problem with these and elements that have the mutation observers, when the elements size is set but the container is hidden the values set get rendered useless.
+                        //Consider making these readonly properties static.
+                        if (this.ui.createdElements.elements[category][type][id].script.initialWidth !== undefined || this.ui.createdElements.elements[category][type][id].script.initialHeight !== undefined)
+                        {
+                            editorElements[category][type][id].mutationObserver = new MutationObserver(() =>
+                            {
+                                if (this.ui.createdElements.elements[category][type][id].script.initialWidth !== undefined)
+                                { editorElements[category][type][id].container.style.width = `${this.ui.createdElements.elements[category][type][id].script.initialWidth}px`; }
+                                if (this.ui.createdElements.elements[category][type][id].script.initialHeight !== undefined)
+                                { editorElements[category][type][id].container.style.height = `${this.ui.createdElements.elements[category][type][id].script.initialHeight}px`; }
+                            });
+                            editorElements[category][type][id].mutationObserver!.observe(editorElements[category][type][id].td, { attributes: true });
+                        }
+
+                        editorElements[category][type][id].container.addEventListener("dblclick", () =>
+                        {
+                            var _element = this.CreateElement(category, type, id);
                             this.ui.overlay.appendChild(_element);
                             this.SetActiveElement(_element);
                         });
-                        td.appendChild(element);
-                        tr.appendChild(td);
+
+                        editorElements[category][type][id].container.addEventListener("mouseenter", (ev) =>
+                        { Main.Tooltip(`${type.substr(0, 1).toUpperCase()}${type.substr(1, type.length)}`, ev, "top"); });
+
+                        editorElements[category][type][id].td.appendChild(editorElements[category][type][id].container);
+                        tr.appendChild(editorElements[category][type][id].td);
                     }
                 }
             }
 
-            (<HTMLTableDataCellElement>tr.firstChild!).classList.add("visible");
+            if (tr.firstChild !== null) { (<HTMLTableDataCellElement>tr.firstChild).classList.add("visible"); }
 
             var backward: HTMLTableDataCellElement = document.createElement("td");
             var forward: HTMLTableDataCellElement = document.createElement("td");
@@ -420,6 +483,8 @@ class Editor
         var container: HTMLDivElement = this.ui.CreateElement(category, type, id);
 
         if (this.ui.createdElements.elements[category][type][id].script.resizeMode !== 0) { container.style.resize = "both"; }
+        if (this.ui.createdElements.elements[category][type][id].script.initialWidth !== undefined) { container.style.width = `${this.ui.createdElements.elements[category][type][id].script.initialWidth}px`; }
+        if (this.ui.createdElements.elements[category][type][id].script.initialHeight !== undefined) { container.style.height = `${this.ui.createdElements.elements[category][type][id].script.initialHeight}px`; }
 
         //Press 'ctrl' + 'alt' + 'click' to delete the element.
         container.addEventListener("mousedown", (ev: MouseEvent) =>
@@ -427,14 +492,13 @@ class Editor
             if (ev.ctrlKey && ev.altKey) { this.DeleteElement(container); }
             else { this.SetActiveElement(container); }
         });
-        /*container.addEventListener("mousemove", (ev) =>
+        container.addEventListener("mousemove", (ev) =>
         {
-            if (ev.ctrlKey && ev.altKey) { container.style.boxShadow = "0 0 0 1px rgba(255, 0, 0, 1)"; }
-            else { container.style.removeProperty("boxShadow"); }
-        });*/
+            if (ev.ctrlKey && ev.altKey) { container.classList.add("boxShadowRed"); }
+            else { container.classList.remove("boxShadowRed"); }
+        });
+        container.addEventListener("mouseleave", () => { container.classList.remove("boxShadowRed"); });
         container.addEventListener("mouseup", () => { this.UpdateSavedElementProperties(container); });
-        /*this.ui.createdElements.elements[category][type][id].elements[container.id].mutationObserver = new MutationObserver((ev: MutationRecord[]) => { this.UpdateElementProperties(container); });
-        this.ui.createdElements.elements[category][type][id].elements[container.id].mutationObserver!.observe(container, { attributes: true });*/
         this.ui.createdElements.elements[category][type][id].elements[container.id].dragElement = new DragElement(container, this.ui.overlay);
         this.ui.createdElements.locations[container.id] = [category, type, id, container.id];
         this.allowUnload = false;
@@ -451,6 +515,8 @@ class Editor
             this.activeElement = element;
             var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
 
+            var script = this.ui.createdElements.elements[location[0]][location[1]][location[2]].script;
+
             //#region Reset tabs to default styles
             this.editorPropertiesTab.position.tabButton.style.display = buttonDisplayStyle;
             this.editorPropertiesTab.position.tabButton.classList.remove("ignore");
@@ -466,11 +532,18 @@ class Editor
             this.editorPropertiesTab.colour.tabButton.classList.remove("curveRight");
             this.editorPropertiesTab.colour.foregroundColourGroup.style.display = "none";
             this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "none";
-            this.editorPropertiesTab.colour.accentColourGroup.style.display = "none";
+            this.editorPropertiesTab.colour.altColourGroup.style.display = "none";
 
             this.editorPropertiesTab.font.tabButton.style.display = "none";
             this.editorPropertiesTab.font.tabButton.classList.remove("curveLeft");
             this.editorPropertiesTab.font.tabButton.classList.remove("curveRight");
+
+            this.editorPropertiesTab.alignment.tabButton.style.display = "none";
+            this.editorPropertiesTab.alignment.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.alignment.tabButton.classList.remove("curveRight");
+            this.editorPropertiesTab.alignment.bothGroup.style.display = "none";
+            this.editorPropertiesTab.alignment.horizontalGroup.style.display = "none";
+            this.editorPropertiesTab.alignment.verticalGroup.style.display = "none";
 
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour !== undefined)
             {
@@ -484,12 +557,12 @@ class Editor
             }
             else
             { this.editorPropertiesTab.colour.backgroundColour.value = this.RGBToHex(UI.defaultStyles.backgroundColour!); }
-            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour !== undefined)
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.altColour !== undefined)
             {
-                this.editorPropertiesTab.colour.accentColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour!);
+                this.editorPropertiesTab.colour.altColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.altColour!);
             }
             else
-            { this.editorPropertiesTab.colour.accentColour.value = this.RGBToHex(UI.defaultStyles.accentColour!); }
+            { this.editorPropertiesTab.colour.altColour.value = this.RGBToHex(UI.defaultStyles.altColour!); }
 
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize !== undefined)
             {
@@ -497,6 +570,10 @@ class Editor
             }
             else
             { this.editorPropertiesTab.font.fontSize.value = "16"; }
+
+            this.editorPropertiesTab.alignment.both.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align! : "center";
+            this.editorPropertiesTab.alignment.horizontal.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign! : "center";
+            this.editorPropertiesTab.alignment.vertical.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign! : "center";
             //#endregion
 
             //#region Position tab
@@ -528,10 +605,10 @@ class Editor
                 this.editorPropertiesTab.colour.backgroundColourGroup.style.display = "table-row";
             }
     
-            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.accentColour === true)
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.altColour === true)
             {
                 this.editorPropertiesTab.colour.tabButton.style.display = buttonDisplayStyle;
-                this.editorPropertiesTab.colour.accentColourGroup.style.display = "table-row";
+                this.editorPropertiesTab.colour.altColourGroup.style.display = "table-row";
             }
             //#endregion
     
@@ -539,6 +616,28 @@ class Editor
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
             {
                 this.editorPropertiesTab.font.tabButton.style.display = buttonDisplayStyle;
+            }
+            //#endregion
+
+            //#region Alignment tab
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.align !== undefined)
+            {
+                this.editorPropertiesTab.alignment.tabButton.style.display = buttonDisplayStyle;
+                this.editorPropertiesTab.alignment.bothGroup.style.display = "table-row";
+            }
+            else
+            {
+                if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.horizontalAlign !== undefined)
+                {
+                    this.editorPropertiesTab.alignment.tabButton.style.display = buttonDisplayStyle;
+                    this.editorPropertiesTab.alignment.verticalGroup.style.display = "table-row";
+                }
+
+                if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.verticalAlign !== undefined)
+                {
+                    this.editorPropertiesTab.alignment.tabButton.style.display = buttonDisplayStyle;
+                    this.editorPropertiesTab.alignment.verticalGroup.style.display = "table-row";
+                }
             }
             //#endregion
 
@@ -560,7 +659,7 @@ class Editor
         }
     }
 
-    private SetActivePropertiesTab(tab: "position" | "size" | "colour" | "font")
+    private SetActivePropertiesTab(tab: "position" | "size" | "colour" | "font" | "alignment")
     {
         this.editorPropertiesTab.position.tabButton.classList.remove("active");
         this.editorPropertiesTab.position.tbody.style.display = "none";
@@ -573,6 +672,9 @@ class Editor
         
         this.editorPropertiesTab.font.tabButton.classList.remove("active");
         this.editorPropertiesTab.font.tbody.style.display = "none";
+
+        this.editorPropertiesTab.alignment.tabButton.classList.remove("active");
+        this.editorPropertiesTab.alignment.tbody.style.display = "none";
 
         var activeTab;
         switch (tab)
@@ -588,6 +690,10 @@ class Editor
                 break;
             case "font":
                 activeTab = this.editorPropertiesTab.font;
+                break;
+            case "alignment":
+                activeTab = this.editorPropertiesTab.alignment;
+                break;
         }
 
         activeTab.tabButton.classList.add("active");
@@ -600,6 +706,11 @@ class Editor
         {
             var location: [string, string, string, string] = this.ui.createdElements.locations[this.activeElement.id];
             var inputTarget = <HTMLInputElement>ev.target;
+
+            //This is all quite messy as I never indended for this when orignally creating it.
+            var styles: TCustomStyles = {};
+            //I don't want to edit the orignal object here, that should be done by 'UpdateSavedElementProperties'.
+            Object.assign(styles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
 
             //I don't know whats better, having two if statments means I'll have to type things out twice very similarly
             //whereas having ?: (forgot what its called) means I type less but more checks are done resulting in higher resource usage.
@@ -646,13 +757,8 @@ class Editor
 
                 this.activeElement.style[inputTarget.id === "optionsWidth" ? "width" : "height"] = `${inputElement.value}px`;
             }
-            else if (inputTarget.id === "optionsForegroundColour" || inputTarget.id === "optionsBackgroundColour" || inputTarget.id === "optionsAccentColour")
+            else if (inputTarget.id === "optionsForegroundColour" || inputTarget.id === "optionsBackgroundColour" || inputTarget.id === "optionsAltColour")
             {
-                //This is all quite messy as I never indended for this when orignally creating it.
-                var styles: TCustomStyles = {};
-                //I don't want to edit the orignal object here, that should be done by 'UpdateSavedElementProperties'.
-                Object.assign(styles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
-
                 var defaultStyle: IRGB;
                 switch (inputTarget.id)
                 {
@@ -662,25 +768,15 @@ class Editor
                     case "optionsBackgroundColour":
                         defaultStyle = UI.defaultStyles.backgroundColour!;
                         break;
-                    case "optionsAccentColour":
-                        defaultStyle = UI.defaultStyles.accentColour!;
+                    case "optionsAltColour":
+                        defaultStyle = UI.defaultStyles.altColour!;
                         break;
                 }
 
                 var colour: IRGB | undefined;
-
                 var RGB = this.HexToRGB(inputTarget.value);
                 if (RGB === false) { ev.preventDefault(); return; }
-                else if (RGB.R == defaultStyle.R && RGB.G == defaultStyle.G && RGB.B == defaultStyle.B)
-                {
-                    this.activeElement.removeAttribute(inputTarget.id);
-                    colour = undefined;
-                }
-                else
-                {
-                    this.activeElement.setAttribute(inputTarget.id, inputTarget.value);
-                    colour = RGB;
-                }
+                colour = RGB.R == defaultStyle.R && RGB.G == defaultStyle.G && RGB.B == defaultStyle.B ? undefined : RGB;
 
                 switch (inputTarget.id)
                 {
@@ -690,49 +786,61 @@ class Editor
                     case "optionsBackgroundColour":
                         styles.backgroundColour = colour;
                         break;
-                    case "optionsAccentColour":
-                        styles.accentColour = colour;
+                    case "optionsAltColour":
+                        styles.altColour = colour;
                         break;
                 }
-
-                this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
             }
             else if (inputTarget.id === "optionsFontSize")
             {
-                var styles: TCustomStyles = {};
-                Object.assign(styles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
-
                 var inputElement = this.editorPropertiesTab.font.fontSize;
                 var inputValue = parseInt(inputElement.value);
 
                 if (isNaN(inputValue)) { ev.preventDefault(); return; }
-                else if (inputValue > 100)
-                {
-                    inputElement.value = "100";
-                    this.activeElement.setAttribute(inputTarget.id, inputElement.value);
-                }
-                else if (inputValue < 16)
-                {
-                    inputElement.value = "16";
-                    this.activeElement.removeAttribute(inputTarget.id);
-                }
-                else
-                {
-                    this.activeElement.setAttribute(inputTarget.id, inputElement.value);
-                }
+                else if (inputValue > 100) { inputElement.value = "100"; }
+                else if (inputValue < 16) { inputElement.value = "16"; }
 
                 styles.fontSize = parseInt(inputElement.value);
-                this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
+            }
+            else if (inputTarget.id == "optionsBothAlignment" || inputTarget.id == "optionsHorizontalAlignment" || inputTarget.id == "optionsVerticalAlignment")
+            {
+                switch (inputTarget.id)
+                {
+                    case "optionsBothAlignment":
+                        styles.align =
+                            this.editorPropertiesTab.alignment.both.value === "topLeft" ||
+                            this.editorPropertiesTab.alignment.both.value === "bottomRight" ||
+                            this.editorPropertiesTab.alignment.both.value === "center" ?
+                            this.editorPropertiesTab.alignment.both.value :
+                            undefined;
+                        break;
+                    case "optionsHorizontalAlignment":
+                        styles.horizontalAlign =
+                            this.editorPropertiesTab.alignment.both.value === "left" ||
+                            this.editorPropertiesTab.alignment.both.value === "right" ||
+                            this.editorPropertiesTab.alignment.both.value === "center" ?
+                            this.editorPropertiesTab.alignment.both.value :
+                            undefined;
+                        break;
+                    case "optionsVerticalAlignment":
+                        styles.verticalAlign =
+                            this.editorPropertiesTab.alignment.both.value === "top" ||
+                            this.editorPropertiesTab.alignment.both.value === "bottom" ||
+                            this.editorPropertiesTab.alignment.both.value === "center" ?
+                            this.editorPropertiesTab.alignment.both.value :
+                            undefined;
+                        break;
+                }
             }
             else { return; }
 
-            this.UpdateSavedElementProperties(this.activeElement);
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
+            this.UpdateSavedElementProperties(this.activeElement, styles);
         }
     }
 
-    //I should tidy this up a bit as im doing the same thng in multiple places.
-    //Run checks here on the values?
-    private UpdateSavedElementProperties(element: HTMLDivElement): void
+    //I should tidy this up a bit as I'm doing the same thing in multiple places.
+    private UpdateSavedElementProperties(element: HTMLDivElement, styles?: TCustomStyles): void
     {
         var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
         var _position: { top?: string; left?: string; bottom?: string; right?: string; } = {};
@@ -752,7 +860,7 @@ class Editor
         }
         if (element.offsetTop + element.clientHeight / 2 > this.ui.overlay.clientHeight / 2)
         {
-            var bottom = this.ui.overlay.clientHeight - element.offsetTop - element.clientHeight
+            var bottom = this.ui.overlay.clientHeight - element.offsetTop - element.clientHeight;
             this.editorPropertiesTab.position.top.value = "";
             this.editorPropertiesTab.position.bottom.value = bottom.toString();
             _position.bottom = `${bottom}px`;
@@ -765,65 +873,36 @@ class Editor
         }
 
         this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].position = _position;
-        this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].width = element.clientWidth.toString();
-        this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height = element.clientHeight.toString();
+        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.resizeMode != 0)
+        {
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].width = element.clientWidth.toString();
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height = element.clientHeight.toString();
+        }
         this.editorPropertiesTab.size.width.value = element.clientWidth.toString();
         this.editorPropertiesTab.size.height.value = element.clientHeight.toString();
 
-        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.foregroundColour === true)
+        if (styles !== undefined)
         {
-            var colour: IRGB | undefined;
-            
-            var hex = element.getAttribute(this.editorPropertiesTab.colour.foregroundColour.id);
-            if (hex !== null)
-            {
-                var RGB = this.HexToRGB(hex);
-                if (RGB !== false)
-                { colour = RGB; }
-            }
-            else
-            { colour = undefined; }
+            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles = {};
 
-            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour = colour;
-        }
-        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.backgroundColour === true)
-        {
-            var colour: IRGB | undefined;
-            
-            var hex = element.getAttribute(this.editorPropertiesTab.colour.backgroundColour.id);
-            if (hex !== null)
-            {
-                var RGB = this.HexToRGB(hex);
-                if (RGB !== false)
-                { colour = RGB; }
-            }
-            else
-            { colour = undefined; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.foregroundColour === true)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour = styles.foregroundColour; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.backgroundColour === true)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.backgroundColour = styles.backgroundColour; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.altColour === true)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.altColour = styles.altColour; }
+    
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize = styles.fontSize; }
 
-            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.backgroundColour = colour;
-        }
-        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.accentColour === true)
-        {
-            var colour: IRGB | undefined;
-            
-            var hex = element.getAttribute(this.editorPropertiesTab.colour.accentColour.id);
-            if (hex !== null)
-            {
-                var RGB = this.HexToRGB(hex);
-                if (RGB !== false)
-                { colour = RGB; }
-            }
-            else
-            { colour = undefined; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.align !== undefined)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align = styles.align; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.horizontalAlign !== undefined)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign = styles.horizontalAlign; }
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.verticalAlign !== undefined)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign = styles.verticalAlign; }
 
-            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.accentColour = colour;
-        }
-
-        if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.fontSize === true)
-        {
-            var fontSizeAttribute = element.getAttribute(this.editorPropertiesTab.font.fontSize.id);
-            var fontSize = fontSizeAttribute !== null && !isNaN(parseInt(fontSizeAttribute)) ? parseInt(fontSizeAttribute) : undefined;
-            this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.fontSize = fontSize;
+            console.log(this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles, styles);
         }
 
         this.allowUnload = false;
@@ -893,9 +972,9 @@ class Editor
         //Replace with scale transform in the future.
         if (options.scale !== undefined)
         {
-            for (let i = 0; i < this.imageRendererContainer.children.length; i++)
+            for (const child of this.imageRendererContainer.children)
             {
-                (<HTMLElement>this.imageRendererContainer.children[i]).style.zoom = options.scale.toString();
+                (<HTMLElement>child).style.zoom = options.scale.toString();
             }
         }
 
@@ -988,6 +1067,8 @@ class Editor
                 height: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height,
                 customStyles: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles
             });
+
+            console.log(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
         }
 
         if (Object.keys(savedElements).length < 1) { Main.Alert("This overlay does not have enough elements to be saved.<br>You must have at least 1 element."); }
@@ -1003,7 +1084,12 @@ class Editor
                     description: this.description.value,
                     isPrivate: this.overlayPrivateCheckbox.checked ? 1 : 0,
                     //Check if the client is connected to the game here, if they are not then use the sample data for the thumbnail.
-                    thumbnail: await this.RenderImage(this.ui.overlay, { width: 480, height: 270, scale: 480 / this.ui.overlay.clientHeight }), //I may do a manual scale as scaling like below makes the preview very hard to see.
+                    thumbnail: await this.RenderImage(this.ui.overlay,
+                    {
+                        width: 480,
+                        height: 270,
+                        scale: (480 / this.ui.overlay.clientHeight) * 0.55 //The number multiplied at the end is just a little scale modifier I decided to put in.
+                    }),
                     elements: savedElements
                 }
             });
