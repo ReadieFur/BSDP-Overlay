@@ -193,7 +193,7 @@ body
 
                 .slideMenuContainer
                 {
-                    height: max-content;
+                    height: 100px;
 
                     .slideMenu
                     {
@@ -231,6 +231,36 @@ body
                 {
                     overflow-y: auto;
                     vertical-align: top;
+                    height: 100%;
+
+                    .container
+                    {
+                        position: relative;
+
+                        *
+                        {
+                            --overlayForegroundColour: var(--foregroundColour);
+                            --overlayBackgroundColour: var(--backgroundColour);
+                            --overlayAltColour: var(--foregroundColour);
+                        }
+
+                        .preview
+                        {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            font-size: x-large;
+                            color: transparent;
+                            -webkit-text-stroke:0.5px rgba(var(--foregroundColour), 1);
+                            user-select: none;
+                            
+                            &::selection
+                            {
+                                background-color: transparent;
+                            }
+                        }
+                    }
 
                     #elementsTable
                     {
@@ -406,6 +436,11 @@ body
                     &:hover
                     {
                         box-shadow: 0 0 0 1px rgba(var(--foregroundColour), 1);
+
+                        &.boxShadowRed
+                        {
+                            box-shadow: 0 0 0 1px rgba(255, 0, 0, 1);
+                        }
                     }
 
                     &:not(:hover)
@@ -433,6 +468,11 @@ body
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+
+        *
+        {
+            resize: none !important;
+        }
 
         > .container
         {
