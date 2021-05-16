@@ -28,9 +28,10 @@ export class DragElement
         this.element.style.top = `${this.element.offsetTop}px`;
         this.element.style.right = "unset";
         this.element.style.bottom = "unset";
-        this.container.onmouseup = (e: MouseEvent) => { this.MouseUpEvent(e); };
+        this.container.onmouseup = (_e: MouseEvent) => { this.MouseUpEvent(_e); };
 
-        if (e.offsetX < this.element.clientWidth - 15 && e.offsetY < this.element.clientHeight - 15)
+        //If the mouse is not over the resize grabber, move the element.
+        if (!(e.offsetX > this.element.clientWidth - 15 && e.offsetY > this.element.clientHeight - 15))
         {
             e.preventDefault();
             //Remove the elements right/bottom position and replace it back to left/top.
@@ -38,7 +39,7 @@ export class DragElement
             this.mouseX = e.clientX;
             this.mouseY = e.clientY;
             //If using element instead of the container, if the mouse moves fast enough to escape the element before its position is updated, it will stop updating the elements position until the mouse goes over the element again.
-            this.container.onmousemove = (e: MouseEvent) => { this.MouseMoveEvent(e); };
+            this.container.onmousemove = (_e: MouseEvent) => { this.MouseMoveEvent(_e); };
         }
     }
     

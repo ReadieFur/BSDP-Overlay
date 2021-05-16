@@ -1,19 +1,23 @@
-I should've made this file sooner, I guess that is why Github is there to track changes.
-Try to figure out how to link files in here.
-
 Todo:
-    ☐ add more elements
-    ☐ prevent elements from being scaled outside the UI
-    ☐ fix text property editor updates being delayed by 1 change
-    ☐ make element border red when 'control' and 'alt' are pressed
+    ☐ add more elements.
+    ☐ prevent elements from being scaled outside the UI.
+    ☐ reduce the number of overlays per page and increase the preview size.
+    ☐ fix text property editor updates being delayed by 1 change.
+    ☐ fix the preview generation on firefox.
     ☐ add a rotation option.
     ☐ add sample data/game data toggle.
-    ☐ add text alignment.
-    ☐ add custom text.
-    ☐ add element background colours.
-    ☐ add element info.
+    ☐ add text alignment (currently fixed to the side of the overlay it is on).
+    ☐ add a custom text element.
     ☐ sort out the protocol to load (http/https) when an external IP is specified.
-    ☐ disable the editor elements listing from being affected by the game data
+    ☐ disable the editor elements listing from being affected by the game data.
+    ☐ fix the small spacing gap in the editor table.
+    ☐ add percentage alignments.
+    ☐ add align center for horizontal/vertical within the parent.
+    ☐ fix the element initial alignment option in the menu.
+    ☐ add a logger to main.ts, either listen to the window events or override the function: https://stackoverflow.com/questions/8000009/is-there-a-way-in-javascript-to-listen-console-events
+    ☐ change zoom to scale + transform-origin.
+    ☐ allow the user to change the z-position of the elements.
+    ☐ enable background toggle on the bar elements.
     ☐ fix thumbnail scaling:
         ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
         ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
@@ -21,27 +25,32 @@ Todo:
         ☐ add block like scripting
         ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
         ☐ add an element expand menu to view more at once.
-        ☐ add custom text.
-        ☐ nest elements.
-        ☐ add the beatsaber background to the browesr previews?
+        ☐ nest/group elements.
+        ☐ add the beatsaber background to the browser previews?
 
 Done:
-    ✔ add overlay minimum requirements for save @done(21-04-27 00:58)
-    ✔ fix preview button size @done(21-04-30 18:07)
-    ✔ fix preview details alignment @done(21-04-27 01:06)
-    ✔ change where editor ownership checks are made @done(21-04-27 12:53)
-    ✔ fix page scrolling @done(21-04-30 20:12)
-    ✔ add search filters into browser.ts @done(21-04-30 20:12)
-    ✔ customise scrollbar @done(21-04-30 20:19)
-    ✔ fix overlay fetching (more results than expected) @done(21-05-01 13:04)
-    ✔ add browser page buttons @done(21-05-01 14:02)
-    ✔ put the search query into the url header on the browser page @done(21-05-01 14:34)
-    ✔ fix active page highlights @done(21-05-01 14:39)
-    ✔ detect when no element is selected and hide the properties controls of the previously selected element @done(21-05-02 15:59)
-    ✔ make elements not be affected by dark/light mode @done(21-05-02 21:38)
-    ✔ add element property controls @done(21-05-03 21:52)
+    ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
+    ✔ fix preview button size. @done(21-04-30 18:07)
+    ✔ fix preview details alignment. @done(21-04-27 01:06)
+    ✔ change where editor ownership checks are made. @done(21-04-27 12:53)
+    ✔ fix page scrolling. @done(21-04-30 20:12)
+    ✔ add search filters into browser.ts. @done(21-04-30 20:12)
+    ✔ customise scrollbar. @done(21-04-30 20:19)
+    ✔ fix overlay fetching (more results than expected). @done(21-05-01 13:04)
+    ✔ add browser page buttons. @done(21-05-01 14:02)
+    ✔ put the search query into the url header on the browser page. @done(21-05-01 14:34)
+    ✔ fix active page highlights. @done(21-05-01 14:39)
+    ✔ detect when no element is selected and hide the properties controls of the previously selected element. @done(21-05-02 15:59)
+    ✔ make elements not be affected by dark/light mode. @done(21-05-02 21:38)
+    ✔ add element property controls. @done(21-05-03 21:52)
+    ✔ fix element scaling below the minimum on firefox. @done(21-05-15 21:24)
+    ✔ add an element alignment option. @done(21-05-16 02:00)
+    ✔ fix text element width when updated. @done(21-05-16 02:10)
+    ✔ add element info/on hover popup dialogue box. @done(21-05-16 14:06)
+    ✔ make element border red when 'control' and 'alt' are pressed. @done(21-05-16 14:12)
 
 Cancelled:
 
 Archive:
-    ☐ fix @use on element stylesheets @cancelled(21-05-02 18:46) replaced with variables set in ui.ts
+    ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
+    ✘ add background text to the preview so the user knows what the elements are. @cancelled(21-05-16 12:33) replaced in favour of tooltips.

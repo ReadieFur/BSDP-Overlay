@@ -21,14 +21,14 @@ export class UI
         },
         backgroundColour:
         {
+            R: 40,
+            G: 40,
+            B: 40
+        },
+        altColour:
+        {
             R: 255,
             G: 255,
-            B: 255
-        },
-        accentColour:
-        {
-            R: 100,
-            G: 0,
             B: 255
         }
     }
@@ -47,9 +47,16 @@ export class UI
         var defaultStyles = document.createElement("style");
         defaultStyles.id = "overlayDefaultStyles";
         defaultStyles.innerHTML = `
-            .container *
+            #overlay .container *
             {
-                --overlayForegroundColour: ${UI.defaultStyles.foregroundColour!.R}, ${UI.defaultStyles.foregroundColour!.B}, ${UI.defaultStyles.foregroundColour!.B};
+                --overlayForegroundColour: ${UI.defaultStyles.foregroundColour!.R}, ${UI.defaultStyles.foregroundColour!.G}, ${UI.defaultStyles.foregroundColour!.B};
+                --overlayBackgroundColour: ${UI.defaultStyles.backgroundColour!.R}, ${UI.defaultStyles.backgroundColour!.G}, ${UI.defaultStyles.backgroundColour!.B};
+                --overlayAltColour: ${UI.defaultStyles.altColour!.R}, ${UI.defaultStyles.altColour!.G}, ${UI.defaultStyles.altColour!.B};
+            }
+
+            #overlay .preview
+            {
+                display: none;
             }
         `;
         //Append to the overlay?
@@ -220,8 +227,8 @@ export type SavedElements =
                     bottom?: string,
                     right?: string,
                 }
-                width: string,
-                height: string,
+                width: string | undefined,
+                height: string | undefined,
                 customStyles: TCustomStyles
             }[];
         }
@@ -253,10 +260,10 @@ type CreatedElements =
                                 bottom?: string,
                                 right?: string,
                             }
-                            width: string,
-                            height: string,
+                            width: string | undefined,
+                            height: string | undefined,
                             customStyles: TCustomStyles,
-                            //mutationObserver?: MutationObserver,
+                            mutationObserver?: MutationObserver,
                             dragElement?: DragElement
                         }
                     }
@@ -268,6 +275,8 @@ type CreatedElements =
 
 interface ElementScript
 {
+    readonly initialWidth: number | undefined;
+    readonly initialHeight: number | undefined;
     readonly resizeMode: 0 | 1 | 2 | 3, //0 = No resize, 1 = Both, 2 = Width, 3 = Height
     readonly editableStyles: TEditableStyles;
     new(): ElementScript;

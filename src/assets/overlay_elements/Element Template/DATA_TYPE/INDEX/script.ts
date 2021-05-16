@@ -22,7 +22,8 @@ export class Script
     {
         this.elements[element.id] =
         {
-            container: element
+            container: element,
+            element: Main.ThrowIfNullOrUndefined(element.querySelector(`.CATEGORY.DATA_TYPE._INDEX`)),
         };
     }
 
@@ -49,6 +50,7 @@ type Elements =
 {
     [id: string]:
     {
-        container: HTMLDivElement
+        container: HTMLDivElement,
+        element: HTMLDivElement
     }
 }

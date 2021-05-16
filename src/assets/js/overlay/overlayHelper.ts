@@ -49,16 +49,37 @@ export type TEditableStyles =
 {
     foregroundColour?: true,
     backgroundColour?: true,
-    accentColour?: true,
+    altColour?: true,
     fontSize?: true;
+    horizontalAlign?:
+    {
+        left?: true,
+        right?: true,
+        center?: true
+    },
+    verticalAlign?:
+    {
+        left?: true,
+        right?: true,
+        center?: true
+    },
+    align?:
+    {
+        left?: true,
+        right?: true,
+        center?: true
+    }
 }
 
 export type TCustomStyles =
 {
     foregroundColour?: IRGB,
     backgroundColour?: IRGB,
-    accentColour?: IRGB,
-    fontSize?: number
+    altColour?: IRGB,
+    fontSize?: number,
+    horizontalAlign?: "left" | "right" | "center",
+    verticalAlign?: "top" | "bottom" | "center",
+    align?: "topLeft" | "bottomRight" | "center"
 }
 
 //RGBA, 'A' will probably not be used but it would be easy to add if it is needed in the future.

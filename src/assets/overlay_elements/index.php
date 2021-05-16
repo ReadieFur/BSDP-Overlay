@@ -1,5 +1,5 @@
 <?php
-    $title = 'BSDP Overlay | Editor';
+    $title = 'Element Preview | BSDP Overlay';
 
     global $WEB_ROOT;
     global $SITE_ROOT;

@@ -276,6 +276,8 @@ form
             border: 0;
             background-color: transparent;
             border-bottom: 1px solid rgba(var(--foregroundColour), 1);
+            outline: none;
+            outline-width: 0;
 
             &.larger
             {
@@ -287,6 +289,20 @@ form
         {
             border-bottom: none;
         }
+    }
+
+    select
+    {
+        margin-bottom: 15px;
+        font-weight: normal;
+        width: 100%;
+        height: 30px;
+        color: rgba(var(--foregroundColour), 1);
+        background-color: rgba(var(--backgroundColour), 1);
+        border: 0;
+        border-bottom: 1px solid rgba(var(--foregroundColour), 1);
+        outline: none;
+        outline-width: 0;
     }
 
     textarea
