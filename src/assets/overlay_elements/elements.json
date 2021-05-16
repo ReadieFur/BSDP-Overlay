@@ -181,6 +181,30 @@
             }
         }
     },
+    "bar":
+    {
+        "time":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "health":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        },
+        "accuracy":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
+    },
     "image":
     {
         "cover":
