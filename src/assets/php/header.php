@@ -20,7 +20,6 @@
             <div class="dropdownContent">
                 <div></div>
                 <div class="bottomStrip">
-                    <a href="<?php echo $WEB_ROOT ?>/my_overlays/">My Overlays</a>
                     <a id="accountButton">Managment</a>
                     <a id="darkMode">Dark Mode</a>
                 </div>                

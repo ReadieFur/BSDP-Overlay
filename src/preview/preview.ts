@@ -98,7 +98,12 @@ class Preview
         this.overlayLink.href = `${Main.WEB_ROOT}/view/${overlay.id}/`;
         this.editLink.href = `${Main.WEB_ROOT}/edit/${overlay.id}/`;
         this.username.innerText = overlay.username;
-        this.username.href = `${Main.WEB_ROOT}/browser/#GENERATE_QUERY_HERE`;
+        this.username.href = `${Main.WEB_ROOT}/browser/?q=${encodeURIComponent(JSON.stringify(
+        {
+            filter: "username",
+            searchData: overlay.username,
+            page: 1
+        }))}`;
         this.id.innerText = overlay.id;
         this.id.href = `${Main.WEB_ROOT}/view/${overlay.id}/`;
     }

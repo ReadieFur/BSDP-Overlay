@@ -82,9 +82,16 @@
 
     img
     {
-        width: 240px;
-        height: 240 / (16/9) + 0px;
+        width: 320px;
+        height: 320 / (16/9) + 0px;
         border-radius: 4px;
+        //The background colour helps with the image when the text is the same colour as the background (not visible when the image is set).
+        background-color: rgba(var(--backgroundAltColour), 1);
+        //The preview looks better without the image but it is very hard to see if the element colours match the background colour. Perhaps try and look for a different, simpler background image.
+        background-image: url("../assets/images/beat-saber.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 
     .listItem:hover
