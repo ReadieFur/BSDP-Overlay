@@ -7,6 +7,7 @@ export class Script
     public readonly resizeMode = 0;
     public readonly editableStyles: TEditableStyles =
     {
+        foregroundColour: true,
         fontSize: true
     }
 
@@ -23,7 +24,7 @@ export class Script
         this.elements[element.id] =
         {
             container: element,
-            rank: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.rank._01 > .rank`))
+            text: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.rank._01 > .rank`))
         };
     }
 
@@ -31,14 +32,15 @@ export class Script
     {
         if (this.elements[element.id] === undefined) { return; }
 
-        if (styles.fontSize !== undefined)
-        {
-            this.elements[element.id].rank.style.fontSize = `${styles.fontSize}px`;
-        }
+        if (styles.foregroundColour !== undefined)
+        { this.elements[element.id].text.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
         else
-        {
-            this.elements[element.id].rank.style.removeProperty("fontSize");
-        }
+        { this.elements[element.id].text.style.removeProperty("color"); }
+
+        if (styles.fontSize !== undefined)
+        { this.elements[element.id].text.style.fontSize = `${styles.fontSize}px`; }
+        else
+        { this.elements[element.id].text.style.removeProperty("fontSize"); }
     }
 
     public RemoveElement(element: HTMLDivElement): void
@@ -55,7 +57,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.rank.innerText = data.Rank !== null ? data.Rank : "";
+            element.text.innerText = data.Rank !== null ? data.Rank : "";
         }
     }
 }
@@ -65,6 +67,6 @@ type Elements =
     [id: string]:
     {
         container: HTMLDivElement,
-        rank: HTMLParagraphElement
+        text: HTMLParagraphElement
     }
 }

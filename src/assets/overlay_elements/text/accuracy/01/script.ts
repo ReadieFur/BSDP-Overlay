@@ -8,6 +8,7 @@ export class Script
     public readonly resizeMode = 0;
     public readonly editableStyles: TEditableStyles =
     {
+        foregroundColour: true,
         fontSize: true
     }
 
@@ -24,7 +25,7 @@ export class Script
         this.elements[element.id] =
         {
             container: element,
-            accuracy: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.accuracy._01 > .accuracy`))
+            text: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.accuracy._01 > .accuracy`))
         };
     }
 
@@ -32,14 +33,15 @@ export class Script
     {
         if (this.elements[element.id] === undefined) { return; }
 
-        if (styles.fontSize !== undefined)
-        {
-            this.elements[element.id].accuracy.style.fontSize = `${styles.fontSize}px`;
-        }
+        if (styles.foregroundColour !== undefined)
+        { this.elements[element.id].text.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
         else
-        {
-            this.elements[element.id].accuracy.style.removeProperty("fontSize");
-        }
+        { this.elements[element.id].text.style.removeProperty("color"); }
+
+        if (styles.fontSize !== undefined)
+        { this.elements[element.id].text.style.fontSize = `${styles.fontSize}px`; }
+        else
+        { this.elements[element.id].text.style.removeProperty("fontSize"); }
     }
 
     public RemoveElement(element: HTMLDivElement): void
@@ -56,7 +58,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.accuracy.innerText = `${Math.round(data.Accuracy * 10) / 10}%`;
+            element.text.innerText = `${Math.round(data.Accuracy * 10) / 10}%`;
         }
     }
 }
@@ -66,6 +68,6 @@ type Elements =
     [id: string]:
     {
         container: HTMLDivElement,
-        accuracy: HTMLParagraphElement
+        text: HTMLParagraphElement
     }
 }

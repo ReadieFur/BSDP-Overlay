@@ -34,7 +34,7 @@
 
         > .progress
         {
-            stroke: rgba(var(--overlayForegroundColour), 1);
+            stroke: rgba(var(--overlayAltColour), 1);
             transition: stroke-dashoffset 0.35s;
         }
     }

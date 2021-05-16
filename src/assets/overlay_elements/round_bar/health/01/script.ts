@@ -8,7 +8,8 @@ export class Script
     public readonly editableStyles: TEditableStyles =
     {
         foregroundColour: true,
-        backgroundColour: true
+        backgroundColour: true,
+        altColour: true
     }
 
     private size: number;
@@ -75,13 +76,11 @@ export class Script
 
         if (styles.foregroundColour !== undefined)
         {
-            this.elements[element.id].progress.style.stroke = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
             this.elements[element.id].healthText.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
             this.elements[element.id].health.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
         }
         else
         {
-            this.elements[element.id].progress.style.removeProperty("stroke");
             this.elements[element.id].healthText.style.removeProperty("color");
             this.elements[element.id].health.style.removeProperty("color");
         }
@@ -93,6 +92,15 @@ export class Script
         else
         {
             this.elements[element.id].background.style.removeProperty("stroke");
+        }
+
+        if (styles.altColour !== undefined)
+        {
+            this.elements[element.id].progress.style.stroke = `rgba(${styles.altColour.R}, ${styles.altColour.G}, ${styles.altColour.B}, 1)`;
+        }
+        else
+        {
+            this.elements[element.id].progress.style.removeProperty("stroke");
         }
     }
 
@@ -119,14 +127,9 @@ export class Script
 
     private MutationEvent(id: string, mutationRecord: MutationRecord[])
     {
+        if (this.elements[id].container.clientWidth <= this.size) { return; }
         this.elements[id].container.style.height = this.elements[id].container.style.width;
-        this.Resize(id, parseInt(this.elements[id].container.style.width.substr(0, this.elements[id].container.style.width.length - 2)));
-    }
-
-    //I had written a function to resize the element with different formulas but I will be using scale instead as it is easier to do for this element.
-    private Resize(id: string, width: number)
-    {
-        this.elements[id].element.style.transform = `scale(${width / this.size})`;
+        this.elements[id].element.style.transform = `scale(${parseInt(this.elements[id].container.style.width.substr(0, this.elements[id].container.style.width.length - 2)) / this.size})`;
     }
 
     private SetProgress(id: string, percentage: number)

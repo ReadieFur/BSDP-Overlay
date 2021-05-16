@@ -7,6 +7,7 @@ export class Script
     public readonly resizeMode = 0;
     public readonly editableStyles: TEditableStyles =
     {
+        foregroundColour: true,
         fontSize: true
     }
 
@@ -23,7 +24,7 @@ export class Script
         this.elements[element.id] =
         {
             container: element,
-            subName: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.sub_name._01 > .subName`))
+            text: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.sub_name._01 > .subName`))
         };
     }
 
@@ -31,14 +32,15 @@ export class Script
     {
         if (this.elements[element.id] === undefined) { return; }
 
-        if (styles.fontSize !== undefined)
-        {
-            this.elements[element.id].subName.style.fontSize = `${styles.fontSize}px`;
-        }
+        if (styles.foregroundColour !== undefined)
+        { this.elements[element.id].text.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
         else
-        {
-            this.elements[element.id].subName.style.removeProperty("fontSize");
-        }
+        { this.elements[element.id].text.style.removeProperty("color"); }
+
+        if (styles.fontSize !== undefined)
+        { this.elements[element.id].text.style.fontSize = `${styles.fontSize}px`; }
+        else
+        { this.elements[element.id].text.style.removeProperty("fontSize"); }
     }
 
     public RemoveElement(element: HTMLDivElement): void
@@ -51,7 +53,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.subName.innerText = data.SongSubName !== null ? data.SongSubName : "";
+            element.text.innerText = data.SongSubName !== null ? data.SongSubName : "";
         }
     }
 
@@ -65,6 +67,6 @@ type Elements =
     [id: string]:
     {
         container: HTMLDivElement,
-        subName: HTMLParagraphElement
+        text: HTMLParagraphElement
     }
 }

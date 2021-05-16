@@ -8,6 +8,7 @@ export class Script
     public readonly resizeMode = 0;
     public readonly editableStyles: TEditableStyles =
     {
+        foregroundColour: true,
         fontSize: true
     }
 
@@ -34,14 +35,15 @@ export class Script
     {
         if (this.elements[element.id] === undefined) { return; }
 
-        if (styles.fontSize !== undefined)
-        {
-            this.elements[element.id].textContainer.style.fontSize = `${styles.fontSize}px`;
-        }
+        if (styles.foregroundColour !== undefined)
+        { this.elements[element.id].textContainer.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
         else
-        {
-            this.elements[element.id].textContainer.style.removeProperty("fontSize");
-        }
+        { this.elements[element.id].textContainer.style.removeProperty("color"); }
+
+        if (styles.fontSize !== undefined)
+        { this.elements[element.id].textContainer.style.fontSize = `${styles.fontSize}px`; }
+        else
+        { this.elements[element.id].textContainer.style.removeProperty("fontSize"); }
     }
 
     public RemoveElement(element: HTMLDivElement): void

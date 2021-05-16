@@ -55,7 +55,7 @@ $circumference: $radius * 2 * $pi;*/
 
         > .progress
         {
-            stroke: rgba(var(--overlayForegroundColour), 1);
+            stroke: rgba(var(--overlayAltColour), 1);
             transition: stroke-dashoffset 0.35s;
             /*stroke-dasharray: $circumference $circumference;
             stroke-dashoffset: ($circumference - 15 / 100 * $circumference);*/

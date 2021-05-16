@@ -8,6 +8,7 @@ export class Script
     public readonly resizeMode = 0;
     public readonly editableStyles: TEditableStyles =
     {
+        foregroundColour: true,
         fontSize: true
     }
 
@@ -24,7 +25,7 @@ export class Script
         this.elements[element.id] =
         {
             container: element,
-            maxScore: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.max_score._01 > .maxScore`))
+            text: Main.ThrowIfNullOrUndefined(element.querySelector(`.text.max_score._01 > .maxScore`))
         };
     }
 
@@ -32,14 +33,15 @@ export class Script
     {
         if (this.elements[element.id] === undefined) { return; }
 
-        if (styles.fontSize !== undefined)
-        {
-            this.elements[element.id].maxScore.style.fontSize = `${styles.fontSize}px`;
-        }
+        if (styles.foregroundColour !== undefined)
+        { this.elements[element.id].text.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
         else
-        {
-            this.elements[element.id].maxScore.style.removeProperty("fontSize");
-        }
+        { this.elements[element.id].text.style.removeProperty("color"); }
+
+        if (styles.fontSize !== undefined)
+        { this.elements[element.id].text.style.fontSize = `${styles.fontSize}px`; }
+        else
+        { this.elements[element.id].text.style.removeProperty("fontSize"); }
     }
 
     public RemoveElement(element: HTMLDivElement): void
@@ -56,7 +58,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.maxScore.innerText = UI.SeperateNumber(data.MaxScoreWithMultipliers);
+            element.text.innerText = UI.SeperateNumber(data.MaxScoreWithMultipliers);
         }
     }
 }
@@ -66,6 +68,6 @@ type Elements =
     [id: string]:
     {
         container: HTMLDivElement,
-        maxScore: HTMLParagraphElement
+        text: HTMLParagraphElement
     }
 }
