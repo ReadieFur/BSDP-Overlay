@@ -1,7 +1,6 @@
 Todo:
     ☐ add more elements.
     ☐ prevent elements from being scaled outside the UI.
-    ☐ reduce the number of overlays per page and increase the preview size.
     ☐ fix text property editor updates being delayed by 1 change.
     ☐ fix the preview generation on firefox.
     ☐ add a rotation option.
@@ -48,6 +47,7 @@ Done:
     ✔ fix text element width when updated. @done(21-05-16 02:10)
     ✔ add element info/on hover popup dialogue box. @done(21-05-16 14:06)
     ✔ make element border red when 'control' and 'alt' are pressed. @done(21-05-16 14:12)
+    ✔ reduce the number of overlays per page and increase the preview size. @done(21-05-16 14:40)
 
 Cancelled:
 

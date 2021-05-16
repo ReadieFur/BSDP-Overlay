@@ -53,8 +53,19 @@
 
     th, td
     {
-        width: (100/3)+0%;
+        width: (100/4)+0%;
         padding: 15px 10px;
+
+        /*&:nth-of-type(1)
+        {
+            min-width: 240px;
+            width: 25%;
+        }
+
+        &:nth-of-type(3)
+        {
+            width: 40%;
+        }*/
     }
 
     th
@@ -71,8 +82,8 @@
 
     img
     {
-        width: 160px;
-        height: 90px;
+        width: 240px;
+        height: 240 / (16/9) + 0px;
         border-radius: 4px;
     }
 

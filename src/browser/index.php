@@ -28,6 +28,7 @@
                 <tr>
                     <th>Preview</th>
                     <th>Overlay Name</th>
+                    <!--<th>Overlay Description</th>-->
                     <th>Creator</th>
                 </tr>
             </tbody>
@@ -35,6 +36,7 @@
                 <!--<tr>
                     <td><img src="https://cdn.global-gaming.co/images/team/members/readiecircle.png"></td>
                     <td>Overlay Name</td>
+                    <td>Overlay Description</td>
                     <td>kOF.Readie</td>
                 </tr>-->
             </tbody>

@@ -3,6 +3,8 @@ import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper.
 
 class Browser
 {
+    private static readonly resultsPerPage = 10;
+
     private overlays: HTMLTableElement;
     private pages: HTMLDivElement;
     private resultsText: HTMLParagraphElement;
@@ -165,7 +167,7 @@ class Browser
 
             //#region Page buttons.
             var pageNumbers: number[] = [];
-            if (response.data.overlaysFound > 15)
+            if (response.data.overlaysFound > Browser.resultsPerPage)
             {
                 var pagesAroundCurrent = 2;
                 var pages = response.data.overlaysFound / response.data.resultsPerPage;
@@ -197,7 +199,7 @@ class Browser
         
                 pageNumbers.push(pages);
             }
-            else if (response.data.overlaysFound > 0) //&& response.data.overlaysFound <= 15
+            else if (response.data.overlaysFound > 0) //&& response.data.overlaysFound <= Browser.resultsPerPage
             {
                 this.page = 1;
                 pageNumbers.push(1);
@@ -247,17 +249,20 @@ class Browser
                 var previewContainer = document.createElement("td");
                 var preview = document.createElement("img");
                 var nameContainer = document.createElement("td");
+                //var descriptionContainer = document.createElement("td");
                 var usernameContainer = document.createElement("td");
 
                 preview.src = overlay.thumbnail == null ? '' : overlay.thumbnail;
                 previewContainer.appendChild(preview);
                 nameContainer.innerText = overlay.name;
+                //descriptionContainer.innerText = overlay.description !== null ? overlay.description : "";
                 usernameContainer.innerText = overlay.username;
 
                 tableRow.classList.add("listItem");
                 tableRow.onclick = () => { window.location.href = `//${window.location.host}${Main.WEB_ROOT}/preview/${overlay.id}/`; }
                 tableRow.appendChild(previewContainer);
                 tableRow.appendChild(nameContainer);
+                //tableRow.appendChild(descriptionContainer);
                 tableRow.appendChild(usernameContainer);
 
                 this.overlays.tBodies[1]!.appendChild(tableRow);

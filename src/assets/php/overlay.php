@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../../../api/returnData.php';
 
 class Overlay
 {
-    private static int $resultsPerPage = 15;
+    private static int $resultsPerPage = 10;
 
     public function __construct(array $_request)
     {
