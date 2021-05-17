@@ -122,6 +122,7 @@
                                             <button id="optionColourButton">Colour</button>
                                             <button id="optionFontButton">Font</button>
                                             <button id="optionAlignmentButton">Alignment</button>
+                                            <button id="optionMiscButton">Misc</button>
                                         </div>
                                     </div>
                                     <form id="optionsForm">
@@ -249,6 +250,16 @@
                                                             <option value="bottomRight">Bottom Right</option>
                                                             <option value="center">Center</option>
                                                         </select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody id="optionsMisc">
+                                                <tr id="optionsTextGroup">
+                                                    <td class="onePercent">
+                                                        <p>Text:</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="optionsText" type="text" maxlength="32">
                                                     </td>
                                                 </tr>
                                             </tbody>

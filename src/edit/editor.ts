@@ -78,6 +78,13 @@ class Editor
             vertical: HTMLSelectElement,
             bothGroup: HTMLTableRowElement,
             both: HTMLSelectElement
+        },
+        misc:
+        {
+            tabButton: HTMLButtonElement,
+            tbody: HTMLTableSectionElement,
+            textGroup: HTMLTableRowElement,
+            text: HTMLInputElement
         }
     };
 
@@ -151,6 +158,13 @@ class Editor
                 vertical: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsVerticalAlignment")),
                 bothGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBothAlignmentGroup")),
                 both: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsBothAlignment"))
+            },
+            misc:
+            {
+                tabButton: Main.ThrowIfNullOrUndefined(document.querySelector("#optionMiscButton")),
+                tbody: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsMisc")),
+                textGroup: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsTextGroup")),
+                text: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsText"))
             }
         }
 
@@ -205,6 +219,9 @@ class Editor
         this.editorPropertiesTab.alignment.both.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.alignment.horizontal.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         this.editorPropertiesTab.alignment.vertical.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+
+        this.editorPropertiesTab.misc.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("misc"); });
+        this.editorPropertiesTab.misc.text.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
         
         await this.LoadOverlay();
 
@@ -545,6 +562,11 @@ class Editor
             this.editorPropertiesTab.alignment.horizontalGroup.style.display = "none";
             this.editorPropertiesTab.alignment.verticalGroup.style.display = "none";
 
+            this.editorPropertiesTab.misc.tabButton.style.display = "none";
+            this.editorPropertiesTab.misc.tabButton.classList.remove("curveLeft");
+            this.editorPropertiesTab.misc.tabButton.classList.remove("curveRight");
+            this.editorPropertiesTab.misc.textGroup.style.display = "none";
+
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour !== undefined)
             {
                 this.editorPropertiesTab.colour.foregroundColour.value = this.RGBToHex(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.foregroundColour!);
@@ -571,9 +593,23 @@ class Editor
             else
             { this.editorPropertiesTab.font.fontSize.value = "16"; }
 
-            this.editorPropertiesTab.alignment.both.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align! : "center";
-            this.editorPropertiesTab.alignment.horizontal.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign! : "center";
-            this.editorPropertiesTab.alignment.vertical.value = this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign !== undefined ? this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign! : "center";
+            this.editorPropertiesTab.alignment.both.value =
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align !== undefined ?
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.align! :
+                "center";
+            this.editorPropertiesTab.alignment.horizontal.value =
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign !== undefined ?
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.horizontalAlign! :
+                "center";
+            this.editorPropertiesTab.alignment.vertical.value =
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign !== undefined ?
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign! :
+                "center";
+
+            this.editorPropertiesTab.misc.text.value =
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.content !== undefined ?
+                this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.content! :
+                "";
             //#endregion
 
             //#region Position tab
@@ -641,6 +677,14 @@ class Editor
             }
             //#endregion
 
+            //#region Misc tab
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.content === true)
+            {
+                this.editorPropertiesTab.misc.tabButton.style.display = buttonDisplayStyle;
+                this.editorPropertiesTab.misc.textGroup.style.display = "table-row";
+            }
+            //#endregion
+
             var firstButton: HTMLButtonElement | null = null;
             var lastButton: HTMLButtonElement | null = null;
             for (const iterator of this.editorPropertiesTab.tabs.querySelectorAll("button"))
@@ -659,7 +703,7 @@ class Editor
         }
     }
 
-    private SetActivePropertiesTab(tab: "position" | "size" | "colour" | "font" | "alignment")
+    private SetActivePropertiesTab(tab: "position" | "size" | "colour" | "font" | "alignment" | "misc")
     {
         this.editorPropertiesTab.position.tabButton.classList.remove("active");
         this.editorPropertiesTab.position.tbody.style.display = "none";
@@ -675,6 +719,9 @@ class Editor
 
         this.editorPropertiesTab.alignment.tabButton.classList.remove("active");
         this.editorPropertiesTab.alignment.tbody.style.display = "none";
+
+        this.editorPropertiesTab.misc.tabButton.classList.remove("active");
+        this.editorPropertiesTab.misc.tbody.style.display = "none";
 
         var activeTab;
         switch (tab)
@@ -693,6 +740,9 @@ class Editor
                 break;
             case "alignment":
                 activeTab = this.editorPropertiesTab.alignment;
+                break;
+            case "misc":
+                activeTab = this.editorPropertiesTab.misc;
                 break;
         }
 
@@ -832,6 +882,11 @@ class Editor
                         break;
                 }
             }
+            else if (inputTarget.id == "optionsText")
+            {
+                var content = this.editorPropertiesTab.misc.text.value.split(' ').filter(part => part !== '').join(' ');
+                styles.content = content !== '' ? content.substr(0, 32) : "Text";
+            }
             else { return; }
 
             this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.UpdateStyles(this.activeElement, styles);
@@ -902,7 +957,8 @@ class Editor
             if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.verticalAlign !== undefined)
             { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.verticalAlign = styles.verticalAlign; }
 
-            console.log(this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles, this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles, styles);
+            if (this.ui.createdElements.elements[location[0]][location[1]][location[2]].script.editableStyles.content !== undefined)
+            { this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles.content = styles.content; }
         }
 
         this.allowUnload = false;

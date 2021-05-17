@@ -224,5 +224,15 @@
                 "showInEditor": true
             }
         }
+    },
+    "misc":
+    {
+        "text":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
     }
 }

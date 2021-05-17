@@ -1,0 +1,13 @@
+.misc.text._01
+{
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    > .text
+    {
+        text-align: center;
+        margin: 5px;
+        color: rgba(var(--overlayForegroundColour), 1);
+    }
+}

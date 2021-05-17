@@ -68,7 +68,8 @@ export type TEditableStyles =
         left?: true,
         right?: true,
         center?: true
-    }
+    },
+    content?: true
 }
 
 export type TCustomStyles =
@@ -79,7 +80,8 @@ export type TCustomStyles =
     fontSize?: number,
     horizontalAlign?: "left" | "right" | "center",
     verticalAlign?: "top" | "bottom" | "center",
-    align?: "topLeft" | "bottomRight" | "center"
+    align?: "topLeft" | "bottomRight" | "center",
+    content?: string
 }
 
 //RGBA, 'A' will probably not be used but it would be easy to add if it is needed in the future.
