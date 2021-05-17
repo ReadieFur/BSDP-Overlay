@@ -18,6 +18,8 @@ export class Main
 
     constructor()
     {
+        (<HTMLDivElement>Main.ThrowIfNullOrUndefined(document.querySelector("#javascriptAlert"))).style.display = "none";
+
         Main.WEB_ROOT = WEB_ROOT;
         Main.urlParams = new URLSearchParams(location.search);
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));
@@ -229,7 +231,7 @@ export class Main
     {
         if (ev.currentTarget !== undefined)
         {
-            (<HTMLElement>ev.currentTarget).addEventListener("mousemove", (_ev) =>
+            (<HTMLElement>ev.currentTarget).onmousemove = (_ev) =>
             {
                 this.tooltipContainer.style.display = "block";
                 this.tooltipText.innerHTML = message;
@@ -281,10 +283,10 @@ export class Main
                         this.tooltipContainer.style.left = `${left}px`;*/
                         break;
                 }
-            });
+            };
 
             //I'd like to clear this event listener but I cant pass 'this' into the remove event listener function and I dont want to store the small function externally.
-            (<HTMLElement>ev.currentTarget).addEventListener("mouseleave", () => { this.tooltipContainer.style.removeProperty("display"); });
+            (<HTMLElement>ev.currentTarget).onmouseleave = () => { this.tooltipContainer.style.removeProperty("display"); };
         }
     }
 

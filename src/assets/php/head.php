@@ -22,5 +22,7 @@
 <script src="https://cdn.global-gaming.co/resources/scripts/jquery/jquery-3.5.1.min.js"></script>
 <script>var WEB_ROOT = "<?php echo $WEB_ROOT; ?>";</script>
 <style id="themeColours"></style>
+<noscript>No script</noscript>
 <!--I'd like to move the alert box and account container here but I was having som annoying css ussues with it that I can't be arsed to fix right now.-->
+<!--This also shouldn't go in the head, make a new file for extra things that should be on all pages-->
 <div id="tooltipContainer"><small id="tooltipText"></small></div>

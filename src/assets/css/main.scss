@@ -133,6 +133,16 @@ h3, .h3 { font-size: 1.75rem; }
 h4, .h4 { font-size: 1.32rem; }
 h5, .h5 { font-size: 1.02rem; }
 h6, .h6 { font-size: .88rem; }
+p, .p
+{
+    font-size: 1rem;
+    text-transform: none;
+}
+
+.paragraph
+{
+    line-height: 150%;
+}
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6
 {

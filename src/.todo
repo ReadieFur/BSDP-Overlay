@@ -48,6 +48,7 @@ Done:
     ✔ add element info/on hover popup dialogue box. @done(21-05-16 14:06)
     ✔ make element border red when 'control' and 'alt' are pressed. @done(21-05-16 14:12)
     ✔ reduce the number of overlays per page and increase the preview size. @done(21-05-16 14:40)
+    ✔ add a disabled JS check. It's more of a wall that gets hidden if JS is enabled. @done(21-05-17 13:12)
 
 Cancelled:
 

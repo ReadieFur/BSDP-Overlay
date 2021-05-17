@@ -1,0 +1,58 @@
+#header
+{
+    > section
+    {
+        > .titleContainer > a > .title,
+        > .navigationContainer > .naviDropdown,
+        > .navigationContainer > a
+        {
+            color: white;
+
+            &:hover, &:hover > a
+            {
+                color: rgba(var(--accentColour), 1);
+            }
+        }
+    }
+}
+
+body
+{
+    > #header
+    {
+        //background-color: rgba(var(--backgroundColour), 0.5);
+        background-color: transparent;
+    }
+
+    > #splash
+    {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80vh;
+        background-image: url(../assets/images/beat-saber.jpg);
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        
+        > div
+        {
+            > *
+            {
+                color: white;
+            }
+        }
+    }
+
+    > #about
+    {
+        margin-top: calc(80vh - 100px);
+
+        > *
+        {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}

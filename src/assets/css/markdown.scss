@@ -1,0 +1,100 @@
+.markdown
+{
+    > :first-child
+    {
+        margin-top: 0;
+    }
+
+    h1
+    {
+        font-size: 2.35rem;
+        &:after
+        {
+            content: '';
+            margin-top: 10px;
+            display: block;
+            border: none;
+            border-bottom: 1px solid rgba(var(--foregroundColour), 1);
+        }
+    }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.32rem; }
+    h4 { font-size: 1.02rem; }
+    h5 { font-size: .88rem; }
+    h6 { font-size: .70rem; }
+    h1, h2, h3, h4, h5, h6
+    {
+        margin: 20px 0;
+
+        *
+        {
+            font-weight: bold !important;
+        }
+    }
+
+    p, a, li, code
+    {
+        line-height: 150%;
+        font-weight: normal;
+    }
+
+    a
+    {
+        //color: rgb(0, 0, 238);
+        //color: rgb(0, 180, 235);
+        //color: rgb(88, 166, 255);
+        //color: rgba(var(--accentColourAlt), 1)
+        color: rgba(var(--linkColour), 1)
+    }
+
+    pre
+    {
+        padding: 20px 25px;
+        border-radius: 8px;
+        background-color: rgba(var(--backgroundAltColour), 1);
+        overflow-x: auto;
+    }
+
+    code
+    {
+        background-color: rgba(var(--backgroundAltColour), 1);
+        word-spacing: 0.3rem;
+        padding: 2px 4px;
+        border-radius: 4px;
+    }
+
+    table
+    {
+        border-collapse: collapse;
+
+        > tbody
+        {
+            > tr
+            {
+                > th, td
+                {
+                    border: 1px solid rgba(var(--foregroundColour), 1);
+                    padding: 10px 15px;
+
+                    > *
+                    {
+                        margin: 0;
+                    }
+                }
+
+                > th
+                {
+                    > *
+                    {
+                        font-weight: bold;
+                    }
+                }
+
+                &:nth-of-type(odd):not(:first-child)
+                {
+                    background-color: rgba(var(--backgroundAltColour), 1);
+                }
+            }
+        }
+    }
+}

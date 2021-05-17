@@ -1,5 +1,5 @@
 <?php
-    $title = 'Editor | BSDP Overlay';
+    $title = 'Edit | BSDP Overlay';
 
     $WEB_ROOT;
     $SITE_ROOT;
