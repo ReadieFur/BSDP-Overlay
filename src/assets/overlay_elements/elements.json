@@ -214,5 +214,15 @@
                 "showInEditor": true
             }
         }
+    },
+    "shape":
+    {
+        "rectangle":
+        {
+            "01":
+            {
+                "showInEditor": true
+            }
+        }
     }
 }
