@@ -1,4 +1,5 @@
 Todo:
+    ☐ fix some elements not displaying properly in the editor elements list.
     ☐ add more elements.
     ☐ prevent elements from being scaled outside the UI.
     ☐ fix text property editor updates being delayed by 1 change.
@@ -6,7 +7,6 @@ Todo:
     ☐ add a rotation option.
     ☐ add sample data/game data toggle.
     ☐ add text alignment (currently fixed to the side of the overlay it is on).
-    ☐ add a custom text element.
     ☐ sort out the protocol to load (http/https) when an external IP is specified.
     ☐ disable the editor elements listing from being affected by the game data.
     ☐ fix the small spacing gap in the editor table.
@@ -49,6 +49,7 @@ Done:
     ✔ make element border red when 'control' and 'alt' are pressed. @done(21-05-16 14:12)
     ✔ reduce the number of overlays per page and increase the preview size. @done(21-05-16 14:40)
     ✔ add a disabled JS check. It's more of a wall that gets hidden if JS is enabled. @done(21-05-17 13:12)
+    ✔ add a custom text element. @done(21-05-17 22:56)
 
 Cancelled:
 
