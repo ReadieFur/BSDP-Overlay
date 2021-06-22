@@ -1,4 +1,6 @@
 <?php
+    require_once __DIR__ . '/closed_release_access_manager.php';
+
     global $WEB_ROOT;
     global $REQUEST_URI;
     global $title;
