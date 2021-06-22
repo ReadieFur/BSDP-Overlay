@@ -37,12 +37,28 @@ export class Script
         delete this.elements[element.id];
     }
 
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            var element = this.elements[key];
+        }
+    }
+
     public UpdateMapData(data: MapData): void
     {
+        for (const key of Object.keys(this.elements))
+        {
+            var element = this.elements[key];
+        }
     }
 
     public UpdateLiveData(data: LiveData): void
     {
+        for (const key of Object.keys(this.elements))
+        {
+            var element = this.elements[key];
+        }
     }
 }
 

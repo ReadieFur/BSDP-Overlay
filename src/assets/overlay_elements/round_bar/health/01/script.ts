@@ -110,6 +110,15 @@ export class Script
         delete this.elements[element.id];
     }
 
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            this.elements[key].health.innerHTML = "0%";
+            this.SetProgress(key, 0);
+        }
+    }
+    
     public UpdateMapData(data: MapData): void
     {
         

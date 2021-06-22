@@ -283,6 +283,7 @@ interface ElementScript
     AddElement(element: HTMLDivElement): void;
     UpdateStyles(element: HTMLDivElement, styles: TCustomStyles): void;
     RemoveElement(element: HTMLDivElement): void;
+    ResetData(): void;
     UpdateMapData(data: MapData): void;
     UpdateLiveData(data: LiveData): void;
 }

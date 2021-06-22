@@ -116,6 +116,16 @@ export class Script
         delete this.elements[element.id];
     }
 
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            this.elements[key].elapsed.innerText = UI.SecondsToMinutes(0);
+            this.elements[key].length.innerText = UI.SecondsToMinutes(0);
+            this.SetProgress(key, 0);
+        }
+    }
+
     public UpdateMapData(data: MapData): void
     {
         this.MapLength = data.Length;

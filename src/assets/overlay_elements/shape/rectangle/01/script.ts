@@ -57,6 +57,10 @@ export class Script
         delete this.elements[element.id];
     }
 
+    public ResetData(): void
+    {
+    }
+
     public UpdateMapData(data: MapData): void
     {
     }

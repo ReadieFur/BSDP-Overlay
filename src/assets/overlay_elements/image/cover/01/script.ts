@@ -17,7 +17,6 @@ export class Script
     public constructor()
     {
         this.size = 90;
-
         this.elements = {};
     }
 
@@ -53,6 +52,14 @@ export class Script
     {
         this.elements[element.id].mutationObserver.disconnect();
         delete this.elements[element.id];
+    }
+
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            this.elements[key].image.src = `${Main.WEB_ROOT}/assets/images/BeatSaberIcon.jpg`;
+        }
     }
 
     public UpdateMapData(data: MapData): void

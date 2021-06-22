@@ -48,6 +48,14 @@ export class Script
         delete this.elements[element.id];
     }
 
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            this.elements[key].text.innerText = "Mapper";
+        }
+    }
+
     public UpdateMapData(data: MapData): void
     {
         for (const key of Object.keys(this.elements))

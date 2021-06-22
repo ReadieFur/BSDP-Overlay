@@ -117,6 +117,15 @@ export class Script
     {
     }
 
+    public ResetData(): void
+    {
+        for (const key of Object.keys(this.elements))
+        {
+            this.elements[key].progress = 0;
+            this.UpdateProgress(key);
+        }
+    }
+
     public UpdateLiveData(data: LiveData): void
     {
         for (const key of Object.keys(this.elements))
