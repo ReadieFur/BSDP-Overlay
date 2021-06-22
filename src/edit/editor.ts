@@ -17,7 +17,6 @@ class Editor
     private allowUnload!: boolean;
     private elementsTable!: HTMLTableElement;
     private saveMenuContainer!: HTMLDivElement;
-    private saveMenuBackground!: HTMLDivElement;
     private title!: HTMLInputElement;
     private description!: HTMLTextAreaElement;
     private thumbnail!: HTMLImageElement;
@@ -29,6 +28,18 @@ class Editor
     private resizeCanvas2D!: CanvasRenderingContext2D;
     private ui!: UI;
     private client!: Client;
+
+    private optionsMenu!:
+    {
+        button: HTMLButtonElement,
+        container: HTMLDivElement,
+        data:
+        {
+            placeholderData: HTMLLabelElement,
+            sampleData: HTMLLabelElement,
+            gameData: HTMLLabelElement
+        }
+    }
 
     private activeElement?: HTMLDivElement;
     private editorPropertiesTab!:
@@ -100,7 +111,6 @@ class Editor
         this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
         this.elementsTable = Main.ThrowIfNullOrUndefined(document.querySelector("#elementsTable"));
         this.saveMenuContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuContainer"));
-        this.saveMenuBackground = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuBackground"));
         this.title = Main.ThrowIfNullOrUndefined(document.querySelector("#title"));
         this.description = Main.ThrowIfNullOrUndefined(document.querySelector("#description"));
         this.thumbnail = Main.ThrowIfNullOrUndefined(document.querySelector("#thumbnail"));
@@ -110,6 +120,18 @@ class Editor
         this.imageRendererContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#imageRendererContainer"));
         this.resizeCanvas = Main.ThrowIfNullOrUndefined(document.querySelector("#resizeCanvas"));
         this.resizeCanvas2D = Main.ThrowIfNullOrUndefined(this.resizeCanvas.getContext("2d"));
+
+        this.optionsMenu =
+        {
+            button: Main.ThrowIfNullOrUndefined(document.querySelector("#showOptionsContainer")),
+            container: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsMenuContainer")),
+            data:
+            {
+                placeholderData: Main.ThrowIfNullOrUndefined(document.querySelector("#placeholderDataRadio")),
+                sampleData: Main.ThrowIfNullOrUndefined(document.querySelector("#sampleDataRadio")),
+                gameData: Main.ThrowIfNullOrUndefined(document.querySelector("#gameDataRadio"))
+            }
+        };
 
         this.editorPropertiesTab = 
         {
@@ -171,20 +193,8 @@ class Editor
         this.ConfigureEditorWindow();
         await this.LoadElementsIntoEditor(this.ui.importedElements);
 
-        //Load sample data.
-        //this.ui.UpdateMapData(SampleData.mapData);
-        //this.ui.UpdateLiveData(SampleData.liveData);
-
-        //Setup the client.
-        /*this.client = new Client(Main.urlParams.get("ip"));
-        this.client.AddEndpoint("MapData");
-        this.client.websocketData["MapData"].e.addListener("message", (data) => { this.ui.UpdateMapData(data); });
-        this.client.AddEndpoint("LiveData");
-        this.client.websocketData["LiveData"].e.addListener("message", (data) => { this.ui.UpdateLiveData(data); });*/
-
         //Setup UI events (open save menus etc).
         window.addEventListener("beforeunload", (ev) => { this.WindowBeforeUnloadEvent(ev); });
-        this.saveMenuBackground.addEventListener("click", () => { this.MinimiseSaveMenu(); });
         this.overlayPrivate.addEventListener("click", () => { this.overlayPrivateCheckbox.checked = !this.overlayPrivateCheckbox.checked; });
         this.publishButton.addEventListener("click", () => { this.PublishOverlay(); });
         this.ui.overlay.addEventListener("click", (ev) =>
@@ -196,6 +206,16 @@ class Editor
             }
         });
         Main.ThrowIfNullOrUndefined(document.querySelector("#showSaveContainer")).addEventListener("click", () => { this.ShowSaveContainerClickEvent(); });
+        Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuBackground")).addEventListener("click", () => { this.MinimiseSaveMenu(); });
+
+        Main.ThrowIfNullOrUndefined(document.querySelector("#showOptionsContainer")).addEventListener("click", () => { this.ShowOptionsContainerClickEvent(); });
+        Main.ThrowIfNullOrUndefined(this.optionsMenu.container.querySelector(".background")).addEventListener("click", () => { this.MinimiseOptionsMenu(); });
+        this.optionsMenu.data.placeholderData.addEventListener("click", () =>
+            { if ((<HTMLInputElement>this.optionsMenu.data.placeholderData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(1); } });
+        this.optionsMenu.data.sampleData.addEventListener("click", () =>
+            { if ((<HTMLInputElement>this.optionsMenu.data.sampleData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(2); } });
+        this.optionsMenu.data.gameData.addEventListener("click", () =>
+            { if ((<HTMLInputElement>this.optionsMenu.data.gameData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(3); } });
 
         this.editorPropertiesTab.position.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("position"); });
         this.editorPropertiesTab.position.top.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
@@ -225,6 +245,13 @@ class Editor
         
         await this.LoadOverlay();
 
+        //Setup the client.
+        this.client = new Client(Main.urlParams.get("ip"));
+        //Client connections are made in 'ToggleDataSet(set)'.
+
+        this.optionsMenu.data.placeholderData.click();
+        // this.ToggleDataSet(1);
+
         this.allowUnload = true;
 
         //Hide splash screen if the user is allowed to use the editor or if the editor is ready for use.
@@ -236,11 +263,44 @@ class Editor
             setTimeout(() => { splashScreen.style.display = "none"; }, 399);
         }
 
-        //Load sample data globally, DON'T KEEP THIS IN FOR RELEASE.
-        this.ui.UpdateMapData(SampleData.mapData);
-        this.ui.UpdateLiveData(SampleData.liveData);
-
         return this;
+    }
+
+    private ToggleDataSet(set: 1 | 2 | 3)
+    {
+        switch (set) {
+            case 1:
+                //Placeholder data.
+                this.client.RemoveEndpoint("MapData");
+                this.client.RemoveEndpoint("LiveData");
+                for (const category of Object.keys(this.ui.createdElements.elements))
+                {
+                    for (const type of Object.keys(this.ui.createdElements.elements[category]))
+                    {
+                        for (const id of Object.keys(this.ui.createdElements.elements[category][type]))
+                        {
+                            this.ui.createdElements.elements[category][type][id].script.ResetData();
+                        }
+                    }
+                }
+                break;
+            case 2:
+                //Sample data.
+                this.client.RemoveEndpoint("MapData");
+                this.client.RemoveEndpoint("LiveData");
+                this.ui.UpdateMapData(SampleData.mapData);
+                this.ui.UpdateLiveData(SampleData.liveData);
+                break;
+            case 3:
+                //Game data.
+                this.client.AddEndpoint("MapData");
+                this.client.AddEndpoint("LiveData");
+                this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
+                this.client.connections["MapData"].Connect();
+                this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
+                this.client.connections["LiveData"].Connect();
+                break;
+        }
     }
 
     private ConfigureEditorWindow(): void
@@ -1077,6 +1137,13 @@ class Editor
         return resizedImage;
     }
 
+    private ShowOptionsContainerClickEvent(): void
+    {
+        this.optionsMenu.container.style.display = "block";
+        this.optionsMenu.container.classList.remove("fadeOut");
+        this.optionsMenu.container.classList.add("fadeIn");
+    }
+
     //I'm not going to await for the image to render here, when saving the overlay I will render the overlay again and await for that one.
     private ShowSaveContainerClickEvent(): void
     {
@@ -1173,6 +1240,17 @@ class Editor
             this.saveMenuContainer.style.display = "none";
             this.thumbnail.src = "";
         }, 399); //Changing the display 1ms before the animation finishes to help prevent flickering.
+    }
+
+    private MinimiseOptionsMenu(): void
+    {
+        this.optionsMenu.container.classList.remove("fadeIn");
+        this.optionsMenu.container.classList.add("fadeOut");
+        setTimeout(() =>
+        {
+            this.optionsMenu.container.style.display = "none";
+            this.thumbnail.src = "";
+        }, 399);
     }
 }
 new Editor().Init();

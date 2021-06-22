@@ -1,13 +1,10 @@
 Todo:
     Closed release:
-        ☐ create a 'how to' tutorial.
-        ☐ add sample data/game data toggle.
-        ☐ create the home page video.
-        ☐ disable the editor elements listing from being affected by the game data.
-        ☐ sync the data displayed with that in the element preview.
-        the two above should be made as one change set to a 'preview' toggle that has the sample data and game data enabled when checked and then the placeholder text when disabled.
+        ✔ Done? (I will check over this tomorrow) @done(21-06-22 22:52)
 
     Public release:
+        ☐ create the home page video.
+        ☐ create a 'how to' tutorial.
         ☐ add more elements.
         ☐ prevent elements from being scaled outside the UI.
         ☐ fix text property editor updates being delayed by 1 change.
@@ -22,6 +19,7 @@ Todo:
         ☐ change zoom to scale + transform-origin.
         ☐ allow the user to change the z-position of the elements.
         ☐ enable background toggle on the bar elements.
+        ☐ fix the bar elements initial value being 100%.
         ☐ fix thumbnail scaling:
             ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
             ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
@@ -61,6 +59,7 @@ Done:
     ✔ limit user access to the closed release. @done(21-06-22 15:51)
     ✔ fix the thumbnail preview background on the editor from not showing. @done(21-06-22 16:45)
     ✔ fix the colour updates on the text time element. @done(21-06-22 16:54)
+    ✔ add sample data/game data toggle. @done(21-06-22 22:42)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

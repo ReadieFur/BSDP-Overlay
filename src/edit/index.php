@@ -79,6 +79,33 @@
             </table>
         </div>
     </div>
+    <div id="optionsMenuContainer">
+        <div class="background"></div>
+        <div class="container">
+            <!-- <div>
+                <h4>Help</h4>
+                <button id="walkthroughButton" class="light">Show Walkthrough</button>
+            </div> -->
+            <div>
+                <h4>Data</h4>
+                <label class="radioButtonContainer" id="placeholderDataRadio">
+                    <span><p>Placeholder Data</p></span>
+                    <input type="radio" name="radio">
+                    <span class="radioButton"></span>
+                </label>
+                <label class="radioButtonContainer" id="sampleDataRadio">
+                    <span><p>Sample Data</p></span>
+                    <input type="radio" name="radio">
+                    <span class="radioButton"></span>
+                </label>
+                <label class="radioButtonContainer" id="gameDataRadio">
+                    <span><p>Game Data</p></span>
+                    <input type="radio" name="radio">
+                    <span class="radioButton"></span>
+                </label>
+            </div>
+        </div>
+    </div>
     <table id="editorRootContainer">
         <tbody>
             <tr>
@@ -268,9 +295,21 @@
                                     <!--<small class="center x text">'ctrl' + 'alt' + 'click' to delete.</small>-->
                                 </td>
                             </tr>
-                            <tr id="ssc">
+                            <!-- <tr>
                                 <td>
-                                    <button id="showSaveContainer">Save</button>
+                                    <label id="placeholderData" class="checkboxContainer">
+                                        <span><h5>Placeholder data</h5></span>
+                                        <input type="checkbox" disabled checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr> -->
+                            <tr id="miscRow">
+                                <td>
+                                    <div class="joinButtons center x">
+                                        <button id="showOptionsContainer">Options</button>
+                                        <button id="showSaveContainer">Save</button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
