@@ -36,9 +36,17 @@ export class Script
         if (this.elements[element.id] === undefined) { return; }
 
         if (styles.foregroundColour !== undefined)
-        { this.elements[element.id].textContainer.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`; }
+        {
+            this.elements[element.id].textContainer.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+            this.elements[element.id].elapsed.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+            this.elements[element.id].length.style.color = `rgba(${styles.foregroundColour.R}, ${styles.foregroundColour.G}, ${styles.foregroundColour.B}, 1)`;
+        }
         else
-        { this.elements[element.id].textContainer.style.removeProperty("color"); }
+        {
+            this.elements[element.id].textContainer.style.removeProperty("color");
+            this.elements[element.id].elapsed.style.removeProperty("color");
+            this.elements[element.id].length.style.removeProperty("color");
+        }
 
         if (styles.fontSize !== undefined)
         { this.elements[element.id].textContainer.style.fontSize = `${styles.fontSize}px`; }
