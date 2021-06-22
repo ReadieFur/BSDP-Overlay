@@ -332,6 +332,7 @@ form
 }
 //#endregion
 
+/*#region Checkbox*/
 .checkboxContainer
 {
     width: max-content;
@@ -390,6 +391,62 @@ form
         }
     }
 }
+/*#endregion*/
+
+/*#region Radio button*/
+.radioButtonContainer
+{
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin: 20px 10px;
+    cursor: pointer;
+    user-select: none;
+    width: max-content;
+
+    input
+    {
+        position: absolute;
+        transform: translate(-200%, 50%); /*Hide the orignal button inside of itself*/
+        opacity: 0;
+        cursor: pointer;
+
+        &:checked
+        {
+            ~ .radioButton
+            {
+                background-color: rgba(var(--accentColour), 1);
+            }
+        }
+    }
+
+    .radioButton
+    {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        height: 15px;
+        width: 15px;
+        background-color: rgba(var(--backgroundColour), 1);
+        border: 1px solid rgba(var(--foregroundColour), 1);
+        border-radius: 50%;
+
+        &::after
+        {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-55%, -55%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(var(--foregroundColour), 1);
+        }
+    }
+}
+/*#endregion*/
 
 //#region Animations
 .fadeIn { animation: fadeIn 400ms }
