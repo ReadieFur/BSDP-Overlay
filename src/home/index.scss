@@ -61,6 +61,11 @@ body
                 z-index: -20;
                 overflow: hidden;
                 height: 80vh;
+                background-image: url("../assets/images/beat-saber.jpg");
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
 
                 > video
                 {

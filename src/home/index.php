@@ -27,7 +27,8 @@
     <div id="splashVideoAndAbout">
         <div class="fixedBackground">
             <div class="background">
-                <video src="http://www.w3schools.com/html/mov_bbb.mp4" autoplay muted loop></video>
+                <!-- <video src="http://www.w3schools.com/html/mov_bbb.mp4" autoplay muted loop></video> -->
+                <video autoplay muted loop></video>
             </div>
             <div class="contentAfter">
                 <div>
