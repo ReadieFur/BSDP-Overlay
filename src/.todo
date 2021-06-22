@@ -1,31 +1,38 @@
 Todo:
-    ☐ fix some elements not displaying properly in the editor elements list.
-    ☐ add more elements.
-    ☐ prevent elements from being scaled outside the UI.
-    ☐ fix text property editor updates being delayed by 1 change.
-    ☐ fix the preview generation on firefox.
-    ☐ add a rotation option.
-    ☐ add sample data/game data toggle.
-    ☐ add text alignment (currently fixed to the side of the overlay it is on).
-    ☐ sort out the protocol to load (http/https) when an external IP is specified.
-    ☐ disable the editor elements listing from being affected by the game data.
-    ☐ fix the small spacing gap in the editor table.
-    ☐ add percentage alignments.
-    ☐ add align center for horizontal/vertical within the parent.
-    ☐ fix the element initial alignment option in the menu.
-    ☐ add a logger to main.ts, either listen to the window events or override the function: https://stackoverflow.com/questions/8000009/is-there-a-way-in-javascript-to-listen-console-events
-    ☐ change zoom to scale + transform-origin.
-    ☐ allow the user to change the z-position of the elements.
-    ☐ enable background toggle on the bar elements.
-    ☐ fix thumbnail scaling:
-        ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
-        ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
+    Closed release:
+        ☐ create a 'how to' tutorial.
+        ☐ add sample data/game data toggle.
+        ☐ create the home page video.
+        ☐ disable the editor elements listing from being affected by the game data.
+        ☐ sync the data displayed with that in the element preview.
+        the two above should be made as one change set to a 'preview' toggle that has the sample data and game data enabled when checked and then the placeholder text when disabled.
+
+    Public release:
+        ☐ add more elements.
+        ☐ prevent elements from being scaled outside the UI.
+        ☐ fix text property editor updates being delayed by 1 change.
+        ☐ fix the preview generation on firefox.
+        ☐ add a rotation option.
+        ☐ add text alignment (currently fixed to the side of the overlay it is on).
+        ☐ sort out the protocol to load (http/https) when an external IP is specified.
+        ☐ fix the small spacing gap in the editor table.
+        ☐ add percentage alignments.
+        ☐ add align center for horizontal/vertical within the parent.
+        ☐ fix the element initial alignment option in the menu.
+        ☐ change zoom to scale + transform-origin.
+        ☐ allow the user to change the z-position of the elements.
+        ☐ enable background toggle on the bar elements.
+        ☐ fix thumbnail scaling:
+            ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
+            ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
+    
     Optional:
-        ☐ add block like scripting
+        ☐ add block like scripting (e.g. do x on y).
         ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
         ☐ add an element expand menu to view more at once.
         ☐ nest/group elements.
         ☐ add the beatsaber background to the browser previews?
+        ☐ round bar direction toggle.
 
 Done:
     ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
@@ -50,9 +57,12 @@ Done:
     ✔ reduce the number of overlays per page and increase the preview size. @done(21-05-16 14:40)
     ✔ add a disabled JS check. It's more of a wall that gets hidden if JS is enabled. @done(21-05-17 13:12)
     ✔ add a custom text element. @done(21-05-17 22:56)
+    ✔ fix some elements not displaying properly in the editor elements list. @done(21-06-22 15:29)
+    ✔ limit user access to the closed release. @done(21-06-22 15:51)
+    ✔ fix the thumbnail preview background on the editor from not showing. @done(21-06-22 16:45)
+    ✔ fix the colour updates on the text time element. @done(21-06-22 16:54)
 
 Cancelled:
-
-Archive:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
     ✘ add background text to the preview so the user knows what the elements are. @cancelled(21-05-16 12:33) replaced in favour of tooltips.
+    ✘ add a logger to main.ts, either listen to the window events or override the function: https://stackoverflow.com/questions/8000009/is-there-a-way-in-javascript-to-listen-console-events @cancelled(21-06-22 15:10)
