@@ -38,7 +38,7 @@
                 <span>By</span>
                 <span id="ssUsername">Creator</span>
             </h3>
-            <img id="ssThumbnail" alt="A missing picture of me ;)" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
+            <img id="ssThumbnail" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
             <h3 id="ssLoading">Loading...</h3>
         </div>
     </span>

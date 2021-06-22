@@ -1,22 +1,25 @@
-dependencies:
-  '@types/dom-to-image': 2.6.2
-  '@types/jquery': 3.5.5
-lockfileVersion: 5.2
-packages:
-  /@types/dom-to-image/2.6.2:
-    dev: false
-    resolution:
-      integrity: sha512-Yxbwmz/glNwRIXfBI8efG2bgIxrFAKV1MdfpqbUDq25ULMot7U7FYXPiso5G8DlBExSP+AakuG0mNus9yw4RZQ==
-  /@types/jquery/3.5.5:
-    dependencies:
-      '@types/sizzle': 2.3.2
-    dev: false
-    resolution:
-      integrity: sha512-6RXU9Xzpc6vxNrS6FPPapN1SxSHgQ336WC6Jj/N8q30OiaBZ00l1GBgeP7usjVZPivSkGUfL1z/WW6TX989M+w==
-  /@types/sizzle/2.3.2:
-    dev: false
-    resolution:
-      integrity: sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
+lockfileVersion: 5.3
+
 specifiers:
   '@types/dom-to-image': ^2.6.2
   '@types/jquery': ^3.5.5
+
+dependencies:
+  '@types/dom-to-image': 2.6.2
+  '@types/jquery': 3.5.5
+
+packages:
+
+  /@types/dom-to-image/2.6.2:
+    resolution: {integrity: sha512-Yxbwmz/glNwRIXfBI8efG2bgIxrFAKV1MdfpqbUDq25ULMot7U7FYXPiso5G8DlBExSP+AakuG0mNus9yw4RZQ==}
+    dev: false
+
+  /@types/jquery/3.5.5:
+    resolution: {integrity: sha512-6RXU9Xzpc6vxNrS6FPPapN1SxSHgQ336WC6Jj/N8q30OiaBZ00l1GBgeP7usjVZPivSkGUfL1z/WW6TX989M+w==}
+    dependencies:
+      '@types/sizzle': 2.3.2
+    dev: false
+
+  /@types/sizzle/2.3.2:
+    resolution: {integrity: sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==}
+    dev: false

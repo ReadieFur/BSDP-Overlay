@@ -206,7 +206,7 @@ export class SampleData
         SongAuthor: "Camellia",
         Mapper: "cerret",
         BSRKey: "11a27",
-        coverImage: "https://beatsaver.com/cdn/11a27/648b6fe961c398de638fa1e614878f1194adf92e.jpg",
+        coverImage: "https://cdn.global-gaming.co/images/TeraIO.jpg",
         Length: 336,
         TimeScale: 0,
         MapType: "Standard",

@@ -20,7 +20,7 @@
             <tbody>
                 <tr>
                     <td id="overlayImageContainer">
-                        <img id="thumbnail" alt="Couldnt load preview">
+                        <img id="thumbnail">
                     </td>
                     <td id="overlayTextContainer">
                         <div>

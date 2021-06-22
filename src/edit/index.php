@@ -20,7 +20,7 @@
     <span id="splashScreen">
         <div class="center">
             <h2 id="ssHeader">BSDP Overlay</h2>
-            <img class="medium" alt="A missing picture of me ;)" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
+            <img class="medium" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
             <h3 id="ssSubHeader">Loading...</h3>
         </div>
     </span>

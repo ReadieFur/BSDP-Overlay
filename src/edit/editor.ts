@@ -434,7 +434,7 @@ class Editor
                         });
 
                         editorElements[category][type][id].container.addEventListener("mouseenter", (ev) =>
-                        { Main.Tooltip(`${type.substr(0, 1).toUpperCase()}${type.substr(1, type.length)}`, ev, "top"); });
+                            { Main.Tooltip(`${(type.substr(0, 1).toUpperCase() + type.substr(1, type.length)).replace(/_/g, ' ')}`, ev, "top"); });
 
                         editorElements[category][type][id].td.appendChild(editorElements[category][type][id].container);
                         tr.appendChild(editorElements[category][type][id].td);
@@ -535,6 +535,7 @@ class Editor
             var script = this.ui.createdElements.elements[location[0]][location[1]][location[2]].script;
 
             //#region Reset tabs to default styles
+            //TODO Loop this
             this.editorPropertiesTab.position.tabButton.style.display = buttonDisplayStyle;
             this.editorPropertiesTab.position.tabButton.classList.remove("ignore");
             this.editorPropertiesTab.position.tabButton.classList.remove("curveLeft");

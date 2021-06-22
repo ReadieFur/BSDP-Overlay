@@ -75,8 +75,7 @@ class Preview
         }
 
         var overlay = response.data as IOverlayData;
-        if (overlay.thumbnail === null) { this.overlayImageContainer.style.display = "none"; }
-        else { this.thumbnail.src = overlay.thumbnail; }
+        if (overlay.thumbnail !== null) { this.thumbnail.src = overlay.thumbnail; }
 
         this.overlayID = overlay.id;
 

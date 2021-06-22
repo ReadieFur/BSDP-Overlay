@@ -103,6 +103,10 @@ body
                                 width: 100%;
                                 border-radius: 8px;
                                 //border: 1px solid rgba(var(--foregroundColour), 1);
+                                background-image: url("../assets/images/beat-saber.jpg");
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                background-size: cover;
                             }
 
                             > h4
@@ -253,7 +257,6 @@ body
                             font-size: x-large;
                             color: transparent;
                             -webkit-text-stroke:0.5px rgba(var(--foregroundColour), 1);
-                            user-select: none;
                             
                             &::selection
                             {
@@ -269,13 +272,17 @@ body
                         margin-left: auto;
                         margin-right: auto;
 
+                        *
+                        {
+                            user-select: none;
+                        }
+
                         tr
                         {
                             vertical-align: top;
 
                             > td
                             {
-                                user-select: none;
                                 vertical-align: middle;
                                 text-align: center;
                                 display: none;
@@ -304,6 +311,14 @@ body
                                     > h3
                                     {
                                         margin: 0;
+                                    }
+                                }
+
+                                > .container
+                                {
+                                    *
+                                    {
+                                        user-select: none !important;
                                     }
                                 }
                             }
