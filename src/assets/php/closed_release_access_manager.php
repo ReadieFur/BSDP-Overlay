@@ -2,7 +2,8 @@
 //This file will be edited manually and I have not made it a database check because it is only a temporary thing.
 
 $allowedUsers = array(
-    '60d1de6254a82537157312' //readie
+    '60d1de6254a82537157312', //readie - localhost
+    '6098449426bca059481523' //readie
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
