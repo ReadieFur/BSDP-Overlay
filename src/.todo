@@ -1,6 +1,28 @@
+What do you want to accomplish with the closed release?
+A release that is easy enough for a normal user to use and work around but its ok to have a few issues here and there, missing features etc
+
 Todo:
+    Dev release:
+        Subject 1:
+            Closed release:
+                So natural stuff
+                Things that you kinda expect to just work
+                But say the editor resizing: currently, if someone were to shrink their browser down to, say, reference something while working, it may turn out different when they do to use it
+                The loading screen being static makes it feel unresponsive; as if the code crashed or something (I thought that at first)
+                Clicking on the elements once doesn't do anything, nor does drag and drop, so the user may think something is broken or that adding an element is more difficult than it is
+            The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen)
+            Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top.
+            Arrow key "pixel shifting" for elements.
+            A snapping system for objects (pretty difficult sounding, tbh)
+            Add a back button for the menu bar, and add a delay to the auto-collapse. Its super easy for the user to slip their cursor off of the bar when acting fast, which requires them to press the button again
+            Add a loading animation to the loading screen. This helps reassure the user that there is something happening.
+            Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
+            Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
+            I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear
+            You should try making the menu collapsable
+
     Closed release:
-        ✔ Done? (I will check over this tomorrow) @done(21-06-22 22:52)
+        ☐ fix ui scaling.
 
     Public release:
         ☐ create the home page video.
@@ -23,6 +45,7 @@ Todo:
         ☐ fix thumbnail scaling:
             ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
             ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
+        ☐ (sneaky) make the footer c date dynamic.
     
     Optional:
         ☐ add block like scripting (e.g. do x on y).
