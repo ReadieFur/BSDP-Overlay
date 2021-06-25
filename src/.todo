@@ -14,7 +14,7 @@ Todo:
             Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top.
             Arrow key "pixel shifting" for elements.
             A snapping system for objects (pretty difficult sounding, tbh)
-            Add a back button for the menu bar, and add a delay to the auto-collapse. Its super easy for the user to slip their cursor off of the bar when acting fast, which requires them to press the button again
+            ✔ Add a back button for the menu bar (not sure what is meant by this), and add a delay to the auto-collapse. Its super easy for the user to slip their cursor off of the bar when acting fast, which requires them to press the button again @done(21-06-25 18:03)
             Add a loading animation to the loading screen. This helps reassure the user that there is something happening.
             Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
             Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.

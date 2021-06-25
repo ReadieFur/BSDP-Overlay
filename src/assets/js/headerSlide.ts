@@ -2,6 +2,8 @@ import { Main } from "./main.js";
 
 export class HeaderSlide
 {
+    private mouseOver = false;
+
     constructor()
     {
         let style = document.createElement("style");
@@ -17,10 +19,29 @@ export class HeaderSlide
         `;
         document.head.appendChild(style);
     
-        Main.header.addEventListener("mouseleave", () => { this.HideHeader(); });
-        this.HideHeader();
+        Main.header.addEventListener("mouseenter", () => { this.mouseOver = true; });
+
+        Main.header.addEventListener("mouseleave", () =>
+        {
+            this.mouseOver = false;
+            setTimeout(() =>
+            {
+                if (!this.mouseOver)
+                {
+                    this.HideHeader();
+                }
+            }, 500);
+        });
     
-        document.querySelectorAll(".slideMenu, ._slideMenu").forEach((e: Element) => { e.addEventListener("click", () => { this.ShowHeader(); }); });
+        document.querySelectorAll(".slideMenu, ._slideMenu").forEach((e: Element) =>
+        {
+            e.addEventListener("click", () =>
+            {
+                this.ShowHeader();
+            });
+        });
+
+        this.HideHeader();
     }
 
     private ShowHeader()
