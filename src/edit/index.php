@@ -85,10 +85,10 @@
     <div id="optionsMenuContainer">
         <div class="background"></div>
         <div class="container">
-            <!-- <div>
+            <div>
                 <h4>Help</h4>
                 <button id="walkthroughButton" class="light">Show Walkthrough</button>
-            </div> -->
+            </div>
             <div>
                 <h4>Data</h4>
                 <label class="radioButtonContainer" id="placeholderDataRadio">
@@ -107,6 +107,48 @@
                     <span class="radioButton"></span>
                 </label>
             </div>
+        </div>
+    </div>
+    <div id="walkthroughContainer">
+        <div class="background"></div>
+        <div class="container">
+            <h3>Walkthrough</h3>
+            <h4>Creating elements</h4>
+            <p class="light">To create elements, double click on the desired element and it will be place in the top right corner of the overlay window.</p>
+            <h4>Deleting elements</h4>
+            <p class="light">To delete an element, press <code>CTRL + ALT + CLICK</code> on the element you wish to delete.</p>
+            <h4>Customizing elements</h4>
+            <p class="light">Each type of element has different customisation options, some include:</p>
+            <ul>
+                <li class="light">Size</li>
+                <li class="light">Colour</li>
+                <li class="light">Font</li>
+                <li class="light">Alignment</li>
+            </ul>
+            <p class="light">
+                To customise these properties, click on the element you wish to customise and browse through the avaliable options for that element.<br>
+                Each element can be moved either by the properties panel or by dragging it around on the overlay.
+            </p>
+            <h4>Displayed data</h4>
+            <p class="light">If you visit the options menu you can pick from different data sets to be shown on the elements in the editor, these data sets are:</p>
+            <ul>
+                <li class="light">Placeholder data</li>
+                <li class="light">Sample data</li>
+                <li class="light">Game data</li>
+            </ul>
+            <h4>Saving your overlay</h4>
+            <p class="light">
+                When saving your overlay you can customise the title, description and publicity.<br>
+                <span>Note:</span> Your overlay must have at least two elements on it in order for it to be published.
+            </p>
+            <h4>Using the overlay</h4>
+            <p class="light">
+                Overlays can be used in programs such as OBS by opening the saved overlay in view mode, the URL for this is <code>...bsdp-overlay/view/&ltOVERLAY_ID&gt</code> alternatively this page can be reached by searching for your overlay in the overlay browser.<br>
+                Once you have chosen your desired overlay, copy the URL and, in the case of OBS, add it as a browser source to your scene.<br>
+                <span>Note:</span> If the overlay is private you must log in on your streaming software to access the overlay.
+            </p>
+            <br>
+            <p class="light">This walkthrough can be viewed again by visiting it through the options menu.</p>
         </div>
     </div>
     <table id="editorRootContainer">
@@ -295,18 +337,8 @@
                                             </tbody>
                                         </table>
                                     </form>
-                                    <!--<small class="center x text">'ctrl' + 'alt' + 'click' to delete.</small>-->
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <td>
-                                    <label id="placeholderData" class="checkboxContainer">
-                                        <span><h5>Placeholder data</h5></span>
-                                        <input type="checkbox" disabled checked>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </td>
-                            </tr> -->
                             <tr id="miscRow">
                                 <td>
                                     <div class="joinButtons center x">

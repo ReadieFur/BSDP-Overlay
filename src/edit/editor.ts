@@ -32,6 +32,7 @@ class Editor
     private resizeCanvas2D!: CanvasRenderingContext2D;
     private ui!: UI;
     private client!: Client;
+    private dataSet!: 1 | 2 | 3;
 
     private optionsMenu!:
     {
@@ -44,6 +45,8 @@ class Editor
             gameData: HTMLLabelElement
         }
     }
+
+    private walkthroughContainer!: HTMLDivElement;
 
     private activeElement?: HTMLDivElement;
     private editorPropertiesTab!:
@@ -147,6 +150,8 @@ class Editor
             }
         };
 
+        this.walkthroughContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#walkthroughContainer"));
+
         this.editorPropertiesTab = 
         {
             optionsRow: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsRow")),
@@ -219,17 +224,36 @@ class Editor
                 this.editorPropertiesTab.optionsRow.style.display = "none";
             }
         });
+
         Main.ThrowIfNullOrUndefined(document.querySelector("#showSaveContainer")).addEventListener("click", () => { this.ShowSaveContainerClickEvent(); });
         Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuBackground")).addEventListener("click", () => { this.MinimiseSaveMenu(); });
 
-        Main.ThrowIfNullOrUndefined(document.querySelector("#showOptionsContainer")).addEventListener("click", () => { this.ShowOptionsContainerClickEvent(); });
-        Main.ThrowIfNullOrUndefined(this.optionsMenu.container.querySelector(".background")).addEventListener("click", () => { this.MinimiseOptionsMenu(); });
+        Main.ThrowIfNullOrUndefined(document.querySelector("#showOptionsContainer")).addEventListener("click", () =>
+        {
+            this.optionsMenu.container.style.display = "block";
+            this.optionsMenu.container.classList.remove("fadeOut");
+            this.optionsMenu.container.classList.add("fadeIn");
+        });
+        Main.ThrowIfNullOrUndefined(this.optionsMenu.container.querySelector(".background")).addEventListener("click", () =>
+        {
+            this.optionsMenu.container.classList.remove("fadeIn");
+            this.optionsMenu.container.classList.add("fadeOut");
+            setTimeout(() => { this.optionsMenu.container.style.display = "none"; }, 399);
+        });
         this.optionsMenu.data.placeholderData.addEventListener("click", () =>
             { if ((<HTMLInputElement>this.optionsMenu.data.placeholderData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(1); } });
         this.optionsMenu.data.sampleData.addEventListener("click", () =>
             { if ((<HTMLInputElement>this.optionsMenu.data.sampleData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(2); } });
         this.optionsMenu.data.gameData.addEventListener("click", () =>
             { if ((<HTMLInputElement>this.optionsMenu.data.gameData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(3); } });
+
+        Main.ThrowIfNullOrUndefined(document.querySelector("#walkthroughButton")).addEventListener("click", () => { this.ShowWalkthroughContainer(); });
+        Main.ThrowIfNullOrUndefined(this.walkthroughContainer.querySelector(".background")).addEventListener("click", () =>
+        {
+            this.walkthroughContainer.classList.remove("fadeIn");
+            this.walkthroughContainer.classList.add("fadeOut");
+            setTimeout(() => { this.walkthroughContainer.style.display = "none"; }, 399);
+        });
 
         this.editorPropertiesTab.position.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("position"); });
         this.editorPropertiesTab.position.top.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
@@ -280,6 +304,12 @@ class Editor
             setTimeout(() => { this.splashScreen.style.display = "none"; }, 399);
         }
 
+        if (Main.RetreiveCache("EDITOR_FIRST_LOAD") != "true")
+        {
+            this.ShowWalkthroughContainer();
+            Main.SetCache("EDITOR_FIRST_LOAD", "true", 365); //Set to expire 1 year after the first use.
+        }
+
         return this;
     }
 
@@ -296,7 +326,9 @@ class Editor
 
     private ToggleDataSet(set: 1 | 2 | 3)
     {
-        switch (set) {
+        this.dataSet = set;
+        switch (set)
+        {
             case 1:
                 //Placeholder data.
                 this.client.RemoveEndpoint("MapData");
@@ -514,11 +546,31 @@ class Editor
                             editorElements[category][type][id].mutationObserver!.observe(editorElements[category][type][id].td, { attributes: true });
                         }
 
+                        //Haven't quite got this to work for drag clicks yet.
+                        // editorElements[category][type][id].container.addEventListener("click", (ev) => { Main.Tooltip("Double click to create", ev, "top"); });
+
                         editorElements[category][type][id].container.addEventListener("dblclick", () =>
                         {
                             var _element = this.CreateElement(category, type, id);
                             this.ui.overlay.appendChild(_element);
                             this.SetActiveElement(_element);
+                            switch (this.dataSet)
+                            {
+                                case 1:
+                                    //Placeholder data.
+                                    this.ui.createdElements.elements[category][type][id].script.ResetData();
+                                    break;
+                                case 2:
+                                    //Sample data.
+                                    this.ui.UpdateMapData(SampleData.mapData);
+                                    this.ui.UpdateLiveData(SampleData.liveData);
+                                    break;
+                                case 3:
+                                    //Game data.
+                                    this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
+                                    this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
+                                    break;
+                            }
                         });
 
                         editorElements[category][type][id].container.addEventListener("mouseenter", (ev) =>
@@ -1165,11 +1217,11 @@ class Editor
         return resizedImage;
     }
 
-    private ShowOptionsContainerClickEvent(): void
+    private ShowWalkthroughContainer()
     {
-        this.optionsMenu.container.style.display = "block";
-        this.optionsMenu.container.classList.remove("fadeOut");
-        this.optionsMenu.container.classList.add("fadeIn");
+        this.walkthroughContainer.style.display = "block";
+        this.walkthroughContainer.classList.remove("fadeOut");
+        this.walkthroughContainer.classList.add("fadeIn");
     }
 
     //I'm not going to await for the image to render here, when saving the overlay I will render the overlay again and await for that one.
@@ -1268,17 +1320,6 @@ class Editor
             this.saveMenuContainer.style.display = "none";
             this.thumbnail.src = "";
         }, 399); //Changing the display 1ms before the animation finishes to help prevent flickering.
-    }
-
-    private MinimiseOptionsMenu(): void
-    {
-        this.optionsMenu.container.classList.remove("fadeIn");
-        this.optionsMenu.container.classList.add("fadeOut");
-        setTimeout(() =>
-        {
-            this.optionsMenu.container.style.display = "none";
-            this.thumbnail.src = "";
-        }, 399);
     }
 }
 new Editor().Init();

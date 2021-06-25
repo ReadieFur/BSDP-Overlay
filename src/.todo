@@ -8,9 +8,8 @@ Todo:
                 So natural stuff
                 Things that you kinda expect to just work
                 But say the editor resizing: currently, if someone were to shrink their browser down to, say, reference something while working, it may turn out different when they do to use it
-                The loading screen being static makes it feel unresponsive; as if the code crashed or something (I thought that at first)
-                Clicking on the elements once doesn't do anything, nor does drag and drop, so the user may think something is broken or that adding an element is more difficult than it is
-            The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen)
+                ✔ Clicking on the elements once doesn't do anything, nor does drag and drop, so the user may think something is broken or that adding an element is more difficult than it is @done(21-06-25 21:32) (walkthrough menu created)
+            The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen) (not sure what is meant by this)
             Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top.
             Arrow key "pixel shifting" for elements.
             A snapping system for objects (pretty difficult sounding, tbh)
@@ -25,8 +24,8 @@ Todo:
         ☐ fix ui scaling.
 
     Public release:
+        ☐ add overlay details to the preview page.
         ☐ create the home page video.
-        ☐ create a 'how to' tutorial.
         ☐ add more elements.
         ☐ prevent elements from being scaled outside the UI.
         ☐ fix text property editor updates being delayed by 1 change.
@@ -41,6 +40,7 @@ Todo:
         ☐ change zoom to scale + transform-origin.
         ☐ allow the user to change the z-position of the elements.
         ☐ enable background toggle on the bar elements.
+        ☐ add a toggle to the bar elements to the text.
         ☐ fix the bar elements initial value being 100%.
         ☐ fix thumbnail scaling:
             ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
@@ -83,6 +83,7 @@ Done:
     ✔ fix the thumbnail preview background on the editor from not showing. @done(21-06-22 16:45)
     ✔ fix the colour updates on the text time element. @done(21-06-22 16:54)
     ✔ add sample data/game data toggle. @done(21-06-22 22:42)
+    ✔ create a 'how to' tutorial. @done(21-06-25 21:32)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
