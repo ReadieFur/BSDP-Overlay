@@ -21,7 +21,10 @@
         <div class="center">
             <h2 id="ssHeader">BSDP Overlay</h2>
             <img class="medium" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
-            <h3 id="ssSubHeader">Loading...</h3>
+            <h3 id="ssSubText">Loading...</h3>
+            <div class="ssProgressContainer">
+                <div id="ssProgress"></div>
+            </div>
         </div>
     </span>
     <div id="saveMenuContainer">

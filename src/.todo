@@ -15,7 +15,7 @@ Todo:
             Arrow key "pixel shifting" for elements.
             A snapping system for objects (pretty difficult sounding, tbh)
             ✔ Add a back button for the menu bar (not sure what is meant by this), and add a delay to the auto-collapse. Its super easy for the user to slip their cursor off of the bar when acting fast, which requires them to press the button again @done(21-06-25 18:03)
-            Add a loading animation to the loading screen. This helps reassure the user that there is something happening.
+            ✔ Add a loading animation to the loading screen. This helps reassure the user that there is something happening. @done(21-06-25 19:07)
             Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
             Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
             I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear

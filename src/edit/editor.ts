@@ -15,6 +15,10 @@ class Editor
 
     private id!: string;
     private allowUnload!: boolean;
+    private splashScreen!: HTMLDivElement;
+    private ssSubText!: HTMLHeadingElement;
+    private ssProgressStage!: number;
+    private ssProgress!: HTMLDivElement;
     private elementsTable!: HTMLTableElement;
     private saveMenuContainer!: HTMLDivElement;
     private title!: HTMLInputElement;
@@ -104,11 +108,21 @@ class Editor
         new Main();
         new HeaderSlide();
 
+        this.ssProgressStage = 0;
+        this.ssSubText = Main.ThrowIfNullOrUndefined(document.querySelector("#ssSubText"));
+        this.ssProgress = Main.ThrowIfNullOrUndefined(document.querySelector("#ssProgress"));
+
         await this.CheckForOverlay();
+        this.SSProgressUpdate();
 
         //Set varables.
+        this.SSProgressUpdate(false, "Loading elements");
         this.allowUnload = true;
         this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
+        this.SSProgressUpdate();
+
+        this.SSProgressUpdate(false, "Enviroment setup");
+        this.splashScreen = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
         this.elementsTable = Main.ThrowIfNullOrUndefined(document.querySelector("#elementsTable"));
         this.saveMenuContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuContainer"));
         this.title = Main.ThrowIfNullOrUndefined(document.querySelector("#title"));
@@ -190,7 +204,7 @@ class Editor
             }
         }
 
-        this.ConfigureEditorWindow();
+        //this.ConfigureEditorWindow();
         await this.LoadElementsIntoEditor(this.ui.importedElements);
 
         //Setup UI events (open save menus etc).
@@ -242,8 +256,11 @@ class Editor
 
         this.editorPropertiesTab.misc.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("misc"); });
         this.editorPropertiesTab.misc.text.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+        this.SSProgressUpdate();
         
+        this.SSProgressUpdate(false, "Loading overlay");
         await this.LoadOverlay();
+        this.SSProgressUpdate();
 
         //Setup the client.
         this.client = new Client(Main.urlParams.get("ip"));
@@ -253,17 +270,28 @@ class Editor
         // this.ToggleDataSet(1);
 
         this.allowUnload = true;
+        this.SSProgressUpdate();
 
         //Hide splash screen if the user is allowed to use the editor or if the editor is ready for use.
         if (this.hideSplashscreen)
         {
-            //await Main.Sleep(500);
-            let splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
-            splashScreen.classList.add("fadeOut");
-            setTimeout(() => { splashScreen.style.display = "none"; }, 399);
+            await Main.Sleep(250);
+            this.splashScreen.classList.add("fadeOut");
+            setTimeout(() => { this.splashScreen.style.display = "none"; }, 399);
         }
 
         return this;
+    }
+
+    private SSProgressUpdate(progress: boolean = true, message?: string)
+    {
+        const references = 5;
+        this.ssSubText.innerText = message === undefined ? "Loading..." : message;
+        if (progress)
+        {
+            this.ssProgress.style.width = `${(++this.ssProgressStage/references)*100}%`;
+            if (this.ssProgressStage >= references) { this.ssSubText.innerText = "Loaded!" }
+        }
     }
 
     private ToggleDataSet(set: 1 | 2 | 3)
