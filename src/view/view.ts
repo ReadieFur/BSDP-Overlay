@@ -9,12 +9,20 @@ class View
     private ui!: UI;
     private client!: Client;
     private path!: string[];
+    private ssSubText!: HTMLHeadingElement;
+    private ssProgressStage!: number;
+    private ssProgress!: HTMLDivElement;
 
     public async Init(): Promise<View>
     {
         new Main();
         new HeaderSlide();
 
+        this.ssProgressStage = 0;
+        this.ssSubText = Main.ThrowIfNullOrUndefined(document.querySelector("#ssSubText"));
+        this.ssProgress = Main.ThrowIfNullOrUndefined(document.querySelector("#ssProgress"));
+
+        this.SSProgressUpdate(false, "Checking for overlay");
         this.path = window.location.pathname.split('/').filter((part) => { return part != ""; });
         if (this.path[this.path.length - 1] === "view" || this.path[this.path.length - 2] !== "view" || this.path[this.path.length - 1].length != 13)
         {
@@ -22,9 +30,13 @@ class View
             await Main.Sleep(1000);
             window.location.href = `${Main.WEB_ROOT}/browser/`;
         }
+        this.SSProgressUpdate();
 
+        this.SSProgressUpdate(false, "Loading elements");
         this.ui = Main.ThrowIfNullOrUndefined(await new UI().Init());
+        this.SSProgressUpdate();
 
+        this.SSProgressUpdate(false, "Enviroment setup");
         this.client = new Client(Main.urlParams.get("ip"));
         this.client.AddEndpoint("MapData");
         this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
@@ -32,16 +44,30 @@ class View
         this.client.AddEndpoint("LiveData");
         this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
         this.client.connections["LiveData"].Connect();
+        this.SSProgressUpdate();
 
+        this.SSProgressUpdate(false, "Loading overlay");
         await this.LoadOverlay();
+        this.SSProgressUpdate();
 
         //Hide splash screen.
-        await Main.Sleep(500);
+        await Main.Sleep(1000);
         var splashScreen: HTMLDivElement = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
         splashScreen.style.opacity = "0";
         setTimeout(() => { splashScreen.style.display = "none"; }, 400);
 
         return this;
+    }
+
+    private SSProgressUpdate(progress: boolean = true, message?: string)
+    {
+        const references = 4;
+        this.ssSubText.innerText = message === undefined ? "Loading..." : message;
+        if (progress)
+        {
+            this.ssProgress.style.width = `${(++this.ssProgressStage/references)*100}%`;
+            if (this.ssProgressStage >= references) { this.ssSubText.innerText = "Loaded!" }
+        }
     }
 
     private async LoadOverlay()

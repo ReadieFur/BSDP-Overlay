@@ -114,6 +114,7 @@ class Editor
         this.ssSubText = Main.ThrowIfNullOrUndefined(document.querySelector("#ssSubText"));
         this.ssProgress = Main.ThrowIfNullOrUndefined(document.querySelector("#ssProgress"));
 
+        this.SSProgressUpdate(false, "Checking for overlay");
         await this.CheckForOverlay();
         this.SSProgressUpdate();
 
@@ -1259,11 +1260,10 @@ class Editor
         else
         { result = await domtoimage.toPng(target); }
 
-        // this.imageRendererContainer.innerHTML = "";
-        // this.imageRendererContainer.style.backgroundImage = "none";
-        // this.imageRendererContainer.style.width = "0";
-        // this.imageRendererContainer.style.height = "0";
-        // this.imageRendererContainer.style.display = "none";
+        this.imageRendererContainer.innerHTML = "";
+        this.imageRendererContainer.style.width = "0";
+        this.imageRendererContainer.style.height = "0";
+        this.imageRendererContainer.style.display = "none";
 
         return result;
     }

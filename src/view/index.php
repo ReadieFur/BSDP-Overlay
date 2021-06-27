@@ -39,7 +39,10 @@
                 <span id="ssUsername">Creator</span>
             </h3>
             <img id="ssThumbnail" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
-            <h3 id="ssLoading">Loading...</h3>
+            <h3 id="ssSubText">Loading...</h3>
+            <div class="ssProgressContainer">
+                <div id="ssProgress"></div>
+            </div>
         </div>
     </span>
     <div id="overlay"></div>
