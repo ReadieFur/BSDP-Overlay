@@ -37,6 +37,8 @@ class View
         this.SSProgressUpdate();
 
         this.SSProgressUpdate(false, "Enviroment setup");
+        window.addEventListener("resize", () => { this.ConfigureEditorWindow(); });
+        this.ConfigureEditorWindow();
         this.client = new Client(Main.urlParams.get("ip"));
         this.client.AddEndpoint("MapData");
         this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
@@ -57,6 +59,24 @@ class View
         setTimeout(() => { splashScreen.style.display = "none"; }, 400);
 
         return this;
+    }
+
+    private ConfigureEditorWindow(): void
+    {
+        const baseWidth = 1920;
+        const baseHeight = 1080;
+
+        this.ui.overlay.style.width = `${baseWidth}px`;
+        this.ui.overlay.style.height = `${baseHeight}px`;
+        
+        const clientWidth = document.body.clientWidth;
+        const clientHeight = document.body.clientHeight;
+        var clientWiderThanTall = clientWidth >= clientHeight;
+
+        var scale = clientWiderThanTall ? clientWidth / baseWidth : clientHeight / baseHeight;
+
+        this.ui.overlay.style.transform = `scale(${scale})`;
+        this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale}px`;
     }
 
     private SSProgressUpdate(progress: boolean = true, message?: string)

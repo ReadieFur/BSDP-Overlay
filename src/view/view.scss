@@ -1,6 +1,8 @@
 body
 {
+    zoom: 1 !important;
     background: transparent;
+    background-color: black; //For testing only (better on my eyes in some browesrs that make the transparent colour white).
     overflow: hidden;
 
     > .slideMenu
@@ -71,9 +73,10 @@ body
     > #overlay
     {
         position: fixed;
-        width: 100%;
-        height: 100%;
         overflow: none;
+        top: 0;
+        left: 0;
+        transform-origin: top left;
 
         > .container
         {
@@ -82,6 +85,11 @@ body
             *
             {
                 user-select: none;
+
+                &.preview
+                {
+                    display: none;
+                }
             }
         }
     }

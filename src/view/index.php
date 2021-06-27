@@ -6,19 +6,6 @@
     $DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
     require_once "$DOCUMENT_ROOT/roots.php";
     require_once "$SITE_ROOT/assets/php/main.php";
-
-    $REQUEST_SCHEME = $_SERVER["REQUEST_SCHEME"];
-    $HTTP_HOST = $_SERVER["HTTP_HOST"];
-
-    $page;
-    $splitPath = array_filter(explode('/', $REQUEST_URI));
-    $idPosition = array_search('view', $splitPath);
-
-    //This redirect will be done on the client side, just to remove a slight bit of server side strain.
-    //if (path[path.length - 1] === "preview" || path[path.length - 2] !== "preview" || path[path.length - 1].length != 13) { window.location.href = `${Main.WEB_ROOT}/browser/`; }
-    //var_dump($splitPath, $splitPath[count($splitPath) - 1] === 'view' || $splitPath[count($splitPath) - 2] !== 'view' || strlen($splitPath[count($splitPath) - 1]) != 13);
-    /*if (!(strlen($splitPath[$idPosition + 1]) === 13 && count($splitPath) === $idPosition + 1))
-    { header("Location: $REQUEST_SCHEME://$HTTP_HOST$WEB_ROOT/view/default/", true, 302); }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">

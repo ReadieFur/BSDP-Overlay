@@ -8,16 +8,9 @@ $gradient-fBf: linear-gradient(
     rgba(var(--backgroundColour), 1) 100%
 );
 
-@media screen and (max-width: 1280px)
-{
-    body
-    {
-        zoom: 1 !important;
-    }
-}
-
 body
 {
+    zoom: 1 !important;
     background: transparent;
     overflow: hidden;
 

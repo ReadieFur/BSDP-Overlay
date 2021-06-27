@@ -20,15 +20,11 @@ Todo:
             ✘ I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear @cancelled(21-06-27 20:25)
             You should try making the menu collapsable
         Subject 2:
-            hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions
-            so it creates an offset which increases depending on how much you move it to direction
-            idk why, but yesterday, doubleclick on elements to "spawn" them in doesnt work, but it does now
-            so idk what that was, maybe an issue on my side
+            ✔ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions @done(21-06-27 21:34) I believe this was fixed with the UI scale fix however this introduced an issue with scaling the element where the mouse yould move faster than the element would scale.
             text tooltip also has the weird offset on higher resolutions
             scroll bar idle colour is hard to see
 
     Closed release:
-        ☐ fix ui scaling for the overlay view page.
 
     Public release:
         ☐ add padding to the description text area.
@@ -93,6 +89,7 @@ Done:
     ✔ fix colour variables not being shown in the thumbnail renderer container. @done(21-06-27 20:23)
     ✔ hide the preview text in the thumbnails. @done(21-06-27 20:49)
     ✔ add the loading bar to the view page. @done(21-06-27 21:12)
+    ✔ fix ui scaling for the overlay view page. @done(21-06-27 21:34)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
