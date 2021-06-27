@@ -19,6 +19,13 @@ Todo:
             Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
             I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear
             You should try making the menu collapsable
+        Subject 2:
+            hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions
+            so it creates an offset which increases depending on how much you move it to direction
+            idk why, but yesterday, doubleclick on elements to "spawn" them in doesnt work, but it does now
+            so idk what that was, maybe an issue on my side
+            text tooltip also has the weird offset on higher resolutions
+            scroll bar idle colour is hard to see
 
     Closed release:
         ☐ fix ui scaling.

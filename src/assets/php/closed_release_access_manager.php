@@ -4,6 +4,7 @@
 $allowedUsers = array(
     '60d1de6254a82537157312', //readie - localhost
     '6098449426bca059481523', //readie
+    '60d2968705af7717659797', //remy
     '60d6433d807c2825942598', //unskilledfreak
 );
 
