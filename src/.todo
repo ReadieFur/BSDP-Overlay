@@ -7,7 +7,7 @@ Todo:
             Closed release:
                 So natural stuff
                 Things that you kinda expect to just work
-                But say the editor resizing: currently, if someone were to shrink their browser down to, say, reference something while working, it may turn out different when they do to use it
+                ✔ But say the editor resizing: currently, if someone were to shrink their browser down to, say, reference something while working, it may turn out different when they do to use it @done(21-06-27 20:25)
                 ✔ Clicking on the elements once doesn't do anything, nor does drag and drop, so the user may think something is broken or that adding an element is more difficult than it is @done(21-06-25 21:32) (walkthrough menu created)
             The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen) (not sure what is meant by this)
             Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top.
@@ -17,7 +17,7 @@ Todo:
             ✔ Add a loading animation to the loading screen. This helps reassure the user that there is something happening. @done(21-06-25 19:07)
             Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
             Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
-            I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear
+            ✘ I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear @cancelled(21-06-27 20:25)
             You should try making the menu collapsable
         Subject 2:
             hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions
@@ -31,12 +31,13 @@ Todo:
         ☐ fix ui scaling.
 
     Public release:
+        ☐ add padding to the description text area.
+        ☐ add the loading bar to the view page.
         ☐ add overlay details to the preview page.
         ☐ create the home page video.
         ☐ add more elements.
         ☐ prevent elements from being scaled outside the UI.
         ☐ fix text property editor updates being delayed by 1 change.
-        ☐ fix the preview generation on firefox.
         ☐ add a rotation option.
         ☐ add text alignment (currently fixed to the side of the overlay it is on).
         ☐ sort out the protocol to load (http/https) when an external IP is specified.
@@ -44,14 +45,11 @@ Todo:
         ☐ add percentage alignments.
         ☐ add align center for horizontal/vertical within the parent.
         ☐ fix the element initial alignment option in the menu.
-        ☐ change zoom to scale + transform-origin.
         ☐ allow the user to change the z-position of the elements.
         ☐ enable background toggle on the bar elements.
         ☐ add a toggle to the bar elements to the text.
         ☐ fix the bar elements initial value being 100%.
-        ☐ fix thumbnail scaling:
-            ☐ short term solution: create thumbnail at the editor resolution and then resize the image to 480p
-            ☐ long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately)
+
         ☐ (sneaky) make the footer c date dynamic.
     
     Optional:
@@ -91,8 +89,13 @@ Done:
     ✔ fix the colour updates on the text time element. @done(21-06-22 16:54)
     ✔ add sample data/game data toggle. @done(21-06-22 22:42)
     ✔ create a 'how to' tutorial. @done(21-06-25 21:32)
+    ✔ fix thumbnail scaling, using the long term solution: change the editor so that all overlays are the same resolution and then the overlay is scaled appropriately) @done(21-06-27 20:24)
+    ✔ change zoom to scale + transform-origin. @done(21-06-27 20:23)
+    ✔ fix the preview generation on firefox. @done(21-06-27 20:23)
+    ✔ fix colour variables not being shown in the thumbnail renderer container. @done(21-06-27 20:23)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
     ✘ add background text to the preview so the user knows what the elements are. @cancelled(21-05-16 12:33) replaced in favour of tooltips.
     ✘ add a logger to main.ts, either listen to the window events or override the function: https://stackoverflow.com/questions/8000009/is-there-a-way-in-javascript-to-listen-console-events @cancelled(21-06-22 15:10)
+    ✘ add overlay resizer option to the options tab. @cancelled(21-06-27 20:23)

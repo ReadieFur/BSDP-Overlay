@@ -357,7 +357,6 @@
         </tbody>
     </table>
     <div id="imageRendererContainer"></div>
-    <canvas id="resizeCanvas"></canvas>
 </body>
 <footer id="footer"></footer>
 </html>

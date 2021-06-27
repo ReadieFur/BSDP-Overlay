@@ -10,9 +10,9 @@ $gradient-fBf: linear-gradient(
 
 @media screen and (max-width: 1280px)
 {
-    #overlay
+    body
     {
-        zoom: 1.25;
+        zoom: 1 !important;
     }
 }
 
@@ -537,6 +537,7 @@ body
         .overlayContainer
         {
             position: relative;
+            background-color: rgba(var(--backgroundAltColour), 1);
 
             > #overlay
             {
@@ -544,14 +545,14 @@ body
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: cover;
-                max-width: 100%;
-                max-height: 100%;
-                min-width: 480px;
-                min-height: 270px;
-                width: 100%;
-                height: 100%;
+                // max-width: 100%;
+                // max-height: 100%;
+                // min-width: 480px;
+                // min-height: 270px;
+                // width: 100%;
+                // height: 100%;
                 overflow: hidden;
-                resize: none;
+                // resize: both;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -599,6 +600,7 @@ body
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
+        transform-origin: top left;
 
         *
         {
@@ -610,12 +612,10 @@ body
             position: absolute;
             overflow: hidden;
         }
-    }
 
-    > #resizeCanvas
-    {
-        z-index: -1;
-        display: none;
-        position: relative;
+        > .preview
+        {
+            display: none;
+        }
     }
 }

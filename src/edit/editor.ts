@@ -28,9 +28,8 @@ class Editor
     private overlayPrivateCheckbox!: HTMLInputElement;
     private publishButton!: HTMLButtonElement;
     private imageRendererContainer!: HTMLDivElement;
-    private resizeCanvas!: HTMLCanvasElement;
-    private resizeCanvas2D!: CanvasRenderingContext2D;
     private ui!: UI;
+    private overlayContainer!: HTMLTableCellElement;
     private client!: Client;
     private dataSet!: 1 | 2 | 3;
 
@@ -125,6 +124,7 @@ class Editor
         this.SSProgressUpdate();
 
         this.SSProgressUpdate(false, "Enviroment setup");
+        this.overlayContainer = Main.ThrowIfNullOrUndefined(this.ui.overlay.parentElement);
         this.splashScreen = Main.ThrowIfNullOrUndefined(document.querySelector("#splashScreen"));
         this.elementsTable = Main.ThrowIfNullOrUndefined(document.querySelector("#elementsTable"));
         this.saveMenuContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuContainer"));
@@ -135,8 +135,6 @@ class Editor
         this.overlayPrivateCheckbox = Main.ThrowIfNullOrUndefined(this.overlayPrivate.querySelector("input[type=checkbox]"));
         this.publishButton = Main.ThrowIfNullOrUndefined(document.querySelector("#publishButton"));
         this.imageRendererContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#imageRendererContainer"));
-        this.resizeCanvas = Main.ThrowIfNullOrUndefined(document.querySelector("#resizeCanvas"));
-        this.resizeCanvas2D = Main.ThrowIfNullOrUndefined(this.resizeCanvas.getContext("2d"));
 
         this.optionsMenu =
         {
@@ -209,7 +207,8 @@ class Editor
             }
         }
 
-        //this.ConfigureEditorWindow();
+        window.addEventListener("resize", () => { this.ConfigureEditorWindow(); });
+        this.ConfigureEditorWindow();
         await this.LoadElementsIntoEditor(this.ui.importedElements);
 
         //Setup UI events (open save menus etc).
@@ -280,6 +279,19 @@ class Editor
 
         this.editorPropertiesTab.misc.tabButton.addEventListener("click", () => { this.SetActivePropertiesTab("misc"); });
         this.editorPropertiesTab.misc.text.addEventListener("input", (ev) => { this.UpdateElementPropertiesFromTab(ev); });
+
+        var imageRendererContainerCSS = document.createElement("style")
+        imageRendererContainerCSS.id = "imageRendererContainerCSS";
+        imageRendererContainerCSS.innerHTML = `
+            #imageRendererContainer .container *
+            {
+                --overlayForegroundColour: ${UI.defaultStyles.foregroundColour!.R}, ${UI.defaultStyles.foregroundColour!.G}, ${UI.defaultStyles.foregroundColour!.B};
+                --overlayBackgroundColour: ${UI.defaultStyles.backgroundColour!.R}, ${UI.defaultStyles.backgroundColour!.G}, ${UI.defaultStyles.backgroundColour!.B};
+                --overlayAltColour: ${UI.defaultStyles.altColour!.R}, ${UI.defaultStyles.altColour!.G}, ${UI.defaultStyles.altColour!.B};
+            }
+        `;
+        document.head.appendChild(imageRendererContainerCSS);
+
         this.SSProgressUpdate();
         
         this.SSProgressUpdate(false, "Loading overlay");
@@ -363,9 +375,23 @@ class Editor
         }
     }
 
+    //Use this as the long term solution for making sure the overlays display properly on all display sizes, have the editor be one size and scale to the appropriate size.
     private ConfigureEditorWindow(): void
     {
-        //Use this as the long term solution for making sure the overlays display properly on all display sizes, have the editor be one size and scale to the appropriate size.
+        const baseWidth = 1920;
+        const baseHeight = 1080;
+
+        this.ui.overlay.style.width = `${baseWidth}px`;
+        this.ui.overlay.style.height = `${baseHeight}px`;
+        
+        const clientWidth = this.overlayContainer.clientWidth;
+        const clientHeight = this.overlayContainer.clientHeight;
+        var clientWiderThanTall = clientWidth >= clientHeight;
+
+        var scale = clientWiderThanTall ? clientWidth / baseWidth : clientHeight / baseHeight;
+
+        this.ui.overlay.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale}px`;
     }
 
     private WindowBeforeUnloadEvent(ev: BeforeUnloadEvent): void
@@ -1159,62 +1185,86 @@ class Editor
         this.allowUnload = false;
     }
 
-    private async RenderImage(element: HTMLElement, options: { width?: number, height?: number, scale?: number, background?: string } = {}): Promise<string>
+    private async RenderImage(
+        target: HTMLElement,
+        options?:
+        {
+            dimensions?:
+            {
+                width: number,
+                height: number,
+                baseWidth?: number,
+                baseHeight?: number
+            },
+            css?: string
+        }
+    ): Promise<string>
     {
         var result: string;
 
-        this.imageRendererContainer.style.display = "block";
-        this.imageRendererContainer.innerHTML = element.innerHTML;
-
-        //Replace with scale transform in the future.
-        if (options.scale !== undefined)
+        if (options !== undefined && options !== {})
         {
-            for (const child of this.imageRendererContainer.children)
+            this.imageRendererContainer.style.display = "block";
+            this.imageRendererContainer.innerHTML = target.innerHTML;
+
+            var width: number; 
+            var height: number; 
+            if (options.dimensions !== undefined)
             {
-                (<HTMLElement>child).style.zoom = options.scale.toString();
+                width = options.dimensions.width;
+                height = options.dimensions.height;
+
+                var baseWidth: number;
+                var baseHeight: number;
+
+                if (options.dimensions.baseWidth !== undefined && options.dimensions.baseHeight !== undefined)
+                {
+                    baseWidth = options.dimensions.baseWidth;
+                    baseHeight = options.dimensions.baseHeight;
+                }
+                else
+                {
+                    baseWidth = target.clientWidth;
+                    baseHeight = target.clientHeight;
+                }
+
+                this.imageRendererContainer.style.width = `${baseWidth}px`;
+                this.imageRendererContainer.style.height = `${baseHeight}px`;
+
+                var widerThanTall = width >= height;
+
+                var scale = widerThanTall ? width / baseWidth : height / baseHeight;
+
+                this.imageRendererContainer.style.transform = `scale(${scale})`;
+                this.imageRendererContainer.style[!widerThanTall ? "width" : "height"] = `${(!widerThanTall ? width : height) / scale}px`;
             }
+            else
+            {
+                this.imageRendererContainer.style.width = `${target.clientWidth}px`;
+                this.imageRendererContainer.style.height = `${target.clientHeight}px`;
+                width = target.clientWidth;
+                height = target.clientHeight;
+            }
+
+            if (options.css !== undefined)
+            {
+                var css = document.createElement("style");
+                css.innerText = `#imageRendererContainer { ${options.css} }`;
+                this.imageRendererContainer.appendChild(css);
+            }
+
+            result = await domtoimage.toPng(this.imageRendererContainer, { width: width, height: height });
         }
+        else
+        { result = await domtoimage.toPng(target); }
 
-        if (options.background !== undefined) { this.imageRendererContainer.style.backgroundImage = `url("${options.background}")`; }
-
-        //I want to use an SVG here but the output contains too much data resulting in it being larger than the png, look into this: https://github.com/felixfbecker/dom-to-svg
-        if (options.width !== undefined && options.height !== undefined)
-        {
-            this.imageRendererContainer.style.width = `${options.width}px`;
-            this.imageRendererContainer.style.height = `${options.height}px`;
-            result = await domtoimage.toPng(this.imageRendererContainer, { width: options.width, height: options.height });
-        }
-        else { result = await domtoimage.toPng(this.imageRendererContainer); }
-
-        this.imageRendererContainer.innerHTML = "";
-        this.imageRendererContainer.style.backgroundImage = "none";
-        this.imageRendererContainer.style.width = "0";
-        this.imageRendererContainer.style.height = "0";
-        this.imageRendererContainer.style.display = "none";
+        // this.imageRendererContainer.innerHTML = "";
+        // this.imageRendererContainer.style.backgroundImage = "none";
+        // this.imageRendererContainer.style.width = "0";
+        // this.imageRendererContainer.style.height = "0";
+        // this.imageRendererContainer.style.display = "none";
 
         return result;
-    }
-
-    //Needs tweaking, look at: https://stackoverflow.com/questions/19262141/resize-image-with-javascript-canvas-smoothly.
-    private ResizeImage(source: string, width: number, height: number): string
-    {
-        this.resizeCanvas.style.display = "block";
-
-        var image = new Image();
-        image.src = source;
-
-        this.resizeCanvas.style.width = `${width}px`;
-        this.resizeCanvas.style.height = `${height}px`;
-        this.resizeCanvas.width = width;
-        this.resizeCanvas.height = height;
-
-        this.resizeCanvas2D.drawImage(image, 0, 0, width, height);
-
-        var resizedImage = this.resizeCanvas.toDataURL("image/png");
-
-        this.resizeCanvas.style.display = "none";
-
-        return resizedImage;
     }
 
     private ShowWalkthroughContainer()
@@ -1229,16 +1279,16 @@ class Editor
     {
         this.RenderImage(this.ui.overlay,
         {
-            width: 1280,
-            height: 720,
-            scale: 720 / this.ui.overlay.clientHeight,
-            background: `${Main.WEB_ROOT}/assets/images/beat-saber.jpg`
+            dimensions:
+            {
+                width: 1280,
+                height: 720,
+                baseWidth: 1920,
+                baseHeight: 1080
+            },
+            // css: `background-image: url(${Main.WEB_ROOT}/assets/images/beat-saber.jpg);`
         })
-        .then((dataURL: string) =>
-        {
-            this.thumbnail.src = dataURL;
-            //console.log(this.ResizeImage(dataURL, 480, 270));
-        });
+        .then((dataURL: string) => { this.thumbnail.src = dataURL; });
         this.saveMenuContainer.style.display = "block";
         this.saveMenuContainer.classList.remove("fadeOut");
         this.saveMenuContainer.classList.add("fadeIn");
@@ -1290,9 +1340,13 @@ class Editor
                     //Check if the client is connected to the game here, if they are not then use the sample data for the thumbnail.
                     thumbnail: await this.RenderImage(this.ui.overlay,
                     {
-                        width: 480,
-                        height: 270,
-                        scale: (480 / this.ui.overlay.clientHeight) * 0.55 //The number multiplied at the end is just a little scale modifier I decided to put in.
+                        dimensions:
+                        {
+                            width: 480,
+                            height: 270,
+                            baseWidth: 1920,
+                            baseHeight: 1080
+                        }
                     }),
                     elements: savedElements
                 }
