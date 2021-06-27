@@ -611,11 +611,11 @@ body
         {
             position: absolute;
             overflow: hidden;
-        }
 
-        > .preview
-        {
-            display: none;
+            *.preview
+            {
+                display: none;
+            }
         }
     }
 }

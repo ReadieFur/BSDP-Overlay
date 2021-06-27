@@ -1185,6 +1185,7 @@ class Editor
         this.allowUnload = false;
     }
 
+    //Could copying all the elements here be a problem with the duplicated IDs?
     private async RenderImage(
         target: HTMLElement,
         options?:

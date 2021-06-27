@@ -28,7 +28,7 @@ Todo:
             scroll bar idle colour is hard to see
 
     Closed release:
-        ☐ fix ui scaling.
+        ☐ fix ui scaling for the overlay view page.
 
     Public release:
         ☐ add padding to the description text area.
@@ -93,6 +93,7 @@ Done:
     ✔ change zoom to scale + transform-origin. @done(21-06-27 20:23)
     ✔ fix the preview generation on firefox. @done(21-06-27 20:23)
     ✔ fix colour variables not being shown in the thumbnail renderer container. @done(21-06-27 20:23)
+    ✔ hide the preview text in the thumbnails. @done(21-06-27 20:49)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
