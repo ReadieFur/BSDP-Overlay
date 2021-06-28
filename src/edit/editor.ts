@@ -531,7 +531,7 @@ class Editor
                 {
                     [id: string]:
                     {
-                        td: HTMLTableDataCellElement,
+                        td: HTMLTableCellElement,
                         container: HTMLDivElement,
                         mutationObserver?: MutationObserver
                     }
@@ -609,10 +609,10 @@ class Editor
                 }
             }
 
-            if (tr.firstChild !== null) { (<HTMLTableDataCellElement>tr.firstChild).classList.add("visible"); }
+            if (tr.firstChild !== null) { (<HTMLTableCellElement>tr.firstChild).classList.add("visible"); }
 
-            var backward: HTMLTableDataCellElement = document.createElement("td");
-            var forward: HTMLTableDataCellElement = document.createElement("td");
+            var backward: HTMLTableCellElement = document.createElement("td");
+            var forward: HTMLTableCellElement = document.createElement("td");
             if (tr.childNodes.length > 1)
             {
                 var backwardText: HTMLHeadingElement = document.createElement("h3");
@@ -642,13 +642,13 @@ class Editor
     {
         var index: number = 1;
         var container: HTMLTableRowElement =
-            (<HTMLTableDataCellElement>ev.target).nodeName === "TD" ?
-            (<HTMLTableDataCellElement>ev.target).parentElement as HTMLTableRowElement : //User clicked on the TD
-            (<HTMLTableDataCellElement>ev.target).parentElement!.parentElement as HTMLTableRowElement; //User clicked on the H3
+            (<HTMLTableCellElement>ev.target).nodeName === "TD" ?
+            (<HTMLTableCellElement>ev.target).parentElement as HTMLTableRowElement : //User clicked on the TD
+            (<HTMLTableCellElement>ev.target).parentElement!.parentElement as HTMLTableRowElement; //User clicked on the H3
 
         for (let i = 0; i < container.childNodes.length; i++)
         {
-            var element: HTMLTableDataCellElement = <HTMLTableDataCellElement>container.childNodes[i];
+            var element: HTMLTableCellElement = <HTMLTableCellElement>container.childNodes[i];
             if (element.classList.contains("visible"))
             { index = forward ? i + 1 : i - 1; }
             element.classList.remove("visible");
@@ -659,7 +659,7 @@ class Editor
         else if (index >= container.childNodes.length - 1)
         { index = 1; }
 
-        (<HTMLTableDataCellElement>container.childNodes[index]).classList.add("visible");
+        (<HTMLTableCellElement>container.childNodes[index]).classList.add("visible");
     }
 
     private CreateElement(category: string, type: string, id: string): HTMLDivElement

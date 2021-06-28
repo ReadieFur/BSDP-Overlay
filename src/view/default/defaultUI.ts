@@ -7,41 +7,41 @@ export class DefaultUI
     private overlayThemeColours: HTMLStyleElement;
 
     private stats: HTMLTableElement;
-    private time: HTMLTableDataCellElement;
-    private score: HTMLTableDataCellElement;
-    private accuracy: HTMLTableDataCellElement;
-    private combo: HTMLTableDataCellElement;
+    private time: HTMLTableCellElement;
+    private score: HTMLTableCellElement;
+    private accuracy: HTMLTableCellElement;
+    private combo: HTMLTableCellElement;
 
     private modifiersAndHealth: HTMLTableElement;
     private modifiersAndHealthTR: HTMLTableRowElement;
-    private healthColumn: HTMLTableDataCellElement;
+    private healthColumn: HTMLTableCellElement;
     private health: HTMLDivElement;
     private modifiers:
     {
-        noFailOn0Energy: HTMLTableDataCellElement,
-        oneLife: HTMLTableDataCellElement,
-        fourLives: HTMLTableDataCellElement,
-        noBombs: HTMLTableDataCellElement,
-        noWalls: HTMLTableDataCellElement,
-        noArrows: HTMLTableDataCellElement,
-        ghostNotes: HTMLTableDataCellElement,
-        disappearingArrows: HTMLTableDataCellElement,
-        smallNotes: HTMLTableDataCellElement,
-        proMode: HTMLTableDataCellElement,
-        strictAngles: HTMLTableDataCellElement,
-        zenMode: HTMLTableDataCellElement,
-        slowerSong: HTMLTableDataCellElement,
-        fasterSong: HTMLTableDataCellElement,
-        superFastSong: HTMLTableDataCellElement
+        noFailOn0Energy: HTMLTableCellElement,
+        oneLife: HTMLTableCellElement,
+        fourLives: HTMLTableCellElement,
+        noBombs: HTMLTableCellElement,
+        noWalls: HTMLTableCellElement,
+        noArrows: HTMLTableCellElement,
+        ghostNotes: HTMLTableCellElement,
+        disappearingArrows: HTMLTableCellElement,
+        smallNotes: HTMLTableCellElement,
+        proMode: HTMLTableCellElement,
+        strictAngles: HTMLTableCellElement,
+        zenMode: HTMLTableCellElement,
+        slowerSong: HTMLTableCellElement,
+        fasterSong: HTMLTableCellElement,
+        superFastSong: HTMLTableCellElement
     };
 
     private mapDetails: HTMLTableElement;
     private mapDetailsTR: HTMLTableRowElement;
-    private mapCoverTD: HTMLTableDataCellElement;
+    private mapCoverTD: HTMLTableCellElement;
     private preBSR: HTMLParagraphElement;
-    private mapCoverContainer: HTMLTableDataCellElement;
+    private mapCoverContainer: HTMLTableCellElement;
     private mapCover: HTMLImageElement;
-    private mapDetailsContainer: HTMLTableDataCellElement;
+    private mapDetailsContainer: HTMLTableCellElement;
     private bsr: HTMLParagraphElement;
     private mapper: HTMLParagraphElement;
     private artistName: HTMLParagraphElement;
@@ -171,7 +171,7 @@ export class DefaultUI
             {
                 for (var [key, value] of Object.entries(data.Modifiers))
                 {
-                    var element: HTMLTableDataCellElement;
+                    var element: HTMLTableCellElement;
 
                     switch (key)
                     {

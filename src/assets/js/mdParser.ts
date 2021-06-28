@@ -77,7 +77,7 @@ export class MarkdownParser
                 });
 
                 counter = 0;
-                var columns: HTMLTableDataCellElement[] = [];
+                var columns: HTMLTableCellElement[] = [];
                 mdRows.forEach(rowsString =>
                 {
                     var mdColumns = rowsString.split("|").filter(column => column !== "");
