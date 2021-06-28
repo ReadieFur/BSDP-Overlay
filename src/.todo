@@ -25,15 +25,16 @@ Todo:
     Closed release:
 
     Public release:
+        ☐ clean up the editor file.
         ☐ fix the border around the scaled elements in the overlay.
         ☐ fix the radio button positioning.
         ☐ add padding to the description text area.
         ☐ add overlay details to the preview page.
         ☐ create the home page video.
         ☐ add more elements.
+        ☐ add modifer elements.
         ☐ prevent elements from being scaled outside the UI.
         ☐ fix text property editor updates being delayed by 1 change.
-        ☐ add a rotation option.
         ☐ add text alignment (currently fixed to the side of the overlay it is on).
         ☐ sort out the protocol to load (http/https) when an external IP is specified.
         ☐ fix the small spacing gap in the editor table.
@@ -44,15 +45,15 @@ Todo:
         ☐ enable background toggle on the bar elements.
         ☐ add a toggle to the bar elements to the text.
         ☐ fix the bar elements initial value being 100%.
-        ☐ (sneaky) make the footer c date dynamic.
     
     Optional:
+        ☐ add a rotation option.
         ☐ add block like scripting (e.g. do x on y).
         ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
         ☐ add an element expand menu to view more at once.
         ☐ nest/group elements.
-        ☐ add the beatsaber background to the browser previews?
         ☐ round bar direction toggle.
+        ☐ round bar time element count down.
 
 Done:
     ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
@@ -90,6 +91,8 @@ Done:
     ✔ hide the preview text in the thumbnails. @done(21-06-27 20:49)
     ✔ add the loading bar to the view page. @done(21-06-27 21:12)
     ✔ fix ui scaling for the overlay view page. @done(21-06-27 21:34)
+    ✔ add the beatsaber background to the browser previews? @done(21-06-28 15:43)
+    ✔ (sneaky) make the footer c date dynamic. @done(21-06-28 16:19)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

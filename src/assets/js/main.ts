@@ -18,6 +18,28 @@ export class Main
 
     constructor()
     {
+        // !   /\                   ,'|
+        // o--'O `.                /  /
+        // `--.   `-----------._,' ,'
+        //     \               ,--'
+        //      ) )    _,--(   |
+        //     /,^.---'     )/ \\
+        //    ((   \\      ((   \\
+        //     \)   \)      \)  (/
+        // -What are you doing here?
+
+        console.log(`
+            !   /\\                   ,'|
+            o--'O \`.                /  /
+            \`--.   \`-----------._,' ,'
+                \\               ,--'
+                 ) )    _,--(   |
+                /,^.---'     )/ \\\\
+               ((   \\\\      ((   \\\\
+                \\)   \\)      \\)  (/
+            -What are you doing here?
+        `);
+
         (<HTMLDivElement>Main.ThrowIfNullOrUndefined(document.querySelector("#javascriptAlert"))).style.display = "none";
 
         Main.WEB_ROOT = WEB_ROOT;
