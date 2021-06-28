@@ -48,6 +48,7 @@ class Editor
     private walkthroughContainer!: HTMLDivElement;
 
     private activeElement?: HTMLDivElement;
+    private activeElementFocused!: boolean;
     private editorPropertiesTab!:
     {
         optionsRow: HTMLTableRowElement,
@@ -216,14 +217,65 @@ class Editor
         window.addEventListener("beforeunload", (ev) => { this.WindowBeforeUnloadEvent(ev); });
         this.overlayPrivate.addEventListener("click", () => { this.overlayPrivateCheckbox.checked = !this.overlayPrivateCheckbox.checked; });
         this.publishButton.addEventListener("click", () => { this.PublishOverlay(); });
-        this.ui.overlay.addEventListener("click", (ev) =>
+        document.body.addEventListener("click", (ev) =>
         {
-            if (ev.target === ev.currentTarget)
+            if (ev.target === this.ui.overlay)
             { 
                 this.activeElement = undefined;
+                this.activeElementFocused = false;
                 this.editorPropertiesTab.optionsRow.style.display = "none";
             }
+            else if (!(this.activeElement !== undefined && ev.target !== null && this.activeElement.contains(<HTMLElement>ev.target)))
+            {
+                //This could lead to a race condition I believe.
+                this.activeElementFocused = false;
+            }
         });
+        document.body.addEventListener("keydown", (ev) =>
+        {
+            if (
+                this.activeElementFocused &&
+                this.activeElement !== undefined &&
+                (
+                    ev.key === "ArrowLeft" ||
+                    ev.key === "ArrowRight" ||
+                    ev.key === "ArrowUp" ||
+                    ev.key === "ArrowDown"
+                )
+            )
+            {
+                switch (ev.key)
+                {
+                    case "ArrowLeft":
+                        this.activeElement.style.left = `${this.activeElement.offsetLeft - 1}px`;
+                        break;
+                    case "ArrowRight":
+                        this.activeElement.style.left = `${this.activeElement.offsetLeft + 1}px`;
+                        break;
+                    case "ArrowUp":
+                        this.activeElement.style.top = `${this.activeElement.offsetTop - 1}px`;
+                        break;
+                    case "ArrowDown":
+                        this.activeElement.style.top = `${this.activeElement.offsetTop + 1}px`;
+                        break;
+                }
+
+                if (this.activeElement.offsetLeft + this.activeElement.clientWidth / 2 > this.ui.overlay.clientWidth / 2)
+                {
+                    this.activeElement.style.right = `${this.ui.overlay.clientWidth - this.activeElement.offsetLeft - this.activeElement.clientWidth}px`;
+                    this.activeElement.style.left = "unset";
+                }
+
+                if (this.activeElement.offsetTop + this.activeElement.clientHeight / 2 > this.ui.overlay.clientHeight / 2)
+                {
+                    this.activeElement.style.bottom = `${this.ui.overlay.clientHeight - this.activeElement.offsetTop - this.activeElement.clientHeight}px`;
+                    this.activeElement.style.top = "unset";
+                }
+
+                this.UpdateSavedElementProperties(this.activeElement);
+            }
+        });
+        this.activeElementFocused = false;
 
         Main.ThrowIfNullOrUndefined(document.querySelector("#showSaveContainer")).addEventListener("click", () => { this.ShowSaveContainerClickEvent(); });
         Main.ThrowIfNullOrUndefined(document.querySelector("#saveMenuBackground")).addEventListener("click", () => { this.MinimiseSaveMenu(); });
@@ -692,14 +744,14 @@ class Editor
 
     private SetActiveElement(element: HTMLDivElement)
     {
+        this.activeElementFocused = true;
+
         if (element !== this.activeElement)
         {
             var buttonDisplayStyle = "inline-block";
 
             this.activeElement = element;
             var location: [string, string, string, string] = this.ui.createdElements.locations[element.id];
-
-            var script = this.ui.createdElements.elements[location[0]][location[1]][location[2]].script;
 
             //#region Reset tabs to default styles
             //TODO Loop this
