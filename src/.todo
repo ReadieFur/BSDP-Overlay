@@ -5,24 +5,22 @@ Todo:
     Dev release:
         Subject 1:
             Closed release:
-                So natural stuff
-                Things that you kinda expect to just work
                 ✔ But say the editor resizing: currently, if someone were to shrink their browser down to, say, reference something while working, it may turn out different when they do to use it @done(21-06-27 20:25)
                 ✔ Clicking on the elements once doesn't do anything, nor does drag and drop, so the user may think something is broken or that adding an element is more difficult than it is @done(21-06-25 21:32) (walkthrough menu created)
-            The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen) (not sure what is meant by this)
-            Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top.
-            Arrow key "pixel shifting" for elements.
-            A snapping system for objects (pretty difficult sounding, tbh)
+            ☐ The buttons in the top right of the splash page will go underneath the site logo (top left) at smaller widths (even half screen) (not sure what is meant by this)
+            ✘ Double click to add an item is relatively unintuitive. Perhaps try a single click or drag system. If you like the safety, maybe add a small instruction at the top. @cancelled(21-06-28 14:36)
+            ☐ Arrow key "pixel shifting" for elements.
+            ☐ A snapping system for objects (pretty difficult sounding, tbh)
             ✔ Add a back button for the menu bar (not sure what is meant by this), and add a delay to the auto-collapse. Its super easy for the user to slip their cursor off of the bar when acting fast, which requires them to press the button again @done(21-06-25 18:03)
             ✔ Add a loading animation to the loading screen. This helps reassure the user that there is something happening. @done(21-06-25 19:07)
-            Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
-            Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
+            ☐ Perhaps give the bars (time, acc, etc) a default label, with a toggle to disable. This helps provide more natural context for exactly what appeared on screen.
+            ☐ Cap the cover-size or increase the image resolution. This prevents the user from resizing into a pixelated mess.
             ✘ I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear @cancelled(21-06-27 20:25)
-            You should try making the menu collapsable
+            ☐ You should try making the menu collapsable
         Subject 2:
-            ✔ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions @done(21-06-27 21:34) I believe this was fixed with the UI scale fix however this introduced an issue with scaling the element where the mouse yould move faster than the element would scale.
-            text tooltip also has the weird offset on higher resolutions
-            scroll bar idle colour is hard to see
+            ☐ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions. this may be because of the scale factor, perhaps a way to fix this is to calculate how many pixels the user has moved and apply the scale to that movment.
+            ☐ text tooltip also has the weird offset on higher resolutions
+            ☐ scroll bar idle colour is hard to see
 
     Closed release:
 

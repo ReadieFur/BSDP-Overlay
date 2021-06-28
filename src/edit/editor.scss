@@ -310,6 +310,7 @@ body
                         width: max-content;
                         vertical-align: middle;
                         cursor: pointer;
+                        user-select: none;
             
                         hr
                         {
@@ -497,6 +498,11 @@ body
                                 &.onePercent
                                 {
                                     width: 1%;
+                                }
+
+                                > p
+                                {
+                                    user-select: none;
                                 }
                             }
                         }
