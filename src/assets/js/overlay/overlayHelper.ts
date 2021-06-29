@@ -1,5 +1,6 @@
+import { DragElement } from "../dragElement.js";
 import { Main, ReturnData } from "../main.js";
-import { SavedElements } from "./ui.js";
+import { LiveData, MapData } from "./client.js";
 
 export class OverlayHelper
 {
@@ -90,4 +91,97 @@ export interface IRGB
     R: number,
     G: number,
     B: number
+}
+
+export type ElementsJSON =
+{
+    [category: string]:
+    {
+        [type: string]:
+        {
+            [id: string]:
+            {
+                showInEditor: boolean,
+                html: string,
+                css: string,
+                script: ElementScript
+            }
+        }
+    }
+}
+
+export type SavedElements =
+{
+    [category: string]:
+    {
+        [type: string]:
+        {
+            [id: string]:
+            {
+                position:
+                {
+                    top?: string,
+                    left?: string,
+                    bottom?: string,
+                    right?: string,
+                }
+                width: string | undefined,
+                height: string | undefined,
+                customStyles: TCustomStyles
+            }[];
+        }
+    }
+}
+
+export type CreatedElements =
+{
+    idCount: number,
+    locations: { [id: string]: [string, string, string, string] }, //This just makes it easier for me to navigate this object.
+    elements:
+    {
+        [category: string]:
+        {
+            [type: string]:
+            {
+                [id: string]:
+                {
+                    script: ElementScript,
+                    elements:
+                    {
+                        [elementID: string]:
+                        {
+                            position:
+                            {
+                                //These are left as a string for % values
+                                top?: string,
+                                left?: string,
+                                bottom?: string,
+                                right?: string,
+                            }
+                            width: string | undefined,
+                            height: string | undefined,
+                            customStyles: TCustomStyles,
+                            mutationObserver?: MutationObserver,
+                            dragElement?: DragElement
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+export interface ElementScript
+{
+    readonly initialWidth: number | undefined;
+    readonly initialHeight: number | undefined;
+    readonly resizeMode: 0 | 1 | 2 | 3, //0 = No resize, 1 = Both, 2 = Width, 3 = Height
+    readonly editableStyles: TEditableStyles;
+    new(): ElementScript;
+    AddElement(element: HTMLDivElement): void;
+    UpdateStyles(element: HTMLDivElement, styles: TCustomStyles): void;
+    RemoveElement(element: HTMLDivElement): void;
+    ResetData(): void;
+    UpdateMapData(data: MapData): void;
+    UpdateLiveData(data: LiveData): void;
 }

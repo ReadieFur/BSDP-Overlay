@@ -28,7 +28,6 @@ Todo:
         ☐ clean up the editor file.
         ☐ fix the border around the scaled elements in the overlay.
         ☐ fix the radio button positioning.
-        ☐ add padding to the description text area.
         ☐ add overlay details to the preview page.
         ☐ create the home page video.
         ☐ add more elements.
@@ -45,6 +44,7 @@ Todo:
         ☐ enable background toggle on the bar elements.
         ☐ add a toggle to the bar elements to the text.
         ☐ fix the bar elements initial value being 100%.
+        ☐ add some browser specific features (styles).
     
     Optional:
         ☐ add a rotation option.
@@ -54,6 +54,7 @@ Todo:
         ☐ nest/group elements.
         ☐ round bar direction toggle.
         ☐ round bar time element count down.
+        ☐ what would be better for element customisation is to read the options from the script instead of having them hard coded into the php file.
 
 Done:
     ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
@@ -93,6 +94,7 @@ Done:
     ✔ fix ui scaling for the overlay view page. @done(21-06-27 21:34)
     ✔ add the beatsaber background to the browser previews? @done(21-06-28 15:43)
     ✔ (sneaky) make the footer c date dynamic. @done(21-06-28 16:19)
+    ✔ add padding to the description text area. @done(21-06-29 18:00)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

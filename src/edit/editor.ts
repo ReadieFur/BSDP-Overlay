@@ -1,9 +1,9 @@
 import { Main, ReturnData } from "../assets/js/main.js";
 import { HeaderSlide } from "../assets/js/headerSlide.js";
-import { ElementsJSON, SavedElements, UI } from "../assets/js/overlay/ui.js";
+import { UI } from "../assets/js/overlay/ui.js";
 import { Client, SampleData } from "../assets/js/overlay/client.js";
 import { DragElement } from "../assets/js/dragElement.js";
-import { IOverlayData, IRGB, OverlayHelper, TCustomStyles } from "../assets/js/overlay/overlayHelper.js";
+import { ElementsJSON, IOverlayData, IRGB, OverlayHelper, SavedElements, TCustomStyles } from "../assets/js/overlay/overlayHelper.js";
 
 //The script I am using is named as 'domtoimage' not 'DomToImage'.
 declare const domtoimage: DomToImage.DomToImage;

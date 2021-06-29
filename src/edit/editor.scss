@@ -181,7 +181,9 @@ body
                                 position: relative;
                                 margin-top: 10px;
                                 resize: none;
-                                height: 100%;
+                                width: calc(100% - 10px);
+                                height: calc(100% - 10px);
+                                padding: 5px;
                             }
                         }
                     }
@@ -596,7 +598,9 @@ body
     {
         z-index: -1;
         display: none;
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;

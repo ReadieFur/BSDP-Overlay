@@ -1,8 +1,8 @@
 import { Main, ReturnData } from "../assets/js/main.js";
 import { HeaderSlide } from "../assets/js/headerSlide.js";
-import { SavedElements, UI } from "../assets/js/overlay/ui.js";
+import { UI } from "../assets/js/overlay/ui.js";
 import { Client } from "../assets/js/overlay/client.js";
-import { IOverlayData, OverlayHelper } from "../assets/js/overlay/overlayHelper.js";
+import { IOverlayData, OverlayHelper, SavedElements } from "../assets/js/overlay/overlayHelper.js";
 
 class View
 {
