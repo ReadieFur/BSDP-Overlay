@@ -6,6 +6,7 @@ $allowedUsers = array(
     '6098449426bca059481523', //readie
     '60d2968705af7717659797', //remy
     '60d6433d807c2825942598', //unskilledfreak
+    '60db9eafd4559818088340', //pixelboom
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
