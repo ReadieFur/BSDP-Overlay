@@ -216,7 +216,7 @@ export class Main
             {
                 --foregroundColour: ${dark ? "255, 255, 255" : "0, 0, 0"};
                 --backgroundColour: ${dark ? "13, 17, 23" : "255, 255, 255"};
-                --backgroundAltColour: ${dark ? "22, 27, 34" : "225, 225, 225"};
+                --backgroundAltColour: ${dark ? "30, 37, 46" : "225, 225, 225"};
                 --accentColour: 100, 0, 255;
                 --accentColourAlt: 255, 120, 0;
             }

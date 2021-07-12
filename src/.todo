@@ -20,7 +20,7 @@ Todo:
         Subject 2:
             ✔ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions. this may be because of the scale factor, perhaps a way to fix this is to calculate how many pixels the user has moved and apply the scale to that movment. @done(21-07-12 21:26)
             ☐ text tooltip also has the weird offset on higher resolutions. hard to recreate this issue
-            ☐ scroll bar idle colour is hard to see
+            ✔ scroll bar idle colour is hard to see @done(21-07-12 21:36)
 
     Closed release:
 
@@ -48,6 +48,7 @@ Todo:
         ☐ add some browser specific features (styles).
     
     Optional:
+        ☐ Convert all colours to HSL.
         ☐ add a rotation option.
         ☐ add block like scripting (e.g. do x on y).
         ☐ add "clipboard memory"? undo/redo/cut/copy/paste.
