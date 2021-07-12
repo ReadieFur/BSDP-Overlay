@@ -1,11 +1,11 @@
-import { Main } from "../main.js";
+import { Dictionary, Main } from "../main.js";
 import { EventDispatcher } from "../eventDispatcher.js";
 
 export class Client
 {
     private protocol: "wss" | "ws";
     public IP: string;
-    public connections: {[key: string]: CustomWebSocket};
+    public connections: Dictionary<CustomWebSocket>;
 
     constructor(_IP?: string | null)
     {

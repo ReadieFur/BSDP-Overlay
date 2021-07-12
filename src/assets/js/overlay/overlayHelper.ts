@@ -1,5 +1,5 @@
 import { DragElement } from "../dragElement.js";
-import { Main, ReturnData } from "../main.js";
+import { Dictionary, Main, ReturnData } from "../main.js";
 import { LiveData, MapData } from "./client.js";
 
 export class OverlayHelper
@@ -136,7 +136,7 @@ export type SavedElements =
 export type CreatedElements =
 {
     idCount: number,
-    locations: { [id: string]: [string, string, string, string] }, //This just makes it easier for me to navigate this object.
+    locations: Dictionary<[string, string, string, string]>, //This just makes it easier for me to navigate this object.
     elements:
     {
         [category: string]:

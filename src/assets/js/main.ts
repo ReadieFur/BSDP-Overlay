@@ -395,3 +395,5 @@ export interface ReturnData
     error: boolean,
     data: any
 }
+
+export type Dictionary<ValueType> = { [key: string]: ValueType }
