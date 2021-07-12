@@ -18,13 +18,14 @@ Todo:
             ✘ I think you should lock the editor to 16:9 now, so that the user can be sure that where they place the elements in the editor are where it will appear @cancelled(21-06-27 20:25)
             ✘ You should try making the menu collapsable @cancelled(21-06-28 14:51)
         Subject 2:
-            ☐ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions. this may be because of the scale factor, perhaps a way to fix this is to calculate how many pixels the user has moved and apply the scale to that movment.
-            ☐ text tooltip also has the weird offset on higher resolutions
+            ✔ hey, the position of an element is not correct when dragging an element around, but that only happens on 1080p+ resolutions. this may be because of the scale factor, perhaps a way to fix this is to calculate how many pixels the user has moved and apply the scale to that movment. @done(21-07-12 21:26)
+            ☐ text tooltip also has the weird offset on higher resolutions. hard to recreate this issue
             ☐ scroll bar idle colour is hard to see
 
     Closed release:
 
     Public release:
+        ☐ Odd issue with scaled UIs on firefox when dragging elements around.
         ☐ clean up the editor file.
         ☐ fix the border around the scaled elements in the overlay.
         ☐ fix the radio button positioning.

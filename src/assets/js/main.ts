@@ -317,6 +317,23 @@ export class Main
         }
     }
 
+    public static GetElementTransforms(element: HTMLElement): Dictionary<string>
+    {
+        var results: Dictionary<string> = {};
+
+        const regex = /(?<=\()(.*?)(?=\))/g;
+        const transformString = element.style.transform.replace(/\s/g, '');
+        var result: RegExpExecArray | null;
+        var previousIndex = 0;
+        while ((result = regex.exec(transformString)) !== null)
+        {
+            results[transformString.substring(previousIndex, regex.lastIndex - result[0].length - 1)] = result[0];
+            previousIndex = regex.lastIndex + 1;
+        }
+
+        return results;
+    }
+
     //This is asyncronous as I will check if the user has dismissed the alert box in the future.
     public static async Alert(message: string/*, solidBackground = false*/): Promise<void>
     {

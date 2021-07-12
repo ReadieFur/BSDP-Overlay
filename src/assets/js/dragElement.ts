@@ -1,6 +1,9 @@
+import { Main } from "./main.js";
+
 export class DragElement
 {
     private container: HTMLElement;
+    private containerScale: number;
     private element: HTMLElement;
     private mouseX: number;
     private mouseY: number;
@@ -11,14 +14,28 @@ export class DragElement
     {
         if (_container !== undefined) { this.container = _container; }
         else { this.container = document.body; }
+        this.containerScale = 1;
         this.element = _element;
         this.mouseX = 0;
         this.mouseY = 0;
         this.xChange = 0;
         this.yChange = 0;
 
+        this.GetScale();
+        new MutationObserver(() => { this.GetScale(); }).observe(this.container, { attributes: true });
+
         //Event listeners were being a problem here so for now I will be setting only one event to the container (this will stop me from being able to use this event on this element elsewhere).
         this.element.onmousedown = (e: MouseEvent) => { this.MouseDownEvent(e); };
+    }
+
+    private GetScale(): void
+    {
+        var scale = parseFloat(Main.GetElementTransforms(this.container)["scale"]);
+
+        if (scale !== undefined && !isNaN(scale))
+        {
+            this.containerScale = scale;
+        }
     }
 
     private MouseDownEvent(e: MouseEvent): void
@@ -46,9 +63,10 @@ export class DragElement
     private MouseMoveEvent(e: MouseEvent): void
     {
         e.preventDefault();
-        //Calculate the change in mouse position. Is this not just the same as 'e.MovmentX/Y'?
-        this.xChange = this.mouseX - e.clientX;
-        this.yChange = this.mouseY - e.clientY;
+        //Calculate the change in mouse position.
+        //The scale application isn't perfect but it will do.
+        this.xChange = (this.mouseX - e.clientX) / this.containerScale;
+        this.yChange = (this.mouseY - e.clientY) / this.containerScale;
         //Set the new position of the mouse.
         this.mouseX = e.clientX;
         this.mouseY = e.clientY;
@@ -59,8 +77,7 @@ export class DragElement
         { elementLeft = this.container.clientWidth - this.element.clientWidth }
         else if (this.element.offsetLeft < 0)
         { elementLeft = 0; }
-        else
-        { elementLeft = this.element.offsetLeft - this.xChange; }
+        else { elementLeft = this.element.offsetLeft - this.xChange; }
         this.element.style.left = `${elementLeft}px`;
 
         var elementTop: number;
