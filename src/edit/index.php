@@ -45,7 +45,7 @@
                                     <tr>
                                         <td>
                                             <h3>Description</h3>
-                                            <textarea id="description" maxlength="128"></textarea>
+                                            <textarea id="description" maxlength="256"></textarea>
                                         </td>
                                     </tr>
                                 </table>

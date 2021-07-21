@@ -37,8 +37,8 @@ class View
         this.SSProgressUpdate();
 
         this.SSProgressUpdate(false, "Enviroment setup");
-        window.addEventListener("resize", () => { this.ConfigureEditorWindow(); });
-        this.ConfigureEditorWindow();
+        window.addEventListener("resize", () => { this.ConfigureWindow(); });
+        this.ConfigureWindow();
         this.client = new Client(Main.urlParams.get("ip"));
         this.client.AddEndpoint("MapData");
         this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
@@ -61,7 +61,7 @@ class View
         return this;
     }
 
-    private ConfigureEditorWindow(): void
+    private ConfigureWindow(): void
     {
         const baseWidth = 1920;
         const baseHeight = 1080;
@@ -75,8 +75,21 @@ class View
 
         var scale = clientWiderThanTall ? clientWidth / baseWidth : clientHeight / baseHeight;
 
-        this.ui.overlay.style.transform = `scale(${scale})`;
-        this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale}px`;
+        // var userScale = parseInt(Main.urlParams.get("scale") || "1") || 1; //The OBS browser dosent like this.
+        var userScale = parseFloat(Main.urlParams.get("scale") != null ? <string>Main.urlParams.get("scale") : "1");
+        userScale = isNaN(userScale) ? 1 : userScale;
+
+        if (userScale != 1)
+        {
+            this.ui.overlay.style.transform = `scale(${scale * userScale})`;
+            this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale / userScale}px`;
+            this.ui.overlay.style[clientWiderThanTall ? "width" : "height"] = `${(clientWiderThanTall ? clientWidth : clientHeight) / (scale * userScale)}px`;
+        }
+        else
+        {
+            this.ui.overlay.style.transform = `scale(${scale})`;
+            this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale}px`;
+        }
     }
 
     private SSProgressUpdate(progress: boolean = true, message?: string)

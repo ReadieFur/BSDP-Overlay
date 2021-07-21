@@ -3,7 +3,7 @@ import { LiveData, MapData, SampleData } from "../../assets/js/overlay/client.js
 
 export class DefaultUI
 {
-    private overlay: HTMLDivElement;
+    public overlay: HTMLDivElement;
     private overlayThemeColours: HTMLStyleElement;
 
     private stats: HTMLTableElement;
