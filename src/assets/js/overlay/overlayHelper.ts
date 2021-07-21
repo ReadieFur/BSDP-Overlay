@@ -118,6 +118,7 @@ export type SavedElements =
         {
             [id: string]:
             {
+                zIndex: number,
                 position:
                 {
                     top?: string,
@@ -150,6 +151,7 @@ export type CreatedElements =
                     {
                         [elementID: string]:
                         {
+                            zIndex: number,
                             position:
                             {
                                 //These are left as a string for % values

@@ -23,9 +23,9 @@ Todo:
             ✔ scroll bar idle colour is hard to see @done(21-07-12 21:36)
 
     Closed release:
+        ☐ Elements are not loaded in the correct order. (Partially complete).
 
     Public release:
-        ☐ Elements are not loaded in the correct order.
         ☐ Create the settings menu instead of passing options in through the URL.
         ☐ Odd issue with scaled UIs on firefox when dragging elements around.
         ☐ clean up the editor file.

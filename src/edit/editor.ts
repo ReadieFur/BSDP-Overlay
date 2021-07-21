@@ -538,7 +538,7 @@ class Editor
                 {
                     for (const element of elements[category][type][id])
                     {
-                        var container: HTMLDivElement = this.CreateElement(category, type, id);
+                        var container: HTMLDivElement = this.CreateElement(category, type, id, element.zIndex);
                         //Things were being really weird here so I've had to load the properties in certain orders depending on their position.
                         if (element.position.top !== undefined)
                         {
@@ -714,9 +714,9 @@ class Editor
         (<HTMLTableCellElement>container.childNodes[index]).classList.add("visible");
     }
 
-    private CreateElement(category: string, type: string, id: string): HTMLDivElement
+    private CreateElement(category: string, type: string, id: string, zIndex?: number): HTMLDivElement
     {
-        var container: HTMLDivElement = this.ui.CreateElement(category, type, id);
+        var container: HTMLDivElement = this.ui.CreateElement(category, type, id, zIndex);
 
         if (this.ui.createdElements.elements[category][type][id].script.resizeMode !== 0) { container.style.resize = "both"; }
         if (this.ui.createdElements.elements[category][type][id].script.initialWidth !== undefined) { container.style.width = `${this.ui.createdElements.elements[category][type][id].script.initialWidth}px`; }
@@ -1369,6 +1369,7 @@ class Editor
 
             savedElements[location[0]][location[1]][location[2]].push(
             {
+                zIndex: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].zIndex,
                 position: _position,
                 width: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].width,
                 height: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height,
