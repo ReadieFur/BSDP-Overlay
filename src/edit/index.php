@@ -101,11 +101,35 @@
                     <input type="radio" name="radio">
                     <span class="radioButton"></span>
                 </label>
-                <label class="radioButtonContainer" id="gameDataRadio">
-                    <span><p>Game Data</p></span>
-                    <input type="radio" name="radio">
-                    <span class="radioButton"></span>
-                </label>
+                <table class="gameOptionsContainer">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label class="radioButtonContainer" id="gameDataRadio">
+                                    <span><p>Game Data</p></span>
+                                    <input type="radio" name="radio">
+                                    <span class="radioButton"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <form id="ipForm">
+                                    <table class="ipTable">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <p id="ipLabel" class="light">IP:</p>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="gameIP">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

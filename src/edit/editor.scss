@@ -221,12 +221,68 @@ body
             border: 1px solid rgba(var(--foregroundColour), 1);
             border-radius: 10px;
             padding: 0 10px;
-        }
 
-        #walkthroughButton
-        {
-            text-transform: none;
-            margin-left: 10px;
+            > div
+            {
+                > h4
+                {
+                    user-select: none;
+                }
+
+                > #walkthroughButton
+                {
+                    text-transform: none;
+                    margin-left: 10px;
+                }
+
+                > #sampleDataRadio
+                {
+                    > span
+                    {
+                        > p
+                        {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+
+                > .gameOptionsContainer
+                {
+                    border-width: 0;
+                    border-collapse: collapse;
+
+                    td
+                    {
+                        vertical-align: top;
+                    }
+
+                    #gameDataRadio
+                    {
+                        margin-top: 0;
+                        p
+                        {
+                            margin-top: 0;
+                        }
+                    }
+
+                    .ipTable
+                    {
+                        display: none; //TMP while the IP menu is being worked on.
+                        vertical-align: top;
+
+                        #ipLabel
+                        {
+                            margin-top: 0;
+                            user-select: none;
+                        }
+
+                        #gameIP
+                        {
+                            height: 15px;
+                        }
+                    }
+                }
+            }
         }
     }
 

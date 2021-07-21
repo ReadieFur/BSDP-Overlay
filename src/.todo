@@ -26,6 +26,7 @@ Todo:
         ☐ Elements are not loaded in the correct order. (Partially complete).
 
     Public release:
+        ☐ Fix the UI IP changer (then make the URL IP an override).
         ☐ Create the settings menu instead of passing options in through the URL.
         ☐ Odd issue with scaled UIs on firefox when dragging elements around.
         ☐ clean up the editor file.

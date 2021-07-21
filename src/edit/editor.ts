@@ -41,7 +41,9 @@ class Editor
         {
             placeholderData: HTMLLabelElement,
             sampleData: HTMLLabelElement,
-            gameData: HTMLLabelElement
+            gameData: HTMLLabelElement,
+            ipLabel: HTMLParagraphElement,
+            gameIP: HTMLInputElement
         }
     }
 
@@ -146,7 +148,9 @@ class Editor
             {
                 placeholderData: Main.ThrowIfNullOrUndefined(document.querySelector("#placeholderDataRadio")),
                 sampleData: Main.ThrowIfNullOrUndefined(document.querySelector("#sampleDataRadio")),
-                gameData: Main.ThrowIfNullOrUndefined(document.querySelector("#gameDataRadio"))
+                gameData: Main.ThrowIfNullOrUndefined(document.querySelector("#gameDataRadio")),
+                ipLabel: Main.ThrowIfNullOrUndefined(document.querySelector("#ipLabel")),
+                gameIP: Main.ThrowIfNullOrUndefined(document.querySelector("#gameIP"))
             }
         };
 
@@ -298,6 +302,8 @@ class Editor
             { if ((<HTMLInputElement>this.optionsMenu.data.sampleData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(2); } });
         this.optionsMenu.data.gameData.addEventListener("click", () =>
             { if ((<HTMLInputElement>this.optionsMenu.data.gameData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(3); } });
+        (<HTMLFormElement>Main.ThrowIfNullOrUndefined(document.querySelector("#ipForm"))).addEventListener("submit", (e) => { e.preventDefault(); });
+        this.optionsMenu.data.gameIP.addEventListener("change", () => { console.log(this.optionsMenu.data.gameIP.value); if (this.dataSet == 3) { this.ToggleDataSet(3); } });
 
         Main.ThrowIfNullOrUndefined(document.querySelector("#walkthroughButton")).addEventListener("click", () => { this.ShowWalkthroughContainer(); });
         Main.ThrowIfNullOrUndefined(this.walkthroughContainer.querySelector(".background")).addEventListener("click", () =>
@@ -352,11 +358,12 @@ class Editor
         this.SSProgressUpdate();
 
         //Setup the client.
-        this.client = new Client(Main.urlParams.get("ip"));
-        //Client connections are made in 'ToggleDataSet(set)'.
-
+        // var cachedIP = Main.RetreiveCache("GAME_IP");
+        // if (cachedIP == "") { cachedIP = "127.0.0.1"; }
+        // //TODO The URL IP should be an override.
+        // this.ClientInit(Main.urlParams.has("ip") ? Main.urlParams.get("ip") : cachedIP);
+        this.ClientInit(Main.urlParams.get("ip"));
         this.optionsMenu.data.placeholderData.click();
-        // this.ToggleDataSet(1);
 
         this.allowUnload = true;
         this.SSProgressUpdate();
@@ -378,6 +385,14 @@ class Editor
         return this;
     }
 
+    private ClientInit(ip: string | null | undefined): void
+    {
+        if (ip == null || ip == undefined || !RegExp(Client.ipRegex).test(ip)) { ip = "127.0.0.1"; }
+        this.optionsMenu.data.gameIP.value = ip;
+        // Main.SetCache("GAME_IP", ip, 365);
+        this.client = new Client(ip);
+    }
+
     private SSProgressUpdate(progress: boolean = true, message?: string)
     {
         const references = 5;
@@ -396,8 +411,9 @@ class Editor
         {
             case 1:
                 //Placeholder data.
-                this.client.RemoveEndpoint("MapData");
-                this.client.RemoveEndpoint("LiveData");
+                this.optionsMenu.data.ipLabel.style.color = "#cccccc";
+                this.optionsMenu.data.gameIP.disabled = true;
+                this.client.Dispose();
                 for (const category of Object.keys(this.ui.createdElements.elements))
                 {
                     for (const type of Object.keys(this.ui.createdElements.elements[category]))
@@ -411,13 +427,19 @@ class Editor
                 break;
             case 2:
                 //Sample data.
-                this.client.RemoveEndpoint("MapData");
-                this.client.RemoveEndpoint("LiveData");
+                this.optionsMenu.data.ipLabel.style.color = "#cccccc";
+                this.optionsMenu.data.gameIP.disabled = true;
+                this.client.Dispose();
                 this.ui.UpdateMapData(SampleData.mapData);
                 this.ui.UpdateLiveData(SampleData.liveData);
                 break;
             case 3:
                 //Game data.
+                this.optionsMenu.data.ipLabel.style.removeProperty("color");
+                this.optionsMenu.data.gameIP.disabled = false;
+                //This IP switching is not working as intended and opens multiple connectiosn when they should be disposed.
+                this.client.Dispose();
+                this.ClientInit(this.optionsMenu.data.gameIP.value);
                 this.client.AddEndpoint("MapData");
                 this.client.AddEndpoint("LiveData");
                 this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });

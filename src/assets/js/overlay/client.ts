@@ -3,6 +3,7 @@ import { EventDispatcher } from "../eventDispatcher.js";
 
 export class Client
 {
+    public static readonly ipRegex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/;
     private protocol: "wss" | "ws";
     public IP: string;
     public connections: Dictionary<CustomWebSocket>;
@@ -14,7 +15,7 @@ export class Client
             //this.protocol = "wss";
             this.IP = "127.0.0.1";
         }
-        else if (RegExp(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/).test(_IP))
+        else if (RegExp(Client.ipRegex).test(_IP))
         {
             //WIP
             /*if (_IP !== "127.0.0.1" && window.location.protocol !== "http:")
@@ -41,7 +42,20 @@ export class Client
 
     public RemoveEndpoint(endpoint: string): void
     {
-        delete this.connections[endpoint];
+        if (this.connections[endpoint] !== undefined)
+        {
+            this.connections[endpoint].Close();
+            delete this.connections[endpoint];
+        }
+    }
+
+    public Dispose(): void
+    {
+        for (var endpoint in this.connections)
+        {
+            this.connections[endpoint].Close();
+            delete this.connections[endpoint];
+        }
     }
 }
 
@@ -69,6 +83,11 @@ class CustomWebSocket
         this.websocket.onclose = (ev: Event) => { this.OnClose(ev); };
         this.websocket.onerror = (ev: Event) => { this.OnError(ev); };
         this.websocket.onmessage = (ev: MessageEvent<any>) => { this.OnMessage(ev); };
+    }
+
+    public Close()
+    {
+        if (this.websocket !== null) { this.websocket.close(); }
     }
 
     public AddEventListener(event: "open" | "close" | "error" | "message", callback: (data?: any) => any): void
