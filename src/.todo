@@ -39,7 +39,6 @@ Todo:
         ☐ prevent elements from being scaled outside the UI.
         ☐ fix text property editor updates being delayed by 1 change.
         ☐ add text alignment (currently fixed to the side of the overlay it is on).
-        ☐ sort out the protocol to load (http/https) when an external IP is specified.
         ☐ fix the small spacing gap in the editor table.
         ☐ add percentage alignments.
         ☐ add align center for horizontal/vertical within the parent.
@@ -102,6 +101,7 @@ Done:
     ✔ add padding to the description text area. @done(21-06-29 18:00)
     ✔ Increase the description char limit. @done(21-07-21 19:33)
     ✔ Fix the UI IP changer. @done(21-07-22 21:12)
+    ✔ sort out the protocol to load (http/https) when an external IP is specified. @done(21-07-22 21:28)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

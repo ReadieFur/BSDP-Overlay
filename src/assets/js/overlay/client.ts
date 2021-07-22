@@ -10,28 +10,11 @@ export class Client
 
     constructor(_IP?: string | null)
     {
-        if (_IP === undefined || _IP === null)
-        {
-            //this.protocol = "wss";
-            this.IP = "127.0.0.1";
-        }
-        else if (RegExp(Client.ipRegex).test(_IP))
-        {
-            //WIP
-            /*if (_IP !== "127.0.0.1" && window.location.protocol !== "http:")
-            {
-                window.location.protocol = "http:";
-                window.location.reload();
-            }*/
-            //this.protocol = "ws";
-            this.IP = _IP;
-        }
-        else
-        {
-            throw new SyntaxError("Invalid IP");
-        }
+        if (_IP === undefined || _IP === null) { this.IP = "127.0.0.1"; }
+        else if (RegExp(Client.ipRegex).test(_IP)) { this.IP = _IP; }
+        else { throw new SyntaxError("Invalid IP"); }
 
-        this.protocol = "ws"; //For now the protocol will be forced to 'WS'.
+        this.protocol = window.location.protocol === "https:" ? "wss" : "ws";
         this.connections = {};
     }
 
