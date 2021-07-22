@@ -66,7 +66,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.text.innerText = UI.SeperateNumber(data.PlayerHealth);
+            element.text.innerText = UI.SeperateNumber(Math.round(data.PlayerHealth * 10) / 10);
         }
     }
 }
