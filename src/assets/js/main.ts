@@ -104,7 +104,8 @@ export class Main
             if (element.href == window.location.origin + window.location.pathname)
             {
                 element.classList.add("accent");
-                let whyIsThisSoFarBack = element.parentElement?.parentElement?.parentElement;
+                // let whyIsThisSoFarBack = element.parentElement?.parentElement?.parentElement;
+                let whyIsThisSoFarBack = element.parentElement !== null ? element.parentElement.parentElement !== null ? element.parentElement.parentElement.parentElement : null : null;
                 if (whyIsThisSoFarBack !== null || whyIsThisSoFarBack !== undefined)
                 {
                     if (whyIsThisSoFarBack!.classList.contains("naviDropdown")) { whyIsThisSoFarBack!.firstElementChild!.classList.add("accent"); }
