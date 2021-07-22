@@ -39,9 +39,7 @@ export class Main
                 \\)   \\)      \\)  (/
             -What are you doing here?
         `);
-
-        (<HTMLDivElement>Main.ThrowIfNullOrUndefined(document.querySelector("#javascriptAlert"))).style.display = "none";
-
+        
         Main.WEB_ROOT = WEB_ROOT;
         Main.urlParams = new URLSearchParams(location.search);
         Main.header = Main.ThrowIfNullOrUndefined(document.querySelector("#header"));

@@ -27,12 +27,6 @@
         </div>
     </div>
 </section>
-<div id="javascriptAlert">
-    <div class="center">
-        <h3 class="center x text">Javascript must be enabled for this site to work.</h3>
-        <p class="center x text">Please enable javascript.</p>
-    </div>
-</div>
 <iframe id="accountContainer" src="//api-readie.global-gaming.<?php echo $DOMAIN[count($DOMAIN) - 1]; ?>/account/"></iframe>
 <div id="alertBoxContainer">
     <div class="background"></div>
