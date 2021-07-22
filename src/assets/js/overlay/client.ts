@@ -44,7 +44,7 @@ export class Client
     {
         if (this.connections[endpoint] !== undefined)
         {
-            this.connections[endpoint].Close();
+            this.connections[endpoint].Disconnect();
             delete this.connections[endpoint];
         }
     }
@@ -53,7 +53,7 @@ export class Client
     {
         for (var endpoint in this.connections)
         {
-            this.connections[endpoint].Close();
+            this.connections[endpoint].Disconnect();
             delete this.connections[endpoint];
         }
     }
@@ -61,6 +61,7 @@ export class Client
 
 class CustomWebSocket
 {
+    private close: boolean;
     private protocol: string;
     private ip: string;
     private endpoint: string;
@@ -69,6 +70,7 @@ class CustomWebSocket
 
     constructor(_protocol: string, _ip: string, _endpoint: string)
     {
+        this.close = false;
         this.protocol = _protocol;
         this.ip = _ip;
         this.endpoint = _endpoint;
@@ -78,6 +80,7 @@ class CustomWebSocket
 
     public Connect(): void
     {
+        this.close = false;
         this.websocket = new WebSocket(`${this.protocol}://${this.ip}:2946/BSDataPuller/${this.endpoint}`);
         this.websocket.onopen = (ev: Event) => { this.OnOpen(ev); };
         this.websocket.onclose = (ev: Event) => { this.OnClose(ev); };
@@ -85,9 +88,11 @@ class CustomWebSocket
         this.websocket.onmessage = (ev: MessageEvent<any>) => { this.OnMessage(ev); };
     }
 
-    public Close()
+    public Disconnect(): void
     {
-        if (this.websocket !== null) { this.websocket.close(); }
+        this.close = true;
+        if (this.websocket !== null) { this.websocket.close(1000); } //I can't seem to read this properly on the event.
+        this.websocket = null;
     }
 
     public AddEventListener(event: "open" | "close" | "error" | "message", callback: (data?: any) => any): void
@@ -108,7 +113,7 @@ class CustomWebSocket
     private OnClose(ev: Event): void
     {
         this.eventDispatcher.DispatchEvent("close", ev);
-        setTimeout(() => { this.Connect(); }, 5000);
+        if (!this.close) { setTimeout(() => { this.Connect(); }, 5000); }
     }
 
     private OnError(ev: Event): void

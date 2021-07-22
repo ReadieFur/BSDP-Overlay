@@ -26,7 +26,7 @@ Todo:
         ☐ Elements are not loaded in the correct order. (Partially complete).
 
     Public release:
-        ☐ Fix the UI IP changer (then make the URL IP an override).
+        ☐ Change some variables from being stored as a cookie to local storage.
         ☐ Create the settings menu instead of passing options in through the URL.
         ☐ Odd issue with scaled UIs on firefox when dragging elements around.
         ☐ clean up the editor file.
@@ -101,6 +101,7 @@ Done:
     ✔ (sneaky) make the footer c date dynamic. @done(21-06-28 16:19)
     ✔ add padding to the description text area. @done(21-06-29 18:00)
     ✔ Increase the description char limit. @done(21-07-21 19:33)
+    ✔ Fix the UI IP changer. @done(21-07-22 21:12)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

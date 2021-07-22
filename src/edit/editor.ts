@@ -303,7 +303,7 @@ class Editor
         this.optionsMenu.data.gameData.addEventListener("click", () =>
             { if ((<HTMLInputElement>this.optionsMenu.data.gameData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(3); } });
         (<HTMLFormElement>Main.ThrowIfNullOrUndefined(document.querySelector("#ipForm"))).addEventListener("submit", (e) => { e.preventDefault(); });
-        this.optionsMenu.data.gameIP.addEventListener("change", () => { console.log(this.optionsMenu.data.gameIP.value); if (this.dataSet == 3) { this.ToggleDataSet(3); } });
+        this.optionsMenu.data.gameIP.addEventListener("change", () => { if (this.dataSet == 3) { this.ToggleDataSet(3); } });
 
         Main.ThrowIfNullOrUndefined(document.querySelector("#walkthroughButton")).addEventListener("click", () => { this.ShowWalkthroughContainer(); });
         Main.ThrowIfNullOrUndefined(this.walkthroughContainer.querySelector(".background")).addEventListener("click", () =>
@@ -357,12 +357,14 @@ class Editor
         await this.LoadOverlay();
         this.SSProgressUpdate();
 
-        //Setup the client.
-        // var cachedIP = Main.RetreiveCache("GAME_IP");
-        // if (cachedIP == "") { cachedIP = "127.0.0.1"; }
-        // //TODO The URL IP should be an override.
-        // this.ClientInit(Main.urlParams.has("ip") ? Main.urlParams.get("ip") : cachedIP);
-        this.ClientInit(Main.urlParams.get("ip"));
+        // Setup the client.
+        const urlIP = Main.urlParams.get("ip");
+        const cachedIP = Main.RetreiveCache("GAME_IP");
+        var ip: string;
+        if (urlIP !== null && RegExp(Client.ipRegex).test(urlIP)) { ip = urlIP; }
+        else if (cachedIP != "" && RegExp(Client.ipRegex).test(cachedIP)) { ip = cachedIP; }
+        else { ip = "127.0.0.1"; }
+        this.ClientInit(ip);
         this.optionsMenu.data.placeholderData.click();
 
         this.allowUnload = true;
@@ -389,8 +391,12 @@ class Editor
     {
         if (ip == null || ip == undefined || !RegExp(Client.ipRegex).test(ip)) { ip = "127.0.0.1"; }
         this.optionsMenu.data.gameIP.value = ip;
-        // Main.SetCache("GAME_IP", ip, 365);
+        Main.SetCache("GAME_IP", ip, 365);
         this.client = new Client(ip);
+        this.client.AddEndpoint("MapData");
+        this.client.AddEndpoint("LiveData");
+        this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
+        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
     }
 
     private SSProgressUpdate(progress: boolean = true, message?: string)
@@ -413,7 +419,8 @@ class Editor
                 //Placeholder data.
                 this.optionsMenu.data.ipLabel.style.color = "#cccccc";
                 this.optionsMenu.data.gameIP.disabled = true;
-                this.client.Dispose();
+                this.client.connections["MapData"].Disconnect();
+                this.client.connections["LiveData"].Disconnect();
                 for (const category of Object.keys(this.ui.createdElements.elements))
                 {
                     for (const type of Object.keys(this.ui.createdElements.elements[category]))
@@ -429,7 +436,8 @@ class Editor
                 //Sample data.
                 this.optionsMenu.data.ipLabel.style.color = "#cccccc";
                 this.optionsMenu.data.gameIP.disabled = true;
-                this.client.Dispose();
+                this.client.connections["MapData"].Disconnect();
+                this.client.connections["LiveData"].Disconnect();
                 this.ui.UpdateMapData(SampleData.mapData);
                 this.ui.UpdateLiveData(SampleData.liveData);
                 break;
@@ -440,11 +448,7 @@ class Editor
                 //This IP switching is not working as intended and opens multiple connectiosn when they should be disposed.
                 this.client.Dispose();
                 this.ClientInit(this.optionsMenu.data.gameIP.value);
-                this.client.AddEndpoint("MapData");
-                this.client.AddEndpoint("LiveData");
-                this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
                 this.client.connections["MapData"].Connect();
-                this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
                 this.client.connections["LiveData"].Connect();
                 break;
         }
