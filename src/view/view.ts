@@ -12,15 +12,37 @@ class View
     private ssSubText!: HTMLHeadingElement;
     private ssProgressStage!: number;
     private ssProgress!: HTMLDivElement;
+    private optionsContainer!:
+    {
+        show: HTMLDivElement;
+        parent: HTMLDivElement;
+        options:
+        {
+            ip: HTMLInputElement;
+            scale: HTMLInputElement;
+        }
+    };
 
     public async Init(): Promise<View>
     {
         new Main();
         new HeaderSlide();
 
+        if (Main.urlParams.has("debug")) { document.body.style.backgroundColor = "black"; } //Purely for firefox (transparent results in a white background).
+
         this.ssProgressStage = 0;
         this.ssSubText = Main.ThrowIfNullOrUndefined(document.querySelector("#ssSubText"));
         this.ssProgress = Main.ThrowIfNullOrUndefined(document.querySelector("#ssProgress"));
+        this.optionsContainer =
+        {
+            show: Main.ThrowIfNullOrUndefined(document.querySelector("#showOptionsContainer")),
+            parent: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsContainer")),
+            options:
+            {
+                ip: Main.ThrowIfNullOrUndefined(document.querySelector("#gameIP")),
+                scale: Main.ThrowIfNullOrUndefined(document.querySelector("#scale"))
+            }
+        }
 
         this.SSProgressUpdate(false, "Checking for overlay");
         this.path = window.location.pathname.split('/').filter((part) => { return part != ""; });
@@ -37,15 +59,38 @@ class View
         this.SSProgressUpdate();
 
         this.SSProgressUpdate(false, "Enviroment setup");
-        window.addEventListener("resize", () => { this.ConfigureWindow(); });
-        this.ConfigureWindow();
-        this.client = new Client(Main.urlParams.get("ip"));
-        this.client.AddEndpoint("MapData");
-        this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
-        this.client.connections["MapData"].Connect();
-        this.client.AddEndpoint("LiveData");
-        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
-        this.client.connections["LiveData"].Connect();
+
+        (<HTMLSpanElement>Main.ThrowIfNullOrUndefined(document.querySelector(".slideMenu"))).addEventListener("mouseenter", (e) => { Main.Tooltip("Click to show the header", e, "bottom"); });
+
+        this.optionsContainer.show.addEventListener("click", (e) => { Main.SingleTooltip("Double click to show options", e.clientX, e.clientY, 1000, "top"); });
+        this.optionsContainer.show.addEventListener("dblclick", () => { this.ToggleOptionsContainer(true); });
+        (<HTMLDivElement>Main.ThrowIfNullOrUndefined(this.optionsContainer.parent.querySelector(".background"))).addEventListener("click", () => { this.ToggleOptionsContainer(false); });
+        this.optionsContainer.options.ip.addEventListener("change", () =>
+        {
+            this.client.Dispose();
+            this.ClientInit(this.optionsContainer.options.ip.value);
+        });
+
+        //UI Scale
+        window.addEventListener("resize", () => { this.ConfigureWindow(parseFloat(this.optionsContainer.options.scale.value)); });
+        this.optionsContainer.options.scale.addEventListener("input", (e) => { this.ConfigureWindow(parseFloat(this.optionsContainer.options.scale.value)); });
+        const urlScale = Main.urlParams.get("scale") != null ? parseFloat(<string>Main.urlParams.get("scale")) : null;
+        const cachedScale = Main.RetreiveCache("OVERLAY_SCALE");
+        var scale: number;
+        if (urlScale !== null && !isNaN(urlScale)) { scale = urlScale * 100; }
+        else if (cachedScale != "") { scale = parseFloat(cachedScale); }
+        else { scale = 100; }
+        this.ConfigureWindow(scale);
+        
+        // Setup the client.
+        const urlIP = Main.urlParams.get("ip");
+        const cachedIP = Main.RetreiveCache("GAME_IP");
+        var ip: string;
+        if (urlIP !== null && RegExp(Client.ipRegex).test(urlIP)) { ip = urlIP; }
+        else if (cachedIP != "" && RegExp(Client.ipRegex).test(cachedIP)) { ip = cachedIP; }
+        else { ip = "127.0.0.1"; }
+        this.ClientInit(ip);
+
         this.SSProgressUpdate();
 
         this.SSProgressUpdate(false, "Loading overlay");
@@ -61,7 +106,38 @@ class View
         return this;
     }
 
-    private ConfigureWindow(): void
+    private ClientInit(ip: string | null | undefined): void
+    {
+        if (ip == null || ip == undefined || !RegExp(Client.ipRegex).test(ip)) { ip = "127.0.0.1"; }
+        this.optionsContainer.options.ip.value = ip;
+        Main.SetCache("GAME_IP", ip, 365);
+        this.client = new Client(ip);
+        this.client.AddEndpoint("MapData");
+        this.client.AddEndpoint("LiveData");
+        this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
+        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
+        this.client.connections["MapData"].Connect();
+        this.client.connections["LiveData"].Connect();
+    }
+
+    private ToggleOptionsContainer(show: boolean): void
+    {
+        if (show)
+        {
+            this.optionsContainer.parent.style.display = "block";
+            this.optionsContainer.parent.classList.remove("fadeOut");
+            this.optionsContainer.parent.classList.add("fadeIn");
+            Main.Unfocus(); //I tried using this to make the option elements not selected, but it didn't work.
+        }
+        else
+        {
+            this.optionsContainer.parent.classList.remove("fadeIn");
+            this.optionsContainer.parent.classList.add("fadeOut");
+            setTimeout(() => { this.optionsContainer.parent.style.display = "none"; }, 399);
+        }
+    }
+
+    private ConfigureWindow(userScale: number = 100): void
     {
         const baseWidth = 1920;
         const baseHeight = 1080;
@@ -75,15 +151,18 @@ class View
 
         var scale = clientWiderThanTall ? clientWidth / baseWidth : clientHeight / baseHeight;
 
-        // var userScale = parseInt(Main.urlParams.get("scale") || "1") || 1; //The OBS browser dosent like this.
-        var userScale = parseFloat(Main.urlParams.get("scale") != null ? <string>Main.urlParams.get("scale") : "1");
-        userScale = isNaN(userScale) ? 1 : userScale;
+        if (isNaN(userScale)) { userScale = 100; }
+        else if (userScale <= 25) { userScale = 25; }
+        else if (userScale >= 200) { userScale = 200; }
+        Main.SetCache("OVERLAY_SCALE", userScale.toString(), 365);
+        this.optionsContainer.options.scale.value = userScale.toString();
+        const userScaleCorrected = userScale / 100;
 
-        if (userScale != 1)
+        if (userScaleCorrected != 1)
         {
-            this.ui.overlay.style.transform = `scale(${scale * userScale})`;
-            this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale / userScale}px`;
-            this.ui.overlay.style[clientWiderThanTall ? "width" : "height"] = `${(clientWiderThanTall ? clientWidth : clientHeight) / (scale * userScale)}px`;
+            this.ui.overlay.style.transform = `scale(${scale * userScaleCorrected})`;
+            this.ui.overlay.style[!clientWiderThanTall ? "width" : "height"] = `${(!clientWiderThanTall ? clientWidth : clientHeight) / scale / userScaleCorrected}px`;
+            this.ui.overlay.style[clientWiderThanTall ? "width" : "height"] = `${(clientWiderThanTall ? clientWidth : clientHeight) / (scale * userScaleCorrected)}px`;
         }
         else
         {
@@ -135,9 +214,8 @@ class View
             {
                 for (const id of Object.keys(elements[category][type]))
                 {
-                    for (let i = 0; i < elements[category][type][id].length; i++)
+                    for (const elementProperties of Object.values(elements[category][type][id]))
                     {
-                        const elementProperties = elements[category][type][id][i];
                         var container: HTMLDivElement = this.ui.CreateElement(category, type, id);
                         if (elementProperties.position.top !== undefined)
                         {

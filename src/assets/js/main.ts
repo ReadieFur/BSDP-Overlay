@@ -254,17 +254,23 @@ export class Main
     {
         if (ev.currentTarget !== undefined)
         {
-            (<HTMLElement>ev.currentTarget).onmousemove = (_ev) => { this.TooltipMove(message, _ev, side); };
+            (<HTMLElement>ev.currentTarget).onmousemove = (_ev) => { this.TooltipMove(message, _ev.clientX, _ev.clientY, side); };
 
             //I'd like to clear this event listener but I cant pass 'this' into the remove event listener function and I dont want to store the small function externally.
             (<HTMLElement>ev.currentTarget).onmouseleave = () => { this.tooltipContainer.style.removeProperty("display"); };
 
             //I would've kept the TooltipMove function in here but I couldn't get this event to dispatch properly when trying to show the tooltip on the first pixel/click.
-            this.TooltipMove(message, ev, side);
+            this.TooltipMove(message, ev.clientX, ev.clientY, side);
         }
     }
 
-    public static TooltipMove(message: string, ev: MouseEvent, side: "top" | "left" | "bottom" | "right")
+    public static SingleTooltip(message: string, x: number, y: number, timeout: number, side: "top" | "left" | "bottom" | "right")
+    {
+        this.TooltipMove(message, x, y, side);
+        setTimeout(() => { this.tooltipContainer.style.removeProperty("display"); }, timeout);
+    }
+
+    private static TooltipMove(message: string, x: number, y: number, side: "top" | "left" | "bottom" | "right")
     {
         this.tooltipContainer.style.display = "block";
         this.tooltipText.innerHTML = message;
@@ -276,22 +282,22 @@ export class Main
         switch (side)
         {
             case "top":
-                this.tooltipContainer.style.top = `${ev.clientY - this.tooltipContainer.clientHeight - 10}px`;
-                this.tooltipContainer.style.left = `${ev.clientX - (this.tooltipContainer.clientWidth / 2)}px`;
+                this.tooltipContainer.style.top = `${y - this.tooltipContainer.clientHeight - 10}px`;
+                this.tooltipContainer.style.left = `${x - (this.tooltipContainer.clientWidth / 2)}px`;
                 break;
             case "left":
-                this.tooltipContainer.style.top = `${ev.clientY - (this.tooltipContainer.clientHeight / 2)}px`;
-                this.tooltipContainer.style.left = `${ev.clientX - (this.tooltipContainer.clientWidth + 10)}px`;
+                this.tooltipContainer.style.top = `${y - (this.tooltipContainer.clientHeight / 2)}px`;
+                this.tooltipContainer.style.left = `${x - (this.tooltipContainer.clientWidth + 10)}px`;
                 break;
             case "bottom":
-                this.tooltipContainer.style.top = `${ev.clientY + this.tooltipContainer.clientHeight + 10}px`;
-                this.tooltipContainer.style.left = `${ev.clientX - (this.tooltipContainer.clientWidth / 2)}px`;
+                this.tooltipContainer.style.top = `${y + this.tooltipContainer.clientHeight + 10}px`;
+                this.tooltipContainer.style.left = `${x - (this.tooltipContainer.clientWidth / 2)}px`;
                 break;
             case "right":
-                this.tooltipContainer.style.top = `${ev.clientY - (this.tooltipContainer.clientHeight / 2)}px`;
-                this.tooltipContainer.style.left = `${ev.clientX + 10}px`;
+                this.tooltipContainer.style.top = `${y - (this.tooltipContainer.clientHeight / 2)}px`;
+                this.tooltipContainer.style.left = `${x + 10}px`;
                 break;
-            default:
+            /*default:
                 //WIP auto positioning.
                 var yPosition: "top" | "middle" | "bottom";
                 var xPosition: "left" | "middle" | "right";
@@ -313,8 +319,8 @@ export class Main
                 console.log(xPosition, yPosition);
 
                 /*this.tooltipContainer.style.top = `${top}px`;
-                this.tooltipContainer.style.left = `${left}px`;*/
-                break;
+                this.tooltipContainer.style.left = `${left}px`;*
+                break;*/
         }
     }
 
@@ -345,6 +351,11 @@ export class Main
             Main.alertBoxText.innerHTML = message;
             Main.alertBoxContainer.style.display = "block";
         }
+    }
+
+    public static Unfocus()
+    {
+        Main.alertBoxTextBox.focus();
     }
 
     public static Sleep(milliseconds: number): Promise<unknown>

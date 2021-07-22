@@ -32,6 +32,19 @@
             </div>
         </div>
     </span>
+    <div id="showOptionsContainer"></div>
+    <div id="optionsContainer">
+        <div class="background"></div>
+        <div class="container">
+            <h4>Options</h4>
+            <form>
+                <p id="ipLabel" class="light">IP:</p>
+                <input type="text" id="gameIP">
+                <p id="ipLabel" class="light">Scale:</p>
+                <input type="number" id="scale" min="25" max="200">
+            </form>
+        </div>
+    </div>
     <div id="overlay"></div>
 </body>
 <footer id="footer"></footer>

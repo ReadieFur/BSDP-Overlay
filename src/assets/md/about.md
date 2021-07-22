@@ -12,6 +12,7 @@ Once you have an account you can create up to 10 overlays, either public or priv
 To create a new overlay, just open the editor.  
 To edit your existing overlays, find it in the browser by using the search filter `username:<YOUR_USERNAME_HERE>`, click on the desired overlay and then press `edit`.  
 To use public overlays by others, just click on the desired overlay from the browser and then press `use overlay`.  
+
 ## What's to come:
 This webapp is still very new and there should be a lot of changes to come in the future, some things inclue:  
 - Block like scripting for events in the game
@@ -19,4 +20,5 @@ This webapp is still very new and there should be a lot of changes to come in th
 - New elements
 - And much more!
 
-I'm always open to new ideas and sugguestions, so if you feel like something could be added or improved feel free to drop me a message on Github or Discord.
+I'm always open to new ideas and sugguestions, so if you feel like something could be added or improved feel free to drop me a message on GitHub or Discord.
+For more information on this project, check the GitHub [README.md](https://github.com/kOFReadie/BSDP-Overlay#readme)
