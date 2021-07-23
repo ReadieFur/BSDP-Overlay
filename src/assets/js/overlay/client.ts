@@ -14,7 +14,8 @@ export class Client
         else if (RegExp(Client.ipRegex).test(_IP)) { this.IP = _IP; }
         else { throw new SyntaxError("Invalid IP"); }
 
-        this.protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        // this.protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        this.protocol = "ws"; //Currently forced to ws.
         this.connections = {};
     }
 
