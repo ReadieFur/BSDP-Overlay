@@ -1,43 +1,32 @@
 # BSDP-Overlay
-A BeatSaber overlay I have created for my [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod.
-This overlay is easy to use, just add the [Overlay](http://u-readie.global-gaming.co/bsdp-overlay/) to your recording/streaming software of choice as a browser source. (Make sure you have the [DataPuller](https://github.com/kOFReadie/DataPuller/releases) mod installed).
+**Please Note:** that this tool is still in early acces and it is highly likley that there are many bugs that exist, the tool is not complete yet and there should be much more to come in the future.
 
-## Preview:
-<img src="./previews/overlay.png" width="720">
+## What is this?  
+BSDP Overlay is an overlay that can be used with the DataPuller mod for BeatSaber.  
+It takes the data outputted by the game and displays it for you, the user to overlay on your recordings/streams. 
 
-## Options:
-Here is an example of how to use these parameters in the URL: `.../bsdp-overlay/default/?debug&flipHori&hideModifiersHealth&overlayForeground=255,120,0&ip=192.168.1.197&scale=0.9`  
-The first parameter must start with a queston mark `?` and every other parameter after that must start with an and symbol `&`. It dosen't matter which order you put them in.
+## Why is this special?  
+There are other overlays out there, so what makes this one special?  
+Well aside from the default overlay that has been out since May 25, 2020, this webapp allows you to create your own overlays without needing to know how to code!  
 
-### IP:
-- `ip=*`: Use this parameter if you have the mod setup to send the data over a different IP (Currently for LAN use only)
+## What's to come:
+This webapp is still very new and there should be a lot of changes to come in the future, some things inclue:  
+- Block like scripting for events in the game
+- Custom CSS
+- New elements
+- And much more!
 
-### UI Scale:
-- `scale=*`: Changes the scale of the UI, the site was designed for 1080p.
+## Here are some examples of the webapp in action:  
+### Editor:  
+<img src="./previews/Editor.gif" width="480">  
 
-### Colours:
-`overlayForeground=R,G,B`: Changes the colour of the foreground elements such as text.  
-`overlayBackground=R,G,B`: Changes the colour of the background elements.  
-`overlayAlt=R,G,B`: Changes the colour of the third colour used for the background of the health and disabled modifiers.  
+### View:  
+<img src="./previews/View.gif" width="480">  
 
-### Element Visibility:
-Changes the visibility of the three main elements on the overlay.
-- `hideStats`: Hides the map stats.  
-  <img src="./previews/stats.png" width="480">
-- `hideMapDetails`: Hides the map details.  
-  <img src="./previews/mapDetails.png" width="480">
-- `hideModifiersHealth`: Hides the modifiers and health.  
-  <img src="./previews/modifiersAndHealth.png" height="256">
+### Private/public visibility:  
+<img src="./previews/PublicPrivate.gif" width="480">  
 
-### Element Position:
-- `flipHori`: Moves the song information to the right and the modifiers/health to the left.
-- `flipVerti`: Places the map information at the top.
+### Game preview:  
+<img src="./previews/GamePreview.gif" width="480">  
 
-### Hide when inactive:
-- `hideInactive`: Hides the UI when BeatSaber is closed.
-
-### An example of mixed URL parameters:  
-<img src="./previews/scale=1.1&flipHori&FlipVert&hideModifiersHealth.png" width="512">
-
-## Upcoming changes:
-I plan to create an overlay editor, similar to WIX where you can drag and drop elements onto the page, you will be able to customise the fonts and designs etc, at first it may be a little janky but I hope to work on it an improve it a lot over time.
+I'm always open to new ideas and sugguestions, so if you feel like something could be added or improved feel free to drop me a message on Github or Discord.
