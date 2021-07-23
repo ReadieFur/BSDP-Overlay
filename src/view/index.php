@@ -12,7 +12,7 @@
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
     <link rel="stylesheet" href="<?php echo $WEB_ROOT; ?>/view/view.css">
-    <script src="<?php echo $WEB_ROOT; ?>/view/view.js" type="module"></script>
+    <script src="<?php echo $WEB_ROOT; ?>/view/view.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>

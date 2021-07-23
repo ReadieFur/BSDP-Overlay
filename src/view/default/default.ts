@@ -12,6 +12,7 @@ class Default
     {
         setInterval(() => { console.clear(); }, 600000); //Try to clear some memory every 10 mins (mainly for clearing disconnected client errors)
 
+        if (window.location.protocol !== "http:") { window.location.href = `http://${window.location.hostname}${window.location.pathname}${window.location.search}`; } //Force the protocol to be http://
         new Main();
         new HeaderSlide();
         this.ui = new DefaultUI();

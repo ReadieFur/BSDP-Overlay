@@ -10,7 +10,7 @@
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
     <link rel="stylesheet" href="./browser.css">
-    <script src="browser.js" type="module"></script>
+    <script src="browser.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>

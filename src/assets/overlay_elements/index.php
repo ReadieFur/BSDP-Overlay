@@ -12,7 +12,7 @@
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
     <link href="./overlay_elements.css" rel="stylesheet">
-    <script src="./overlay_elements.js" type="module"></script>
+    <script src="./overlay_elements.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>

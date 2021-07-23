@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="../assets/css/markdown.css">
     <script src="https://cdn.global-gaming.co/resources/scripts/marked/marked-2.0.3.min.js"></script>
-    <script src="./index.js" type="module"></script>
+    <script src="./index.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>

@@ -50,7 +50,6 @@ Todo:
         ☐ add some browser specific features (styles).
     
     Optional:
-        ☐ I may need to defer the scripts to make sure that they are loaded after the page is loaded.
         ☐ Convert all colours to HSL.
         ☐ add a rotation option.
         ☐ add block like scripting (e.g. do x on y).
@@ -104,6 +103,7 @@ Done:
     ✔ Fix the UI IP changer. @done(21-07-22 21:12)
     ✔ sort out the protocol to load (http/https) when an external IP is specified. @done(21-07-22 21:28)
     ✔ Remove the noscript tag from the page. @done(21-07-23 00:37)
+    ✔ I may need to defer the scripts to make sure that they are loaded after the page is loaded. @done(21-07-23 01:01)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

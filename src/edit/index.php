@@ -13,7 +13,7 @@
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
     <link rel="stylesheet" href="<?php echo $WEB_ROOT; ?>/edit/editor.css">
     <script src="https://cdn.global-gaming.co/resources/scripts/dom-to-image.min.js"></script>
-    <script src="<?php echo $WEB_ROOT; ?>/edit/editor.js" type="module"></script>
+    <script src="<?php echo $WEB_ROOT; ?>/edit/editor.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
