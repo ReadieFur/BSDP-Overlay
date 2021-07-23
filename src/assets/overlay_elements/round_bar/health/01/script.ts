@@ -129,7 +129,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var value = this.elements[key];
-            value.health.innerHTML = `${data.PlayerHealth}%`;
+            value.health.innerHTML = `${Math.round(data.PlayerHealth * 10) / 10}%`;
             this.SetProgress(key, data.PlayerHealth);
         }
     }
