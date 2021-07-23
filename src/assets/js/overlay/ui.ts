@@ -39,6 +39,7 @@ export class UI
         this.createdElements =
         {
             idCount: 0,
+            zIndex: 1,
             locations: {},
             elements: {}
         };
@@ -104,7 +105,7 @@ export class UI
         }
     }
 
-    public CreateElement(category: string, type: string, id: string, zIndex?: number): HTMLDivElement
+    public CreateElement(category: string, type: string, id: string, zIndex: number = ++this.createdElements.zIndex): HTMLDivElement
     {
         if (this.importedElements[category][type][id] === undefined)
         { throw new TypeError(`${type}_${category}_${id} was not found in the imported elements list.`); } //Or return an error message
@@ -129,7 +130,7 @@ export class UI
         container.id = `element_${++this.createdElements.idCount}`;
         container.classList.add("container");
         container.innerHTML = this.importedElements[category][type][id].html;
-        container.style.zIndex = zIndex !== undefined ? zIndex.toString() : this.createdElements.idCount.toString();
+        container.style.zIndex = zIndex.toString();
 
         this.createdElements.elements[category][type][id].script.AddElement(container);
         //It would be better if I stored all the properties in the element script and then asked for them when I needed it.
@@ -138,7 +139,7 @@ export class UI
         {
             //This zIndex shall be used as a temoporary solution for the zIndex of the element. In the future the user will be able to customise this.
             //The current solution is not perfect for this as there can be duplicates BUT, for now it should be ok.
-            zIndex: this.createdElements.idCount,
+            zIndex: zIndex,
             position:
             {
                 top: "0px",

@@ -217,7 +217,8 @@ class View
                 {
                     for (const elementProperties of Object.values(elements[category][type][id]))
                     {
-                        var container: HTMLDivElement = this.ui.CreateElement(category, type, id);
+                        if (elementProperties.zIndex > this.ui.createdElements.zIndex) { this.ui.createdElements.zIndex = elementProperties.zIndex; }
+                        var container: HTMLDivElement = this.ui.CreateElement(category, type, id, elementProperties.zIndex);
                         if (elementProperties.position.top !== undefined)
                         {
                             container.style.top = elementProperties.position.top;

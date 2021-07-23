@@ -137,6 +137,7 @@ export type SavedElements =
 export type CreatedElements =
 {
     idCount: number,
+    zIndex: number,
     locations: Dictionary<[string, string, string, string]>, //This just makes it easier for me to navigate this object.
     elements:
     {

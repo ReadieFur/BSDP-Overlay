@@ -566,6 +566,7 @@ class Editor
                 {
                     for (const element of elements[category][type][id])
                     {
+                        if (element.zIndex > this.ui.createdElements.zIndex) { this.ui.createdElements.zIndex = element.zIndex; }
                         var container: HTMLDivElement = this.CreateElement(category, type, id, element.zIndex);
                         //Things were being really weird here so I've had to load the properties in certain orders depending on their position.
                         if (element.position.top !== undefined)
