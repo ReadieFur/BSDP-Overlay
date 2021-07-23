@@ -15,7 +15,7 @@ export class OverlayHelper
     {
         return jQuery.ajax(
         {
-            async: params.async??true,
+            async: params.async !== undefined ? params.async : true,
             url: `${Main.WEB_ROOT}/assets/php/overlay.php`,
             method: "POST",
             dataType: "json",
@@ -24,10 +24,10 @@ export class OverlayHelper
                 "q": JSON.stringify(
                 {
                     method: params.method,
-                    data: params.data??{}
+                    data: params.data !== undefined ? params.data : {}
                 })
             },
-            error: params.error??Main.ThrowAJAXJsonError,
+            error: params.error !== undefined ? params.error : Main.ThrowAJAXJsonError,
             success: params.success
         });
     }

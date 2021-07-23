@@ -357,6 +357,8 @@ class Editor
         await this.LoadOverlay();
         this.SSProgressUpdate();
 
+        this.allowUnload = true;
+
         // Setup the client.
         const urlIP = Main.urlParams.get("ip");
         const cachedIP = Main.RetreiveCache("GAME_IP");
@@ -367,7 +369,6 @@ class Editor
         this.ClientInit(ip);
         this.optionsMenu.data.placeholderData.click();
 
-        this.allowUnload = true;
         this.SSProgressUpdate();
 
         //Hide splash screen if the user is allowed to use the editor or if the editor is ready for use.

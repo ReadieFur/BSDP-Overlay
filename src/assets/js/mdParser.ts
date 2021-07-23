@@ -149,7 +149,7 @@ export class MarkdownParser
 
         tmpContainer.querySelectorAll("img").forEach(element =>
         {
-            /*if (relativeURLSplit !== undefined && (element.getAttribute("src")??"").startsWith("./"))
+            /*if (relativeURLSplit !== undefined && (element.getAttribute("src")??"").startsWith("./")) //DO NOT USE ?? for older browesr comptibility.
             {
                 //Not yet implemented.
             }*/
