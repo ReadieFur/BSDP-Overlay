@@ -393,7 +393,13 @@ class Editor
         if (ip == null || ip == undefined || !RegExp(Client.ipRegex).test(ip)) { ip = "127.0.0.1"; }
         this.optionsMenu.data.gameIP.value = ip;
         Main.SetCache("GAME_IP", ip, 365);
-        if (ip !== "127.0.0.1" && window.location.protocol !== "http:") { window.location.href = `http://${window.location.hostname}${window.location.pathname}${window.location.search}`; }
+        if (ip !== "127.0.0.1" && window.location.protocol !== "http:")
+        {
+            history.replaceState(null, "", `http://${window.location.hostname}${window.location.pathname}${window.location.search}`);
+            window.location.href = `http://${window.location.hostname}${window.location.pathname}${window.location.search}`;
+            // history.replaceState(null, "",
+            //     window.location.href.replace(`http://${window.location.hostname}${window.location.pathname}${window.location.search}`, ""));
+        }
         this.client = new Client(ip);
         this.client.AddEndpoint("MapData");
         this.client.AddEndpoint("LiveData");

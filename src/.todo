@@ -23,9 +23,10 @@ Todo:
             ✔ scroll bar idle colour is hard to see @done(21-07-12 21:36)
 
     Closed release:
-        ☐ Elements are not loaded in the correct order. (Partially complete).
 
     Public release:
+        ☐ Replace browser location when redirected to http (possibly fixed).
+        ☐ Tell the browser to cache the elements for faster loading.
         ☐ Change some variables from being stored as a cookie to local storage.
         ☐ Create the settings menu instead of passing options in through the URL.
         ☐ Odd issue with scaled UIs on firefox when dragging elements around.
@@ -104,6 +105,7 @@ Done:
     ✔ sort out the protocol to load (http/https) when an external IP is specified. @done(21-07-22 21:28)
     ✔ Remove the noscript tag from the page. @done(21-07-23 00:37)
     ✔ I may need to defer the scripts to make sure that they are loaded after the page is loaded. @done(21-07-23 01:01)
+    ✔ Elements are not loaded in the correct order. (Partially complete). @done(21-07-23 16:29)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
