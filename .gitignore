@@ -8,4 +8,4 @@ tmp/
 node_modules/
 pnpm-lock.yaml
 /overlay/
-src/assets/php/closed_release_access_manager.php
+# src/assets/php/closed_release_access_manager.php
