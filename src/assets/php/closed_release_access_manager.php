@@ -10,6 +10,7 @@ $allowedUsers = array(
     '60db9eafd4559818088340', //pixelboom
     '60dd6af2547a0534874813', //charalol
     '60ff2e7f0e478823584208', //aetherialflow
+    '610453d779844521709098', //Laco
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
