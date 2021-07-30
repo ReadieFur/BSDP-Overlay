@@ -29,4 +29,7 @@ This webapp is still very new and there should be a lot of changes to come in th
 ### Game preview:  
 <img src="./previews/GamePreview.gif" width="480">  
 
+### Default overlay:  
+<img src="./previews/Default.gif" width="480">  
+
 I'm always open to new ideas and sugguestions, so if you feel like something could be added or improved feel free to drop me a message on Github or Discord.
