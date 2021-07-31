@@ -12,6 +12,7 @@ $allowedUsers = array(
     '60ff2e7f0e478823584208', //aetherialflow
     '610453d779844521709098', //laco
     '610456af0f4f7662694321', //dragonplays
+    '61059e879a3ad718692282', //Bandoot
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
