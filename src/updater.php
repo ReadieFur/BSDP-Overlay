@@ -27,6 +27,28 @@ if ($payload->head_commit !== null)
             Essentials::RecursiveDelete(__DIR__ . '/_update');
             rmdir(__DIR__ . '/_update'); //I couldn't fit this at the bottom of the if statement in the RecursiveDelete function for some reason, php would give a warning.
 
+            foreach ($payload->head_commit->removed as $file)
+            {
+                $pathExploded = explode('/', $file);
+
+                if ($pathExploded[0] === 'src')
+                {
+                    $fileName = array_pop($pathExploded);
+                    array_shift($pathExploded);
+                    $filePath = __DIR__ . '/' . join('/', $pathExploded);
+
+                    if (file_exists($filePath . '/' . $fileName))
+                    {
+                        unlink($filePath . '/' . $fileName);
+
+                        if (scandir(dirname($filePath)) == array('.', '..'))
+                        {
+                            rmdir(dirname($filePath . '/' . $fileName));
+                        }
+                    }
+                }
+            }
+
             break;
         }
     }
