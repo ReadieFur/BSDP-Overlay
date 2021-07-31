@@ -49,6 +49,10 @@ if ($payload->head_commit !== null)
                 }
             }
 
+            exec("sass --style=compressed --no-source-map " . __DIR__, $_, $sassCode);
+            exec("pnpm install", $_, $pnpmCode);
+            exec("tsc --lib esnext,dom,dom.iterable,esnext.array,esnext.asynciterable,esnext.promise --jsx react --noImplicitAny", $_, $tscCode);
+
             break;
         }
     }
