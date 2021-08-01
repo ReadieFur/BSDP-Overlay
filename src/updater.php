@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../../api/github/cloner/clone.php';
 require_once __DIR__ . '/../../api/essentials.php';
 
+//Ensure the script has write permissions. chown -R www-data:www-data <path>
+
 global $payload;
 
 if (
@@ -50,17 +52,17 @@ if (
             }
         }
 
-        exec("sass --style compressed --no-source-map --no-stop-on-error " . __DIR__, $sassOutput, $sassCode);
-        Essentials::Log(implode('<br>', $sassOutput));
-        if ($sassCode !== 0) { Essentials::Error(new Exception("Failed to compile sass. Exited with code: $sassCode")); }
-
         exec("pnpm install", $pnpmOutput, $pnpmCode);
-        Essentials::Log(implode('<br>', $pnpmOutput));
         if ($pnpmCode !== 0) { Essentials::Error(new Exception("Failed to install packages. Exited with code: $pnpmCode")); }
+        Essentials::Log(implode('<br>', $pnpmOutput));
+
+        exec("sass --style compressed --no-source-map --no-stop-on-error " . __DIR__, $sassOutput, $sassCode);
+        if ($sassCode !== 0) { Essentials::Error(new Exception("Failed to compile sass. Exited with code: $sassCode")); }
+        Essentials::Log(implode('<br>', $sassOutput));
 
         exec("tsc --build tsconfig.json", $tscOutput, $tscCode);
-        Essentials::Log(implode('<br>', $tscOutput));
         if ($tscCode !== 0) { Essentials::Error(new Exception("Failed to compile typescript. Exited with code: $tscCode")); }
+        Essentials::Log(implode('<br>', $tscOutput));
     }
 }
 
