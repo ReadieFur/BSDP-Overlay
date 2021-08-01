@@ -1410,8 +1410,6 @@ class Editor
                 height: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].height,
                 customStyles: this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles
             });
-
-            console.log(this.ui.createdElements.elements[location[0]][location[1]][location[2]].elements[location[3]].customStyles);
         }
 
         if (Object.keys(savedElements).length < 1) { Main.Alert("This overlay does not have enough elements to be saved.<br>You must have at least 1 element."); }
