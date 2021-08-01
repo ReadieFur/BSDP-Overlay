@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../api/github/cloner/clone.php';
 require_once __DIR__ . '/../../api/essentials.php';
 
-//Ensure the script has write permissions. chown -R www-data:www-data <path>
+//Ensure the script has write permissions. chown -R www-data:www-data <path>/bsdp-overlay/*/
 
 global $payload;
 
