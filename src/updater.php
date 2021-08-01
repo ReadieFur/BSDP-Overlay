@@ -4,57 +4,63 @@ require_once __DIR__ . '/../../api/essentials.php';
 
 global $payload;
 
-if ($payload->head_commit !== null)
+if (
+    $payload !== null &&
+    $payload->head_commit !== null &&
+    $payload->after !== null &&
+    $payload->repository !== null
+)
 {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/' . $payload->repository->owner->login . '/' . $payload->repository->name . '/branches');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: ' . $payload->repository->owner->login));
-    $branches = json_decode(curl_exec($ch));
-    curl_close($ch);
-    foreach ($branches as $branch)
+    $branch = $payload->ref;
+    $branch = explode('/', $branch);
+    $branch = $branch[count($branch) - 1];
+
+    if ($branch === 'closed-beta' && $payload->after === $payload->head_commit->id)
     {
-        if ($branch->commit->sha === $payload->head_commit->id && $branch->name === 'closed-beta')
+        GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch, $payload->head_commit->added, __DIR__ . '/_update');
+        GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch, $payload->head_commit->modified, __DIR__ . '/_update');
+        
+        if (file_exists(__DIR__ . '/_update/src'))
         {
-            GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch->name, $payload->head_commit->added, __DIR__ . '/_update');
-            GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch->name, $payload->head_commit->modified, __DIR__ . '/_update');
-            
-            if (file_exists(__DIR__ . '/_update/src'))
-            {
-                MoveFiles($payload->head_commit->added);
-                MoveFiles($payload->head_commit->modified);
-            }
-            Essentials::RecursiveDelete(__DIR__ . '/_update');
-            rmdir(__DIR__ . '/_update'); //I couldn't fit this at the bottom of the if statement in the RecursiveDelete function for some reason, php would give a warning.
+            MoveFiles($payload->head_commit->added);
+            MoveFiles($payload->head_commit->modified);
+        }
+        Essentials::RecursiveDelete(__DIR__ . '/_update');
+        rmdir(__DIR__ . '/_update'); //I couldn't fit this at the bottom of the if statement in the RecursiveDelete function for some reason, php would give a warning.
 
-            foreach ($payload->head_commit->removed as $file)
-            {
-                $pathExploded = explode('/', $file);
+        foreach ($payload->head_commit->removed as $file)
+        {
+            $pathExploded = explode('/', $file);
 
-                if ($pathExploded[0] === 'src')
+            if ($pathExploded[0] === 'src')
+            {
+                $fileName = array_pop($pathExploded);
+                array_shift($pathExploded);
+                $filePath = __DIR__ . '/' . join('/', $pathExploded);
+
+                if (file_exists($filePath . '/' . $fileName))
                 {
-                    $fileName = array_pop($pathExploded);
-                    array_shift($pathExploded);
-                    $filePath = __DIR__ . '/' . join('/', $pathExploded);
+                    unlink($filePath . '/' . $fileName);
 
-                    if (file_exists($filePath . '/' . $fileName))
+                    if (scandir(dirname($filePath)) == array('.', '..'))
                     {
-                        unlink($filePath . '/' . $fileName);
-
-                        if (scandir(dirname($filePath)) == array('.', '..'))
-                        {
-                            rmdir(dirname($filePath . '/' . $fileName));
-                        }
+                        rmdir(dirname($filePath . '/' . $fileName));
                     }
                 }
             }
-
-            exec("sass --style=compressed --no-source-map " . __DIR__, $_, $sassCode);
-            exec("pnpm install", $_, $pnpmCode);
-            exec("tsc --lib esnext,dom,dom.iterable,esnext.array,esnext.asynciterable,esnext.promise --jsx react --noImplicitAny", $_, $tscCode);
-
-            break;
         }
+
+        exec("sass --style compressed --no-source-map --no-stop-on-error " . __DIR__, $sassOutput, $sassCode);
+        Essentials::Log(implode('<br>', $sassOutput));
+        if ($sassCode !== 0) { Essentials::Error(new Exception("Failed to compile sass. Exited with code: $sassCode")); }
+
+        exec("pnpm install", $pnpmOutput, $pnpmCode);
+        Essentials::Log(implode('<br>', $pnpmOutput));
+        if ($pnpmCode !== 0) { Essentials::Error(new Exception("Failed to install packages. Exited with code: $pnpmCode")); }
+
+        exec("tsc --build tsconfig.json", $tscOutput, $tscCode);
+        Essentials::Log(implode('<br>', $tscOutput));
+        if ($tscCode !== 0) { Essentials::Error(new Exception("Failed to compile typescript. Exited with code: $tscCode")); }
     }
 }
 
@@ -62,19 +68,28 @@ function MoveFiles($files)
 {
     foreach ($files as $file)
     {
-        $pathExploded = explode('/', $file);
-
-        if ($pathExploded[0] === 'src')
+        try
         {
-            $fileName = array_pop($pathExploded);
-            array_shift($pathExploded);
-            $filePath = __DIR__ . '/' . join('/', $pathExploded);
-            if (!file_exists($filePath))
+            $pathExploded = explode('/', $file);
+
+            if ($pathExploded[0] === 'src')
             {
-                mkdir($filePath, 0777, true);
-            }
+                $fileName = array_pop($pathExploded);
+                array_shift($pathExploded);
+                $filePath = __DIR__ . '/' . join('/', $pathExploded);
+                if (!file_exists($filePath))
+                {
+                    mkdir($filePath, 0777, true);
+                }
+        
+                Essentials::Log("Moving _update/$file to $file");
     
-            rename(__DIR__ . "/_update/$file", "$filePath/$fileName");
+                rename(__DIR__ . "/_update/$file", "$filePath/$fileName");
+            }
+        }
+        catch (Exception $e)
+        {
+            Essentials::Error($e);
         }
     }
 }
