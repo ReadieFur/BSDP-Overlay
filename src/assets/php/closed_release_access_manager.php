@@ -20,7 +20,19 @@ $allowedUsers = array(
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
 {
-    http_response_code(401);
+    http_response_code(401); //This probably does nothing because of the 302 redirect below. I want to redirect but still tell the client that they are unauthorized.
     echo "401 Unauthorized";
+    header(
+        'Location: https://api-readie.global-gaming.co/account/?redirect=' . urlencode(
+            (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']),
+        true,
+        302
+    );
+
+    // header("HTTP/1.1 401 Unauthorized");
+    // header('Location: https://api-readie.global-gaming.co/account/?redirect=' . urlencode(
+    //     (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'])
+    // );
+
     exit;
 }
