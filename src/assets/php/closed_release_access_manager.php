@@ -14,6 +14,7 @@ $allowedUsers = array(
     '610456af0f4f7662694321', //dragonplays
     '61059e879a3ad718692282', //bandoot
     '6106b9d071262833517563', //norikittea
+    '61082adccee2b277702044', //ShiroiSakuraVT
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
