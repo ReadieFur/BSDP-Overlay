@@ -18,6 +18,7 @@ $allowedUsers = array(
     '61082be14c147452908091', //jiveoff
     '610abd414eb1c662397226', //rhyho
     '61138a4b35a05550198748', //cadavren
+    '61141b403e44c624020350', //reaxt
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
