@@ -5,6 +5,6 @@ public/
 tmp
 template.*
 src/
-*.js
+# *.js
 *.map
-*.css
+# *.css
