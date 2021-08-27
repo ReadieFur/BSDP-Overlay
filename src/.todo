@@ -60,6 +60,8 @@ Todo:
         ☐ round bar direction toggle.
         ☐ round bar time element count down.
         ☐ what would be better for element customisation is to read the options from the script instead of having them hard coded into the php file.
+        ☐ Fix the flasbang that can occuor when navigating pages.
+        ☐ Add 'clean' page loads, so the page is not left when navigating to a new page. Instead it loads it in the background and then displays the new page.
 
 Done:
     ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
