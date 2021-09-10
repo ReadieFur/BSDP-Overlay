@@ -22,6 +22,7 @@ $allowedUsers = array(
     '611585c682e91510426746', //futuremapper
     '6121408920357572023556', //rjbvr
     '61354ccaceec9509692752', //zexta
+    '613b77c2d9987177082147', //bytealex
 );
 
 if (!in_array($_COOKIE['READIE_UID']??null, $allowedUsers))
