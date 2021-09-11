@@ -17,7 +17,7 @@ if (
     $branch = explode('/', $branch);
     $branch = $branch[count($branch) - 1];
 
-    if ($branch === 'closed-beta' && $payload->after === $payload->head_commit->id)
+    if ($branch === 'master' && $payload->after === $payload->head_commit->id)
     {
         GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch, $payload->head_commit->added, __DIR__ . '/_update');
         GitCloner::CloneFiles($payload->repository->owner->login, $payload->repository->name, $branch, $payload->head_commit->modified, __DIR__ . '/_update');
