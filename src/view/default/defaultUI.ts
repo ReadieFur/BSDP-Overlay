@@ -15,6 +15,7 @@ export class DefaultUI
     private modifiersAndHealth: HTMLTableElement;
     private modifiersAndHealthTR: HTMLTableRowElement;
     private healthColumn: HTMLTableCellElement;
+    private healthContainer: HTMLTableCellElement;
     private health: HTMLDivElement;
     private modifiers:
     {
@@ -65,6 +66,7 @@ export class DefaultUI
         this.modifiersAndHealth = Main.ThrowIfNullOrUndefined(document.querySelector("#modifiersAndHealth"));
         this.modifiersAndHealthTR = Main.ThrowIfNullOrUndefined(document.querySelector("#modifiersAndHealthTR"));
         this.healthColumn = Main.ThrowIfNullOrUndefined(document.querySelector("#healthColumn"));
+        this.healthContainer = Main.ThrowIfNullOrUndefined(document.querySelector("#healthColumn > .healthContainer"));
         this.health = Main.ThrowIfNullOrUndefined(document.querySelector("#health"));
         this.modifiers =
         {
@@ -113,7 +115,7 @@ export class DefaultUI
             this.LiveDataUpdate(SampleData.liveData);
         }
 
-        document.body.style.zoom = Main.urlParams.has("scale") ? Main.urlParams.get("scale")! : "1";
+        // document.body.style.zoom = Main.urlParams.has("scale") ? Main.urlParams.get("scale")! : "1";
 
         if (Main.urlParams.has("flipVerti"))
         {
@@ -140,6 +142,11 @@ export class DefaultUI
         if (Main.urlParams.has("hideMapDetails")) { this.mapDetails.style.display = "none"; }
 
         if (Main.urlParams.has("hideInactive")) { this.overlay.style.opacity = "0"; }
+
+        //Healthbar resize (the css seems to be fine on chromium browsers but not firefox)
+        // window.getComputedStyle(temp0).height.substring(0, window.getComputedStyle(temp0).height.length - 2)
+        this.FixHealthBar();
+        window.addEventListener("load", () => { this.FixHealthBar(); });
     }
 
     //These two functions will be called twice due to the multiple websocket connections but it should be fine.
@@ -245,6 +252,13 @@ export class DefaultUI
         this.accuracy.innerHTML = `${Math.round(data.Accuracy * 10) / 10}%`;
         this.combo.innerHTML = this.SeperateNumber(data.Combo);
         this.health.style.height = `${data.PlayerHealth}%`;
+    }
+
+    private FixHealthBar(): void
+    {
+        var containerHeightStr = window.getComputedStyle(this.healthColumn).height;
+        var containerHeight = parseInt(containerHeightStr.substring(0, containerHeightStr.length - 2));
+        this.healthContainer.style.height = isNaN(containerHeight) ? "80%" : `${containerHeight * 0.8}px`;
     }
 
     private SeperateNumber(number: number | string, seperator?: string): string
