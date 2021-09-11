@@ -51,6 +51,7 @@ Todo:
         ☐ fix the bar elements initial value being 100%.
         ☐ add some browser specific features (styles).
         ☐ Fix 'history.replaceState' https to http.
+        ☐ Fix arg redirection from 'u-readie...' to 'readie...'.
     
     Optional:
         ☐ Convert all colours to HSL.
