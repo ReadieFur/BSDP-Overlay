@@ -395,7 +395,8 @@ class Editor
         Main.SetCache("GAME_IP", ip, 365);
         if (ip !== "127.0.0.1" && window.location.protocol !== "http:")
         {
-            history.replaceState(null, "", `http://${window.location.hostname}${window.location.pathname}${window.location.search}`);
+            //An error is thrown when the replace state comes from a secure source to an insecure source so I shall just redirect the user without replacing the history state. I will try to fix this in the future.
+            // history.replaceState(null, "", `http://${window.location.hostname}${window.location.pathname}${window.location.search}`);
             window.location.href = `http://${window.location.hostname}${window.location.pathname}${window.location.search}`;
             // history.replaceState(null, "",
             //     window.location.href.replace(`http://${window.location.hostname}${window.location.pathname}${window.location.search}`, ""));
