@@ -50,6 +50,7 @@ Todo:
         ☐ add a toggle to the bar elements to the text.
         ☐ fix the bar elements initial value being 100%.
         ☐ add some browser specific features (styles).
+        ☐ Fix 'history.replaceState' https to http.
     
     Optional:
         ☐ Convert all colours to HSL.

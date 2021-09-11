@@ -113,7 +113,7 @@ class View
         Main.SetCache("GAME_IP", ip, 365);
         if (ip !== "127.0.0.1" && window.location.protocol !== "http:")
         {
-            history.replaceState(null, "", `http://${window.location.hostname}${window.location.pathname}${window.location.search}`);
+            // history.replaceState(null, "", `http://${window.location.hostname}${window.location.pathname}${window.location.search}`);
             window.location.href = `http://${window.location.hostname}${window.location.pathname}${window.location.search}`;
             // history.replaceState(null, "",
             //     window.location.href.replace(`http://${window.location.hostname}${window.location.pathname}${window.location.search}`, ""));
