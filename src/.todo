@@ -24,6 +24,7 @@ Todo:
 
     Closed release:
 
+    //The project is in a good enough state to be made public without these being done. I will work on these in the future but cant really be bothered for this release.
     Public release:
         ☐ Replace browser location when redirected to http (possibly fixed).
         ☐ Tell the browser to cache the elements for faster loading.
