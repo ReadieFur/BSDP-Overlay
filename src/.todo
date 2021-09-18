@@ -26,6 +26,7 @@ Todo:
 
     //The project is in a good enough state to be made public without these being done. I will work on these in the future but cant really be bothered for this release.
     Public release:
+        ☐ Add scores with modifiers.
         ☐ Replace browser location when redirected to http (possibly fixed).
         ☐ Tell the browser to cache the elements for faster loading.
         ☐ Change some variables from being stored as a cookie to local storage.
@@ -65,6 +66,7 @@ Todo:
         ☐ what would be better for element customisation is to read the options from the script instead of having them hard coded into the php file.
         ☐ Fix the flasbang that can occuor when navigating pages.
         ☐ Add 'clean' page loads, so the page is not left when navigating to a new page. Instead it loads it in the background and then displays the new page.
+        ☐ Ask the user for optional error logging.
 
 Done:
     ✔ add overlay minimum requirements. for save @done(21-04-27 00:58)
@@ -111,6 +113,7 @@ Done:
     ✔ Remove the noscript tag from the page. @done(21-07-23 00:37)
     ✔ I may need to defer the scripts to make sure that they are loaded after the page is loaded. @done(21-07-23 01:01)
     ✔ Elements are not loaded in the correct order. (Partially complete). @done(21-07-23 16:29)
+    ✔ Fix an issue with some overlays causing the thumbnail rendering to fail which in turn causes the overlay to not save. @done(21-09-18 15:28)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.
