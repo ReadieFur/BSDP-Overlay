@@ -137,6 +137,7 @@
         <div class="background"></div>
         <div class="container">
             <h3>Walkthrough</h3>
+            <p>This walkthrough can be viewed again through the options menu.</p>
             <h4>Creating elements</h4>
             <p class="light">To create elements, double click on the desired element and it will be place in the top right corner of the overlay window.</p>
             <h4>Deleting elements</h4>
@@ -169,10 +170,8 @@
             <p class="light">
                 Overlays can be used in programs such as OBS by opening the saved overlay in view mode, the URL for this is <code>...bsdp-overlay/view/&ltOVERLAY_ID&gt</code> alternatively this page can be reached by searching for your overlay in the overlay browser.<br>
                 Once you have chosen your desired overlay, copy the URL and, in the case of OBS, add it as a browser source to your scene.<br>
-                <span>Note:</span> If the overlay is private you must log in on your streaming software to access the overlay.
+                <span>Note:</span> If the overlay is private you must log in on your streaming software to access the overlay. (More info on this can be found on the websites <a class="light" href="<?php echo $WEB_ROOT; ?>">home</a> page under 'Private overlays & OBS'.)
             </p>
-            <br>
-            <p class="light">This walkthrough can be viewed again by visiting it through the options menu.</p>
         </div>
     </div>
     <table id="editorRootContainer">

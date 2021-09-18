@@ -338,6 +338,11 @@ body
                 padding: 2.5px 5px;
                 border-radius: 4px;
             }
+
+            a
+            {
+                color: rgba(var(--linkColour), 1);
+            }
         }
     }
 

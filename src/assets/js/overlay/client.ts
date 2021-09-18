@@ -175,7 +175,8 @@ export type MapData =
     PluginVersion: string,
     IsMultiplayer: boolean,
     PreviousRecord: number,
-    PreviousBSR: string | null
+    PreviousBSR: string | null,
+    unixTimestamp: number
 }
 
 export type LiveData =
@@ -194,7 +195,8 @@ export type LiveData =
     PlayerHealth: number,
 
     //Misc
-    TimeElapsed: number
+    TimeElapsed: number,
+    unixTimestamp: number
 }
 
 export class SampleData
@@ -252,7 +254,8 @@ export class SampleData
         Star: 0,
         IsMultiplayer: false,
         PreviousRecord: 2714014,
-        PreviousBSR: "123ba"
+        PreviousBSR: "123ba",
+        unixTimestamp: 1631935482036
     }
 
     public static readonly liveData: LiveData =
@@ -273,6 +276,7 @@ export class SampleData
             14
         ],
         PlayerHealth: 87,
-        TimeElapsed: 77
+        TimeElapsed: 77,
+        unixTimestamp: 1631935485375
     }
 }
