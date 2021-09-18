@@ -206,7 +206,7 @@ export class DefaultUI
             }
 
             //Cover image
-            this.mapCover.src = data.coverImage !== null ? data.coverImage : "./BeatSaberIcon.jpg";
+            this.mapCover.src = data.coverImage !== null ? data.coverImage : "../../assets/images/BeatSaberIcon.jpg";
 
             //Map details
             this.HideOnNull(data.BSRKey, this.bsr, "BSR: ");
