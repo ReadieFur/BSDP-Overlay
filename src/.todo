@@ -26,6 +26,8 @@ Todo:
 
     //The project is in a good enough state to be made public without these being done. I will work on these in the future but cant really be bothered for this release.
     Public release:
+        ☐ Add scores with modifiers.
+        ☐ Fix an issue with some overlays causing the thumbnail rendering to fail which in turn causes the overlay to not save.
         ☐ Replace browser location when redirected to http (possibly fixed).
         ☐ Tell the browser to cache the elements for faster loading.
         ☐ Change some variables from being stored as a cookie to local storage.
