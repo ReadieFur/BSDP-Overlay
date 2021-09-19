@@ -213,7 +213,11 @@ body
         {
             position: absolute;
             width: 800px;
-            height: 350px;
+            // height: 350px;
+            height: max-content;
+            max-height: 550px;
+            overflow-x: hidden;
+            overflow-y: auto;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -233,6 +237,34 @@ body
                 {
                     text-transform: none;
                     margin-left: 10px;
+                }
+
+                &.editorBackgroundOptions
+                {
+                    > form
+                    {
+                        > table
+                        {
+                            vertical-align: top;
+
+                            #customBackgroundRadio
+                            {
+                                margin-top: 0;
+                                margin-bottom: 0;
+                                margin-left: 7px;
+
+                                p
+                                {
+                                    margin-top: 0;
+                                }
+                            }
+
+                            input
+                            {
+                                border-bottom: none !important;
+                            }
+                        }
+                    }
                 }
 
                 > #sampleDataRadio
@@ -259,6 +291,7 @@ body
                     #gameDataRadio
                     {
                         margin-top: 0;
+                        
                         p
                         {
                             margin-top: 0;

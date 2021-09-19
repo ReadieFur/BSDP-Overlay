@@ -114,6 +114,7 @@ Done:
     ✔ I may need to defer the scripts to make sure that they are loaded after the page is loaded. @done(21-07-23 01:01)
     ✔ Elements are not loaded in the correct order. (Partially complete). @done(21-07-23 16:29)
     ✔ Fix an issue with some overlays causing the thumbnail rendering to fail which in turn causes the overlay to not save. @done(21-09-18 15:28)
+    ✔ Allow the user to change the editor background. @done(21-09-19 20:10)
 
 Cancelled:
     ✘ fix @use on element stylesheets. @cancelled(21-05-15 21:23) replaced with variables set in ui.ts.

@@ -39,6 +39,23 @@ class Editor
         container: HTMLDivElement,
         data:
         {
+            // editorSize:
+            // {
+            //     autoLabel: HTMLLabelElement,
+            //     manual:
+            //     {
+            //         label: HTMLLabelElement,
+            //         widthInput: HTMLInputElement,
+            //         heightInput: HTMLInputElement
+            //     }
+            // },
+            editorBackground:
+            {
+                defaultBackground: HTMLLabelElement,
+                customBackground: HTMLLabelElement,
+                customBackgroundRadio: HTMLInputElement,
+                customBackgroundInput: HTMLInputElement
+            },
             placeholderData: HTMLLabelElement,
             sampleData: HTMLLabelElement,
             gameData: HTMLLabelElement,
@@ -146,6 +163,23 @@ class Editor
             container: Main.ThrowIfNullOrUndefined(document.querySelector("#optionsMenuContainer")),
             data:
             {
+                // editorSize:
+                // {
+                //     autoLabel: Main.ThrowIfNullOrUndefined(document.querySelector("#autoSizeRadio")),
+                //     manual:
+                //     {
+                //         label: Main.ThrowIfNullOrUndefined(document.querySelector("#manualSizeRadio")),
+                //         widthInput: Main.ThrowIfNullOrUndefined(document.querySelector("#manualSizeWidthInput")),
+                //         heightInput: Main.ThrowIfNullOrUndefined(document.querySelector("#manualSizeHeightInput"))
+                //     }
+                // },
+                editorBackground:
+                {
+                    defaultBackground: Main.ThrowIfNullOrUndefined(document.querySelector("#defaultBackgroundRadio")),
+                    customBackground: Main.ThrowIfNullOrUndefined(document.querySelector("#customBackgroundRadio")),
+                    customBackgroundRadio: Main.ThrowIfNullOrUndefined(document.querySelector("#customBackgroundRadio > input[type='radio']")),
+                    customBackgroundInput: Main.ThrowIfNullOrUndefined(document.querySelector("#customBackgroundInput"))
+                },
                 placeholderData: Main.ThrowIfNullOrUndefined(document.querySelector("#placeholderDataRadio")),
                 sampleData: Main.ThrowIfNullOrUndefined(document.querySelector("#sampleDataRadio")),
                 gameData: Main.ThrowIfNullOrUndefined(document.querySelector("#gameDataRadio")),
@@ -304,6 +338,32 @@ class Editor
             { if ((<HTMLInputElement>this.optionsMenu.data.gameData.querySelector("input[type=radio]")).checked) { this.ToggleDataSet(3); } });
         (<HTMLFormElement>Main.ThrowIfNullOrUndefined(document.querySelector("#ipForm"))).addEventListener("submit", (e) => { e.preventDefault(); });
         this.optionsMenu.data.gameIP.addEventListener("change", () => { if (this.dataSet == 3) { this.ToggleDataSet(3); } });
+        this.optionsMenu.data.editorBackground.defaultBackground.addEventListener("click", () =>
+        {
+            this.ui.overlay.style.backgroundImage = `url("${Main.WEB_ROOT}/assets/images/beat-saber.jpg")`;
+            this.optionsMenu.data.editorBackground.customBackgroundInput.disabled = true;
+            this.optionsMenu.data.editorBackground.customBackgroundInput.value = "";
+        });
+        this.optionsMenu.data.editorBackground.defaultBackground.click();
+        this.optionsMenu.data.editorBackground.customBackground.addEventListener("click", () =>
+            { this.optionsMenu.data.editorBackground.customBackgroundInput.disabled = false; });
+        this.optionsMenu.data.editorBackground.customBackgroundInput.addEventListener("input", (e) =>
+        {
+            if (
+                !this.optionsMenu.data.editorBackground.customBackgroundRadio.checked &&
+                this.optionsMenu.data.editorBackground.customBackgroundInput.files !== null &&
+                this.optionsMenu.data.editorBackground.customBackgroundInput.files[0] !== undefined &&
+                this.optionsMenu.data.editorBackground.customBackgroundInput.files[0].type.startsWith("image/")
+            ) { return; }
+            
+            const reader = new FileReader();
+            reader.onloadend = (file) =>
+            {
+                if (file.target == null) { return; }
+                this.ui.overlay.style.backgroundImage = `url("${file.target.result}")`;
+            };
+            reader.readAsDataURL(this.optionsMenu.data.editorBackground.customBackgroundInput.files![0]);
+        });
 
         Main.ThrowIfNullOrUndefined(document.querySelector("#walkthroughButton")).addEventListener("click", () => { this.ShowWalkthroughContainer(); });
         Main.ThrowIfNullOrUndefined(this.walkthroughContainer.querySelector(".background")).addEventListener("click", () =>
