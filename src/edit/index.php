@@ -89,6 +89,47 @@
                 <h4>Help</h4>
                 <button id="walkthroughButton" class="light">Show Walkthrough</button>
             </div>
+            <!-- <div>
+                <h4>Editor size</h4>
+                <form>
+                    <label class="radioButtonContainer" id="autoSizeRadio">
+                        <span><p>Auto Size</p></span>
+                        <input type="radio" name="radio">
+                        <span class="radioButton"></span>
+                    </label>
+                    <label class="radioButtonContainer" id="manualSizeRadio">
+                        <span><p>Manual Size</p></span>
+                        <input type="radio" name="radio">
+                        <span class="radioButton"></span>
+                    </label>
+                </form>
+            </div> -->
+            <div class="editorBackgroundOptions">
+                <h4>Editor background</h4>
+                <form>
+                    <label class="radioButtonContainer" id="defaultBackgroundRadio">
+                        <span><p>Default Background</p></span>
+                        <input type="radio" name="radio">
+                        <span class="radioButton"></span>
+                    </label>
+                    <table>
+                        <tbody>
+                            <tr>    
+                                <td>
+                                    <label class="radioButtonContainer" id="customBackgroundRadio">
+                                        <span><p>Custom Background</p></span>
+                                        <input type="radio" name="radio">
+                                        <span class="radioButton"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="file" id="customBackgroundInput" accept="image/*">
+                                </td>
+                            </tr>
+                        </tbody>                                    
+                    </table>
+                </form>
+            </div>
             <div>
                 <h4>Data</h4>
                 <label class="radioButtonContainer" id="placeholderDataRadio">
@@ -374,6 +415,7 @@
                     </table>
                 </td>
                 <td class="overlayContainer">
+                    <!-- <div id="overlaySizeContainer"></div> -->
                     <div id="overlay"></div>
                 </td>
             </tr>
