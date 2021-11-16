@@ -624,7 +624,7 @@ class Editor
         this.description.value = overlay.description === null ? '' : overlay.description;
         this.overlayPrivateCheckbox.checked = overlay.isPrivate == '1' ? true : false;
 
-        var elements: SavedElements = JSON.parse(overlay.elements);
+        var elements: SavedElements = JSON.parse(overlay.elements === null ? '{}' : overlay.elements);
         for (const category of Object.keys(elements))
         {
             for (const type of Object.keys(elements[category]))

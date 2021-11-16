@@ -39,7 +39,7 @@ export interface IOverlayData
     uid: string,
     name: string,
     description: string | null,
-    elements: string,
+    elements: string | null,
     thumbnail: string | null,
     isPrivate: '0' | '1',
     dateAltered: number,

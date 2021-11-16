@@ -208,7 +208,7 @@ class View
         }
 
         var overlay: IOverlayData = response.data;
-        var elements: SavedElements = JSON.parse(overlay.elements);
+        var elements: SavedElements = JSON.parse(overlay.elements === null ? '{}' : overlay.elements);
 
         (<HTMLSpanElement>Main.ThrowIfNullOrUndefined(document.querySelector("#ssName"))).innerText = overlay.name;
         (<HTMLSpanElement>Main.ThrowIfNullOrUndefined(document.querySelector("#ssUsername"))).innerText = overlay.username;
