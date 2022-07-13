@@ -7,7 +7,7 @@
     <span class="bottomStripThin"></span>
     <div class="titleContainer">
         <a href="<?php echo $WEB_ROOT ?>/">
-            <img class="small titleIcon" src="https://cdn.global-gaming.co/images/team/members/readiecircle.png">
+            <img class="small titleIcon" src="https://cdn-readie.global-gaming.co/images/team/members/readiecircle.png">
             <h3 class="title">BSDP Overlay</h3>
         </a>
     </div>
@@ -22,7 +22,7 @@
                 <div class="bottomStrip">
                     <a id="accountButton">Managment</a>
                     <a id="darkMode">Dark Mode</a>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

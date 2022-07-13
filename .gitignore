@@ -10,3 +10,4 @@ pnpm-lock.yaml
 /overlay/
 _update/
 # src/assets/php/closed_release_access_manager.php
+src/pnpm-lock.yaml
