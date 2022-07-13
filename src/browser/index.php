@@ -34,7 +34,7 @@
             </tbody>
             <tbody>
                 <!--<tr>
-                    <td><img src="https://cdn.global-gaming.co/images/team/members/readiecircle.png"></td>
+                    <td><img src="https://cdn-readie.global-gaming.co/images/team/members/readiecircle.png"></td>
                     <td>Overlay Name</td>
                     <td>Overlay Description</td>
                     <td>kOF.Readie</td>
