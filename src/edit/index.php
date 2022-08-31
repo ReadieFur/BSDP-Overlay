@@ -12,7 +12,7 @@
 <head>
     <?php echo execAndRead("{$SITE_ROOT}/assets/php/head.php"); ?>
     <link rel="stylesheet" href="<?php echo $WEB_ROOT; ?>/edit/editor.css">
-    <script src="https://cdn-readie.global-gaming.co/resources/scripts/dom-to-image.min.js"></script>
+    <script src="https://cdn.readiefur.com/resources/scripts/dom-to-image.min.js"></script>
     <script src="<?php echo $WEB_ROOT; ?>/edit/editor.js" type="module" defer></script>
 </head>
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
@@ -20,7 +20,7 @@
     <span id="splashScreen">
         <div class="center">
             <h2 id="ssHeader">BSDP Overlay</h2>
-            <img class="medium" src="https://cdn-readie.global-gaming.co/images/team/members/readiecircle.png">
+            <img class="medium" src="https://cdn.readiefur.com/images/team/members/readiecircle.png">
             <h3 id="ssSubText">Loading...</h3>
             <div class="ssProgressContainer">
                 <div id="ssProgress"></div>

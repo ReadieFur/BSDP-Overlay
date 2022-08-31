@@ -17,7 +17,7 @@
 <header id="header"><?php echo execAndRead("{$SITE_ROOT}/assets/php/header.php"); ?></header>
 <body>
     <span class="slideMenu"></span>
-    <!--Example URL: http://readie.global-gaming.localhost/bsdp-overlay/assets/overlay_elements/?element=round_bar/time/01-->
+    <!--Example URL: http://readiefur.localhost/bsdp-overlay/assets/overlay_elements/?element=round_bar/time/01-->
     <div id="overlay">
         <div id="element_01" class="elementContainer"></div>
     </div>

@@ -151,7 +151,7 @@ class Preview
     private WindowMessageEvent(ev: MessageEvent<any>)
     {
         var host = window.location.host.split('.');
-        if (ev.origin.split('/')[2] == `api-readie.global-gaming.${host[host.length - 1]}`)
+        if (ev.origin.split('/')[2] == `api.readiefur.${host[host.length - 1]}`)
         {
             if (Main.TypeOfReturnData(ev.data))
             {

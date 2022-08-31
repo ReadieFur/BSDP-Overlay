@@ -216,7 +216,7 @@ export class SampleData
         SongAuthor: "Camellia",
         Mapper: "cerret",
         BSRKey: "11a27",
-        coverImage: `https://readie.global-gaming.co/bsdp-overlay/assets/images/TeraIO.jpg`,
+        coverImage: `https://readiefur.com/bsdp-overlay/assets/images/TeraIO.jpg`,
         Length: 336,
         TimeScale: 0,
         MapType: "Standard",
