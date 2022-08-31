@@ -25,7 +25,7 @@
                 <span>By</span>
                 <span id="ssUsername">Creator</span>
             </h3>
-            <img id="ssThumbnail" src="https://cdn-readie.global-gaming.co/images/team/members/readiecircle.png">
+            <img id="ssThumbnail" src="https://cdn.readiefur.com/images/team/members/readiecircle.png">
             <h3 id="ssSubText">Loading...</h3>
             <div class="ssProgressContainer">
                 <div id="ssProgress"></div>

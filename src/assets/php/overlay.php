@@ -112,7 +112,7 @@ class Overlay
         else { return $updatedOverlay; }
     }
 
-    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"createOverlay","data":{}}
+    //http://readiefur.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"createOverlay","data":{}}
     private function CreateOverlay()
     {
         global $dbServername;
@@ -157,7 +157,7 @@ class Overlay
         else { return new ReturnData($id); }
     }
 
-    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlayByID","data":{"id":"123456789"}}
+    //http://readiefur.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlayByID","data":{"id":"123456789"}}
     private function GetOverlayByID(array $_data)
     {
         global $dbServername;
@@ -195,9 +195,9 @@ class Overlay
         else { return new ReturnData($result->data[0]); }
     }
 
-    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"none","search":"","page":1}}
-    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"name","search":"overlay","page":1}}
-    //http://readie.global-gaming.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"username","search":"kof.readie","page":1}}
+    //http://readiefur.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"none","search":"","page":1}}
+    //http://readiefur.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"name","search":"overlay","page":1}}
+    //http://readiefur.localhost/bsdp-overlay/assets/php/overlay.php?q={"method":"getOverlaysBySearch","data":{"filter":"username","search":"kof.readie","page":1}}
     //Tweak for 'my overlays' (private only)
     private function GetOverlaysBySearch(array $_data)
     {

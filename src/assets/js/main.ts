@@ -96,7 +96,7 @@ export class Main
     {
         let path = window.location.pathname.split("/").filter((el) => { return el != ""; });
         for (let i = 0; i < path.length; i++) { path[i] = path[i].replace("_", ""); }
-        
+
         Main.ThrowIfNullOrUndefined(document.querySelector("#header")).querySelectorAll("a").forEach((element: HTMLLinkElement) =>
         {
             if (element.href == window.location.origin + window.location.pathname)
@@ -115,7 +115,7 @@ export class Main
     private WindowMessageEvent(ev: MessageEvent<any>): void
     {
         var host = window.location.host.split('.');
-        if (ev.origin.split('/')[2] == `api-readie.global-gaming.${host[host.length - 1]}`)
+        if (ev.origin.split('/')[2] == `api.readiefur.${host[host.length - 1]}`)
         {
             if (Main.TypeOfReturnData(ev.data))
             {
