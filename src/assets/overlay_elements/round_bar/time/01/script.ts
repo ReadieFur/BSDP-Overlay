@@ -1,5 +1,5 @@
 import { Main } from "../../../../js/main.js";
-import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { MapData, LiveData } from "../../../../js/overlay/types/web.js";
 import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
 import { UI } from "../../../../js/overlay/ui.js";
 
@@ -128,12 +128,12 @@ export class Script
 
     public UpdateMapData(data: MapData): void
     {
-        this.MapLength = data.Length;
+        this.MapLength = data.Duration;
 
         for (const key of Object.keys(this.elements))
         {
             var value = this.elements[key];
-            value.length.innerHTML = UI.SecondsToMinutes(data.Length);
+            value.length.innerHTML = UI.SecondsToMinutes(data.Duration);
         }
     }
 

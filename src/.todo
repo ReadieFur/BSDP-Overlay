@@ -26,6 +26,7 @@ Todo:
 
     //The project is in a good enough state to be made public without these being done. I will work on these in the future but cant really be bothered for this release.
     Public release:
+        ☐ Rewrite the client helper to match nicer with the new version parser.
         ☐ Add scores with modifiers.
         ☐ Replace browser location when redirected to http (possibly fixed).
         ☐ Tell the browser to cache the elements for faster loading.
@@ -53,7 +54,7 @@ Todo:
         ☐ add some browser specific features (styles).
         ☐ Fix 'history.replaceState' https to http.
         ☐ Fix arg redirection from 'u-readie...' to 'readie...'.
-    
+
     Optional:
         ☐ Convert all colours to HSL.
         ☐ add a rotation option.

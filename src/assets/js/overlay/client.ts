@@ -1,5 +1,6 @@
 import { Dictionary, Main } from "../main.js";
 import { EventDispatcher } from "../eventDispatcher.js";
+import { Parser, MapData, LiveData } from "./types/web.js";
 
 export class Client
 {
@@ -106,177 +107,34 @@ class CustomWebSocket
         //setTimeout(() => { this.Connect(); }, 5000); //This is causing the websocket to fill up memory.
     }
 
-    private OnMessage(ev: MessageEvent<any>): void
+    private async OnMessage(ev: MessageEvent<any>): Promise<void>
     {
-        var jsonData: MapData | LiveData = JSON.parse(ev.data);
-        this.eventDispatcher.DispatchEvent("message", jsonData);
-        if (Main.urlParams.has("debug")) { console.log(jsonData); }
-    }
-}
+        const deserializedData: object = JSON.parse(ev.data);
 
-//Get new data types for these (null)
-export type MapData =
-{
-    //Level
-    InLevel: boolean,
-    LevelPaused: boolean,
-    LevelFinished: boolean,
-    LevelFailed: boolean,
-    LevelQuit: boolean,
-
-    //Map
-    Hash: string | null,
-    SongName: string | null,
-    SongSubName: string | null,
-    SongAuthor: string,
-    Mapper: string | null,
-    BSRKey: string | null,
-    coverImage: string | null,
-    Length: number,
-    TimeScale: number,
-
-    //Difficulty
-    MapType: string | null,
-    Difficulty: string | null,
-    CustomDifficultyLabel: string | null,
-    BPM: number,
-    NJS: number,
-    Modifiers:
-    {
-        noFailOn0Energy: boolean,
-        oneLife: boolean,
-        fourLives: boolean,
-        noBombs: boolean,
-        noWalls: boolean,
-        noArrows: boolean,
-        ghostNotes: boolean,
-        disappearingArrows: boolean,
-        smallNotes: boolean,
-        proMode: boolean,
-        strictAngles: boolean,
-        zenMode: boolean,
-        slowerSong: boolean,
-        fasterSong: boolean,
-        superFastSong: boolean
-    },
-    ModifiersMultiplier: number,
-    PracticeMode: boolean,
-    PracticeModeModifiers:
-    {
-        songSpeedMul: number,
-        startInAdvanceAndClearNotes: number,
-        startSongTime: number
-    },
-    PP: number,
-    Star: number,
-
-    //Misc
-    GameVersion: string,
-    PluginVersion: string,
-    IsMultiplayer: boolean,
-    PreviousRecord: number,
-    PreviousBSR: string | null,
-    unixTimestamp: number
-}
-
-export type LiveData =
-{
-    //Score
-    Score: number,
-    ScoreWithMultipliers: number,
-    MaxScore: number,
-    MaxScoreWithMultipliers: number,
-    Rank: string | null,
-    FullCombo: boolean,
-    Combo: number,
-    Misses: number,
-    Accuracy: number,
-    BlockHitScore: number[] | null,
-    PlayerHealth: number,
-
-    //Misc
-    TimeElapsed: number,
-    unixTimestamp: number
-}
-
-export class SampleData
-{
-    public static readonly mapData: MapData =
-    {
-        GameVersion: "1.13.2",
-        PluginVersion: "2.0.2.0",
-        InLevel: true,
-        LevelPaused: false,
-        LevelFinished: false,
-        LevelFailed: false,
-        LevelQuit: false,
-        Hash: "648B6FE961C398DE638FA1E614878F1194ADF92E",
-        SongName: "Tera I/O",
-        SongSubName: "[200 Step]",
-        SongAuthor: "Camellia",
-        Mapper: "cerret",
-        BSRKey: "11a27",
-        coverImage: `https://readiefur.com/bsdp-overlay/assets/images/TeraIO.jpg`,
-        Length: 336,
-        TimeScale: 0,
-        MapType: "Standard",
-        Difficulty: "ExpertPlus",
-        CustomDifficultyLabel: "Normal",
-        BPM: 200,
-        NJS: 23,
-        Modifiers:
+        //This has been put together in a somewhat sort of hacky way to be compatible with the old (existing) website.
+        //I would rewrite parts of the site but I can't be bothered to do that right now.
+        let parsedData: MapData | LiveData | null = null;
+        try
         {
-            noFailOn0Energy: false,
-            oneLife: false,
-            fourLives: false,
-            noBombs: false,
-            noWalls: false,
-            noArrows: false,
-            ghostNotes: false,
-            disappearingArrows: true,
-            smallNotes: false,
-            proMode: false,
-            strictAngles: true,
-            zenMode: false,
-            slowerSong: false,
-            fasterSong: false,
-            superFastSong: false
-        },
-        ModifiersMultiplier: 1,
-        PracticeMode: false,
-        PracticeModeModifiers:
+            //This will fail if the data does not contain a "PluginVersion" property/
+            parsedData = await Parser.ParseMapDataObj(deserializedData);
+        }
+        catch
         {
-            songSpeedMul: 1,
-            startInAdvanceAndClearNotes: 0,
-            startSongTime: 0
-        },
-        PP: 0,
-        Star: 0,
-        IsMultiplayer: false,
-        PreviousRecord: 2714014,
-        PreviousBSR: "123ba",
-        unixTimestamp: 1631935482036
-    }
+            //If it fails, we can assume the data is a type of LiveData.
+            //However we still want to try/catch this becuase it could fail if a converter hasn't been loaded yet.
+            try { parsedData = await Parser.ParseLiveDataObj(deserializedData); }
+            catch {}
+        }
 
-    public static readonly liveData: LiveData =
-    {
-        Score: 574728,
-        ScoreWithMultipliers: 574728,
-        MaxScore: 612835,
-        MaxScoreWithMultipliers: 612835,
-        Rank: "SS",
-        FullCombo: false,
-        Combo: 352,
-        Misses: 2,
-        Accuracy: 94.20143961906433,
-        BlockHitScore:
-        [
-            70,
-            30,
-            14
-        ],
-        PlayerHealth: 87,
-        TimeElapsed: 77,
-        unixTimestamp: 1631935485375
+        if (parsedData == null)
+        {
+            //If we failed to parse the data, log an error to the console with the input data and return early (drop the message).
+            console.error("Failed to parse data from websocket.", deserializedData);
+            return;
+        }
+
+        this.eventDispatcher.DispatchEvent("message", parsedData);
+        if (Main.urlParams.has("debug")) { console.log(parsedData); }
     }
 }

@@ -1,5 +1,5 @@
 import { Main } from "../../../../js/main.js";
-import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { MapData, LiveData } from "../../../../js/overlay/types/web.js";
 import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
 
 export class Script
@@ -126,7 +126,7 @@ export class Script
 
     public UpdateMapData(data: MapData): void
     {
-        this.MapLength = data.Length;
+        this.MapLength = data.Duration;
     }
 
     public UpdateLiveData(data: LiveData): void

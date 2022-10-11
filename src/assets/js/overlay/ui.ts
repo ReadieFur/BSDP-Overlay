@@ -1,5 +1,5 @@
 import { Main } from "../main.js";
-import { MapData, LiveData } from "./client.js";
+import { MapData, LiveData } from "./types/web.js"
 import { CreatedElements, ElementsJSON, TCustomStyles } from "./overlayHelper.js";
 
 export class UI
@@ -8,7 +8,7 @@ export class UI
     public importedElements!: ElementsJSON;
     public createdElements!: CreatedElements;
 
-    //This isn't ideal using :TCustomStyles as the peoperties can be undefined but for when im checking this they should all be defined (at least the ones im looking for). 
+    //This isn't ideal using :TCustomStyles as the peoperties can be undefined but for when im checking this they should all be defined (at least the ones im looking for).
     //Store this information on the element instead so different elements can have different defaults.
     public static readonly defaultStyles: TCustomStyles =
     {
@@ -125,7 +125,7 @@ export class UI
                 elements: {}
             };
         }
-        
+
         var container: HTMLDivElement = document.createElement("div");
         container.id = `element_${++this.createdElements.idCount}`;
         container.classList.add("container");
