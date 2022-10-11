@@ -34,3 +34,8 @@ This webapp is still very new and there should be a lot of changes to come in th
 <img src="./previews/Default.gif" width="480">  
 
 I'm always open to new ideas and sugguestions, so if you feel like something could be added or improved feel free to drop me a message on Github or Discord.
+
+### A note to developers:  
+If you would like a web template for obtaining the data from DataPuller, feel free to use the files in [this](./src/assets/js/overlay/) folder.  
+In my update for BSDP 2.1 I had patched a bit of the `client.ts` file to make it compatiable with the new `types/` folder, as a result you may want to clean up that file if you wish to use it.  
+The `types/` folder contains a set of classes and interfaces that can convert any of the data from BSDP version 2.0 and above into a single format that can be used in your peoject, this will save you from having to bother about getting different bits of data for each specific version of BSDP as I have done that for you. All you need to do is pass the json data into the `Parser` class (found in `types/web`) and depending on the data method you passed to, you will recieve the formatted data for that endpoint.
