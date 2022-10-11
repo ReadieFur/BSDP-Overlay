@@ -1,5 +1,5 @@
 import { Main } from "../../assets/js/main.js";
-import { LiveData, MapData, SampleData } from "../../assets/js/overlay/client.js";
+import { LiveData, MapData, SampleData } from "../../assets/js/overlay/types/web.js";
 
 export class DefaultUI
 {
@@ -111,8 +111,8 @@ export class DefaultUI
         //Try to replace this in the client.ts event dispatcher.
         if (Main.urlParams.has("debug"))
         {
-            this.MapDataUpdate(SampleData.mapData);
-            this.LiveDataUpdate(SampleData.liveData);
+            this.MapDataUpdate(SampleData.GetMapData());
+            this.LiveDataUpdate(SampleData.GetLiveData());
         }
 
         // document.body.style.zoom = Main.urlParams.has("scale") ? Main.urlParams.get("scale")! : "1";
@@ -169,7 +169,7 @@ export class DefaultUI
         {
             //Time
             var timeSplit: string[] = this.time.innerHTML.split("/");
-            var mapLength: string = this.SecondsToMins(data.Length);
+            var mapLength: string = this.SecondsToMins(data.Duration);
             if (timeSplit.length == 2) { this.time.innerHTML = `${timeSplit[0]}/${mapLength}`; }
             else { this.time.innerHTML = `00:00/${mapLength}`; }
 
@@ -182,21 +182,21 @@ export class DefaultUI
 
                     switch (key)
                     {
-                        case "noFailOn0Energy": element = this.modifiers.noFailOn0Energy; break;
-                        case "oneLife": element = this.modifiers.oneLife; break;
-                        case "fourLives": element = this.modifiers.fourLives; break;
-                        case "noBombs": element = this.modifiers.noBombs; break;
-                        case "noWalls": element = this.modifiers.noWalls; break;
-                        case "noArrows": element = this.modifiers.noArrows; break;
-                        case "ghostNotes": element = this.modifiers.ghostNotes; break;
-                        case "disappearingArrows": element = this.modifiers.disappearingArrows; break;
-                        case "smallNotes": element = this.modifiers.smallNotes; break;
-                        case "proMode": element = this.modifiers.proMode; break;
-                        case "strictAngles": element = this.modifiers.strictAngles; break;
-                        case "zenMode": element = this.modifiers.zenMode; break;
-                        case "slowerSong": element = this.modifiers.slowerSong; break;
-                        case "fasterSong": element = this.modifiers.fasterSong; break;
-                        case "superFastSong": element = this.modifiers.superFastSong; break;
+                        case "NoFailOn0Energy": element = this.modifiers.noFailOn0Energy; break;
+                        case "OneLife": element = this.modifiers.oneLife; break;
+                        case "FourLives": element = this.modifiers.fourLives; break;
+                        case "NoBombs": element = this.modifiers.noBombs; break;
+                        case "NoWalls": element = this.modifiers.noWalls; break;
+                        case "NoArrows": element = this.modifiers.noArrows; break;
+                        case "GhostNotes": element = this.modifiers.ghostNotes; break;
+                        case "DisappearingArrows": element = this.modifiers.disappearingArrows; break;
+                        case "SmallNotes": element = this.modifiers.smallNotes; break;
+                        case "ProMode": element = this.modifiers.proMode; break;
+                        case "StrictAngles": element = this.modifiers.strictAngles; break;
+                        case "ZenMode": element = this.modifiers.zenMode; break;
+                        case "SlowerSong": element = this.modifiers.slowerSong; break;
+                        case "FasterSong": element = this.modifiers.fasterSong; break;
+                        case "SuperFastSong": element = this.modifiers.superFastSong; break;
                         default: continue;
                     }
 
@@ -206,7 +206,7 @@ export class DefaultUI
             }
 
             //Cover image
-            this.mapCover.src = data.coverImage !== null ? data.coverImage : "../../assets/images/BeatSaberIcon.jpg";
+            this.mapCover.src = data.CoverImage !== null ? data.CoverImage : "../../assets/images/BeatSaberIcon.jpg";
 
             //Map details
             this.HideOnNull(data.BSRKey, this.bsr, "BSR: ");
@@ -247,7 +247,7 @@ export class DefaultUI
         this.liveData = data;
 
         //I should probably store the map length elsewhere so this calculation does not need to be made really frequently.
-        this.time.innerHTML = `${this.SecondsToMins(data.TimeElapsed)}/${this.mapData !== undefined ? this.SecondsToMins(this.mapData.Length) : "00:00"}`;
+        this.time.innerHTML = `${this.SecondsToMins(data.TimeElapsed)}/${this.mapData !== undefined ? this.SecondsToMins(this.mapData.Duration) : "00:00"}`;
         this.score.innerHTML = this.SeperateNumber(data.ScoreWithMultipliers);
         this.accuracy.innerHTML = `${Math.round(data.Accuracy * 10) / 10}%`;
         this.combo.innerHTML = this.SeperateNumber(data.Combo);

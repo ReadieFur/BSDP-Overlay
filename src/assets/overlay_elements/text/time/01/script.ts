@@ -1,5 +1,5 @@
 import { Main } from "../../../../js/main.js";
-import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { MapData, LiveData } from "../../../../js/overlay/types/web.js";
 import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
 import { UI } from "../../../../js/overlay/ui.js";
 
@@ -73,7 +73,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var element = this.elements[key];
-            element.length.innerText = UI.SecondsToMinutes(data.Length);
+            element.length.innerText = UI.SecondsToMinutes(data.Duration);
         }
     }
 

@@ -1,6 +1,7 @@
 import { Main } from "../../assets/js/main.js";
 import { HeaderSlide } from "../../assets/js/headerSlide.js";
-import { Client, MapData, LiveData } from "../../assets/js/overlay/client.js";
+import { Client } from "../../assets/js/overlay/client.js";
+import { MapData, LiveData } from "../../assets/js/overlay/types/web.js";
 import { DefaultUI } from "./defaultUI.js"; //Due to the directory rewrite I need to put the file type onto the end
 
 class Default

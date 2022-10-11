@@ -1,7 +1,8 @@
 import { Main, ReturnData } from "../assets/js/main.js";
 import { HeaderSlide } from "../assets/js/headerSlide.js";
 import { UI } from "../assets/js/overlay/ui.js";
-import { Client, SampleData } from "../assets/js/overlay/client.js";
+import { Client } from "../assets/js/overlay/client.js";
+import { SampleData } from "../assets/js/overlay/types/web.js";
 import { DragElement } from "../assets/js/dragElement.js";
 import { ElementsJSON, IOverlayData, IRGB, OverlayHelper, SavedElements, TCustomStyles } from "../assets/js/overlay/overlayHelper.js";
 
@@ -507,8 +508,8 @@ class Editor
                 this.optionsMenu.data.gameIP.disabled = true;
                 this.client.connections["MapData"].Disconnect();
                 this.client.connections["LiveData"].Disconnect();
-                this.ui.UpdateMapData(SampleData.mapData);
-                this.ui.UpdateLiveData(SampleData.liveData);
+                this.ui.UpdateMapData(SampleData.GetMapData());
+                this.ui.UpdateLiveData(SampleData.GetLiveData());
                 break;
             case 3:
                 //Game data.
@@ -737,8 +738,8 @@ class Editor
                                     break;
                                 case 2:
                                     //Sample data.
-                                    this.ui.UpdateMapData(SampleData.mapData);
-                                    this.ui.UpdateLiveData(SampleData.liveData);
+                                    this.ui.UpdateMapData(SampleData.GetMapData());
+                                    this.ui.UpdateLiveData(SampleData.GetLiveData());
                                     break;
                                 case 3:
                                     //Game data.
@@ -1352,7 +1353,7 @@ class Editor
     {
         var result: string;
 
-        if (options !== undefined && options !== {})
+        if (options !== undefined)
         {
             this.imageRendererContainer.style.display = "block";
             this.imageRendererContainer.innerHTML = target.innerHTML;

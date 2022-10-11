@@ -1,6 +1,6 @@
 import { Main } from "../js/main.js";
 import { HeaderSlide } from "../js/headerSlide.js";
-import { Client, LiveData, MapData, SampleData } from "../js/overlay/client.js";
+import { LiveData, MapData, SampleData } from "../js/overlay/types/web.js";
 
 class OverlayElements
 {
@@ -23,14 +23,14 @@ class OverlayElements
                     url: `./${Main.urlParams.get("element")!}/html.html`,
                     dataType: "html"
                 });
-    
+
                 css = await jQuery.ajax(
                 {
                     type: "GET",
                     url: `./${Main.urlParams.get("element")!}/css.css`,
                     dataType: "html" //CSS
                 });
-    
+
                 script = await import(`./${Main.urlParams.get("element")!}/script.js`);
             }
             catch (ex)
@@ -55,8 +55,8 @@ class OverlayElements
             client.AddEndpoint("LiveData");
             client.websocketData["LiveData"].e.addListener("message", (data) => { initalisedScript.UpdateLiveData(data); });*/
 
-            initalisedScript.UpdateMapData(SampleData.mapData);
-            initalisedScript.UpdateLiveData(SampleData.liveData);
+            initalisedScript.UpdateMapData(SampleData.GetMapData());
+            initalisedScript.UpdateLiveData(SampleData.GetLiveData());
 
             //this.DragElement(Main.ThrowIfNullOrUndefined(document.querySelector("#element_01")));
             //new DragElement(Main.ThrowIfNullOrUndefined(document.querySelector("#element_01")));

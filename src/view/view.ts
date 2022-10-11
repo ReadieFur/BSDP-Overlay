@@ -120,10 +120,10 @@ class View
         }
         this.client = new Client(ip);
         this.client.AddEndpoint("MapData");
-        this.client.AddEndpoint("LiveData");
         this.client.connections["MapData"].AddEventListener("message", (data) => { this.ui.UpdateMapData(data); });
-        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
         this.client.connections["MapData"].Connect();
+        this.client.AddEndpoint("LiveData");
+        this.client.connections["LiveData"].AddEventListener("message", (data) => { this.ui.UpdateLiveData(data); });
         this.client.connections["LiveData"].Connect();
     }
 

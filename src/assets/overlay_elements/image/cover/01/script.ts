@@ -1,5 +1,5 @@
 import { Main } from "../../../../js/main.js";
-import { MapData, LiveData } from "../../../../js/overlay/client.js";
+import { MapData, LiveData } from "../../../../js/overlay/types/web.js";
 import { TEditableStyles, TCustomStyles } from "../../../../js/overlay/overlayHelper.js";
 
 export class Script
@@ -67,7 +67,7 @@ export class Script
         for (const key of Object.keys(this.elements))
         {
             var container = this.elements[key];
-            container.image.src = data.coverImage !== null ? data.coverImage : `${Main.WEB_ROOT}/assets/images/BeatSaberIcon.jpg`;
+            container.image.src = data.CoverImage !== null ? data.CoverImage : `${Main.WEB_ROOT}/assets/images/BeatSaberIcon.jpg`;
         }
     }
 

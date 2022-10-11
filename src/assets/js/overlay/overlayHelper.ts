@@ -1,6 +1,6 @@
 import { DragElement } from "../dragElement.js";
 import { Dictionary, Main, ReturnData } from "../main.js";
-import { LiveData, MapData } from "./client.js";
+import { MapData, LiveData } from "./types/web.js";
 
 export class OverlayHelper
 {
